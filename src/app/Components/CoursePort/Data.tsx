@@ -169,3 +169,24 @@ export const exampleDatabase: Semester[] = [
     ]
   }
 ];
+
+export const timeIntervals = [
+  '7:30 AM',
+  '8:00 AM',
+  '8:30 AM',
+  '9:00 AM',
+  '9:30 AM',
+  // Add more time intervals here...
+];
+
+export const departments = [
+  /* 'CSC - Computer Science', */
+  /* 'EE - Electrical Engineering', */
+  'Computer Science',
+  'Mathematics',
+]
+
+export const semesters = [
+  'Spring 2024',
+  "Fall 2023"
+]

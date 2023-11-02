@@ -1,7 +1,9 @@
 /* import Image from 'next/image' */
 /* import styles from './page.module.css' */
+import { Provider } from 'react'
 import MainContainer from './Components/CoursePort/MainContainer'
 import Toolbar from './Components/CoursePort/Toolbar'
+import { ScheduleProvider } from './Components/CoursePort/ScheduleProvider'
 import './styles.css'
 
 export default function Home() {
@@ -17,8 +19,10 @@ export default function Home() {
       }}
         className=""
       >
-        <Toolbar/>
-        <MainContainer/>
+        <ScheduleProvider>
+          <Toolbar/>
+          <MainContainer/>
+        </ScheduleProvider>
       </div>
     </main>
   )

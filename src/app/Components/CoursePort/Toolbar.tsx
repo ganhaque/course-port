@@ -13,30 +13,30 @@ import {
   CommandItem,
   CommandList
 } from "../UI/Command";
+import {
+  timeIntervals,
+  departments,
+  semesters,
+} from './Data'
 import { useState } from "react";
-
-const timeIntervals = [
-  '7:30 AM',
-  '8:00 AM',
-  '8:30 AM',
-  '9:00 AM',
-  '9:30 AM',
-  // Add more time intervals here...
-];
-const reversedTimeIntervals = [...timeIntervals].reverse();
-const departments = [
-  /* 'CSC - Computer Science', */
-  /* 'EE - Electrical Engineering', */
-  'CSC',
-  'EE',
-]
+import { useScheduleContext } from "./ScheduleProvider";
 
 function Toolbar() {
+  const reversedTimeIntervals = [...timeIntervals].reverse();
   const [fromTime, setFromTime] = useState(timeIntervals[0]); // Initialize the selected time state
   const [toTime, setToTime] = useState(reversedTimeIntervals[0]); // Initialize the selected time state
-  const [department, setDepartment] = useState(departments[0]); // Initialize the selected time state
+  const {
+    selectedSemester,
+    setSelectedSemester,
+    selectedCourses,
+    setSelectedCourses,
+    selectedDepartment,
+    setSelectedDepartment,
+    database
+  } = useScheduleContext();
 
   const [isDepartmentPopoverOpen, setIsDepartmentPopoverOpen] = useState(false);
+  const [isSemesterPopoverOpen, setIsSemesterPopoverOpen] = useState(false);
 
   return (
     <div
@@ -59,9 +59,10 @@ function Toolbar() {
       >
       </input>
 
-      <Popover>
+      Semester:
+      <Popover open={isSemesterPopoverOpen} onOpenChange={(isOpen) => {setIsSemesterPopoverOpen(isOpen)}}>
         <PopoverTrigger>
-          Semester
+          {selectedSemester}
         </PopoverTrigger>
         <PopoverContent
           style={{
@@ -91,31 +92,26 @@ function Toolbar() {
             >
               <CommandEmpty> No result found. </CommandEmpty>
               <CommandGroup>
-                <CommandItem>
-                  TODO
-                </CommandItem>
-                <CommandItem>
-                  TODO
-                </CommandItem>
-
-                {/* {boards.map((board, index) => ( */}
-                {/*   <CommandItem */}
-                {/*     key={index} */}
-                {/*     onSelect={() => {setSelectedBoardIndex(index)}} */}
-                {/*   > */}
-                {/*     {board.title} */}
-                {/*   </CommandItem> */}
-                {/* ))} */}
+                {semesters.map((semester, index) => (
+                  <CommandItem
+                    key={index}
+                    onSelect={() => {
+                      setSelectedSemester(semester);
+                      setIsSemesterPopoverOpen(false);
+                    }}>
+                    {semester}
+                  </CommandItem>
+                ))}
               </CommandGroup>
             </CommandList>
           </Command>
         </PopoverContent>
       </Popover>
 
-      Department: 
+      Department:
       <Popover open={isDepartmentPopoverOpen} onOpenChange={(isOpen) => {setIsDepartmentPopoverOpen(isOpen)}}>
         <PopoverTrigger>
-          {department}
+          {selectedDepartment}
           {/* Department: */}
         </PopoverTrigger>
         <PopoverContent
@@ -152,7 +148,7 @@ function Toolbar() {
                   <CommandItem
                     key={index}
                     onSelect={() => {
-                      setDepartment(department);
+                      setSelectedDepartment(department);
                       setIsDepartmentPopoverOpen(false);
                     }}>
                     {department}
