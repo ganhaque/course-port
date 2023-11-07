@@ -1,7 +1,7 @@
 import csv
 import json
 
-csv_data = open("rawdata_math.csv", "r")
+csv_data = open("rawdata_comp_sci_spring.csv", "r")
 reader = csv.reader(csv_data)
 
 # Convert CSV data to JSON format
@@ -26,7 +26,7 @@ for row in reader:
 
 # Convert the list to a JSON string
 json_string = json.dumps(courses, indent=4)
-with open('converted_data_math.json', 'w') as f:
+with open('converted_data_comp_sci_spring.json', 'w') as f:
     f.write(json_string)
 
 print(json_string)
