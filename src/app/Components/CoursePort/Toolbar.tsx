@@ -243,9 +243,14 @@ function Toolbar() {
       </Popover>
 
       <button
-        onClick={() => {console.log("Click!")}}
+        onClick={() => {
+          console.log("Selected Course:");
+          selectedCourses.forEach((courses) => {
+            console.log(courses);
+          })
+        }}
       >
-        List View
+        DEBUG: Selected Courses
       </button>
     </div>
   )

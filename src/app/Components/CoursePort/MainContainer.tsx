@@ -4,6 +4,17 @@
 import { useScheduleContext } from "./ScheduleProvider";
 import { useState, useEffect } from "react";
 import { Course } from "./Data";
+import { columns } from "./Columns";
+/* import { */
+/*   Table, */
+/*   TableBody, */
+/*   TableCaption, */
+/*   TableCell, */
+/*   TableHead, */
+/*   TableHeader, */
+/*   TableRow, */
+/* } from "../UI/Table" */
+import { DataTable } from "./DataTable"
 
 function MainContainer() {
   const {
@@ -23,13 +34,13 @@ function MainContainer() {
       (semester) => semester.semesterTitle === selectedSemester
     );
 
-    console.log('Filtered Semester:', filteredSemester);
+    /* console.log('Filtered Semester:', filteredSemester); */
     if (filteredSemester) {
       const filteredDepartment = filteredSemester.departments.find(
         (dept) => dept.departmentTitle === selectedDepartment
       );
       if (filteredDepartment) {
-        console.log('Filtered Department:', filteredDepartment);
+        /* console.log('Filtered Department:', filteredDepartment); */
         setFilteredData(filteredDepartment.courses)
       }
     }
@@ -54,30 +65,39 @@ function MainContainer() {
         borderRadius:'0.75rem',
       }}
     >
-      {filteredData.map((course) => (
-        <div
-          style={{
-            display:'flex',
-            gap:'0.5rem',
-          }}
-          key={course.title}
-        >
-          {/* Render course information here */}
-          <div>{course.available}</div>
-          <div>{course.enrollmentCount}</div>
-          <div>{course.abbreviation}</div>
-          <div>{course.number}</div>
-          <div>{course.section}</div>
-          <div>{course.title}</div>
-          <div>{course.creditHour}</div>
-          <div>{course.begin}</div>
-          <div>{course.end}</div>
-          <div>{course.days}</div>
-          <div>{course.roomNumber}</div>
-          <div>{course.building}</div>
-          <div>{course.instructor}</div>
-        </div>
-      ))}
+      {/* <Table> */}
+      {/*   <TableCaption>Classes for {selectedDepartment} in {selectedSemester}</TableCaption> */}
+      {/*   <TableHeader> */}
+      {/*     <TableRow> */}
+      {/*       <TableHead */}
+      {/*         style={{ */}
+      {/*         }} */}
+      {/*       >Enrollment</TableHead> */}
+      {/*       <TableHead */}
+      {/*         style={{ */}
+      {/*         }}>Available</TableHead> */}
+      {/*       <TableHead>Abbreviation</TableHead> */}
+      {/*       <TableHead>Number</TableHead> */}
+      {/*       <TableHead>Title</TableHead> */}
+      {/*       <TableHead>Credit Hour</TableHead> */}
+      {/*     </TableRow> */}
+      {/*   </TableHeader> */}
+      {/*   <TableBody> */}
+      {/*     {filteredData.map((course) => ( */}
+      {/*       <TableRow> */}
+      {/*         <TableCell>{course.enrollmentCount}</TableCell> */}
+      {/*         <TableCell>{course.available}</TableCell> */}
+      {/*         <TableCell className="font-medium">{course.abbreviation}</TableCell> */}
+      {/*         <TableCell className="font-medium">{course.number}</TableCell> */}
+      {/*         <TableCell className="text-right">{course.title}</TableCell> */}
+      {/*         <TableCell className="text-right">{course.creditHour}</TableCell> */}
+      {/*       </TableRow> */}
+      {/*     ))} */}
+      {/*   </TableBody> */}
+      {/* </Table> */}
+
+      <DataTable columns={columns} data={filteredData} />
+
     </div>
   )
 }

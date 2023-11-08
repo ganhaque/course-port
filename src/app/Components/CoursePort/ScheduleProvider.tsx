@@ -16,6 +16,8 @@ interface ProviderContextType {
   setSelectedSemester: React.Dispatch<React.SetStateAction<string>>;
   selectedCourses: Course[];
   setSelectedCourses: React.Dispatch<React.SetStateAction<Course[]>>;
+  addCourse: <T extends Course>(course: T) => void;
+  removeCourse: <T extends Course>(course: T) => void;
   selectedDepartment: string;
   setSelectedDepartment: React.Dispatch<React.SetStateAction<string>>;
   database: Semester[];
@@ -31,6 +33,28 @@ export const ScheduleProvider: React.FC<{children: ReactNode}> = ({ children }) 
   /* const [database, setDatabase] = useState<Semester[]>(exampleDatabase); */
   const database = exampleDatabase;
 
+  const addCourse = <T extends Course>(course: T) => {
+    setSelectedCourses((prevSelectedCourses) => {
+      // Check if the course is already in the selectedCourses array
+      if (prevSelectedCourses.some((selectedCourse) => selectedCourse.number === course.number && selectedCourse.section === course.section)) {
+        return prevSelectedCourses; // Course is already selected, no need to add it again
+      }
+
+      // Add the course to the selectedCourses array
+      return [...prevSelectedCourses, course];
+    });
+  };
+
+  const removeCourse = <T extends Course>(course: T) => {
+    setSelectedCourses((prevSelectedCourses) => {
+      // Filter out the course with the specified number and section
+      const updatedSelectedCourses = prevSelectedCourses.filter(
+        (selectedCourse) => selectedCourse.number !== course.number || selectedCourse.section !== course.section
+      );
+      return updatedSelectedCourses;
+    });
+  };
+
   return (
     <ScheduleContext.Provider
       value={{
@@ -38,6 +62,8 @@ export const ScheduleProvider: React.FC<{children: ReactNode}> = ({ children }) 
         setSelectedSemester,
         selectedCourses,
         setSelectedCourses,
+        addCourse,
+        removeCourse,
         selectedDepartment,
         setSelectedDepartment,
         database
