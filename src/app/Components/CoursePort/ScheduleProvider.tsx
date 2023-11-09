@@ -21,6 +21,8 @@ interface ProviderContextType {
   selectedDepartment: string;
   setSelectedDepartment: React.Dispatch<React.SetStateAction<string>>;
   database: Semester[];
+  activePageIndex: number;
+  setActivePageIndex: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const ScheduleContext = createContext<ProviderContextType | null>(null);
@@ -32,6 +34,8 @@ export const ScheduleProvider: React.FC<{children: ReactNode}> = ({ children }) 
   const [selectedCourses, setSelectedCourses] = useState<Course[]>([]);
   /* const [database, setDatabase] = useState<Semester[]>(exampleDatabase); */
   const database = exampleDatabase;
+
+  const [activePageIndex, setActivePageIndex] = useState<number>(0);
 
   const addCourse = <T extends Course>(course: T) => {
     setSelectedCourses((prevSelectedCourses) => {
@@ -66,7 +70,9 @@ export const ScheduleProvider: React.FC<{children: ReactNode}> = ({ children }) 
         removeCourse,
         selectedDepartment,
         setSelectedDepartment,
-        database
+        database,
+        activePageIndex,
+        setActivePageIndex
       }}
     >
       {children}

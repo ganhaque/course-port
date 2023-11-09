@@ -5,16 +5,8 @@ import { useScheduleContext } from "./ScheduleProvider";
 import { useState, useEffect } from "react";
 import { Course } from "./Data";
 import { columns } from "./Columns";
-/* import { */
-/*   Table, */
-/*   TableBody, */
-/*   TableCaption, */
-/*   TableCell, */
-/*   TableHead, */
-/*   TableHeader, */
-/*   TableRow, */
-/* } from "../UI/Table" */
 import { DataTable } from "./DataTable"
+import { SelectedPlaceHolder } from "./SelectedPlaceholder";
 
 function MainContainer() {
   const {
@@ -24,7 +16,9 @@ function MainContainer() {
     setSelectedCourses,
     selectedDepartment,
     setSelectedDepartment,
-    database
+    database,
+    activePageIndex,
+    setActivePageIndex
   } = useScheduleContext();
   const [filteredData, setFilteredData] = useState<Course[]>([]);
 
@@ -44,14 +38,12 @@ function MainContainer() {
         setFilteredData(filteredDepartment.courses)
       }
     }
-
-
-    /* const filteredData = database.filter( */
-    /*   (semester) => semester.semesterTitle === selectedSemester)[0]; */
-    /* const departmentData = filteredData.departments.filter( */
-    /*   (dept) => dept.departmentTitle === selectedDepartment)[0]; */
-    /* setFilteredData(departmentData ? departmentData.courses : []); */
   }, [selectedSemester, selectedDepartment, database]);
+
+  const pages = [
+    <DataTable columns={columns} data={filteredData} />,
+    <SelectedPlaceHolder/>
+  ]
 
   return (
     <div
@@ -65,38 +57,8 @@ function MainContainer() {
         borderRadius:'0.75rem',
       }}
     >
-      {/* <Table> */}
-      {/*   <TableCaption>Classes for {selectedDepartment} in {selectedSemester}</TableCaption> */}
-      {/*   <TableHeader> */}
-      {/*     <TableRow> */}
-      {/*       <TableHead */}
-      {/*         style={{ */}
-      {/*         }} */}
-      {/*       >Enrollment</TableHead> */}
-      {/*       <TableHead */}
-      {/*         style={{ */}
-      {/*         }}>Available</TableHead> */}
-      {/*       <TableHead>Abbreviation</TableHead> */}
-      {/*       <TableHead>Number</TableHead> */}
-      {/*       <TableHead>Title</TableHead> */}
-      {/*       <TableHead>Credit Hour</TableHead> */}
-      {/*     </TableRow> */}
-      {/*   </TableHeader> */}
-      {/*   <TableBody> */}
-      {/*     {filteredData.map((course) => ( */}
-      {/*       <TableRow> */}
-      {/*         <TableCell>{course.enrollmentCount}</TableCell> */}
-      {/*         <TableCell>{course.available}</TableCell> */}
-      {/*         <TableCell className="font-medium">{course.abbreviation}</TableCell> */}
-      {/*         <TableCell className="font-medium">{course.number}</TableCell> */}
-      {/*         <TableCell className="text-right">{course.title}</TableCell> */}
-      {/*         <TableCell className="text-right">{course.creditHour}</TableCell> */}
-      {/*       </TableRow> */}
-      {/*     ))} */}
-      {/*   </TableBody> */}
-      {/* </Table> */}
-
-      <DataTable columns={columns} data={filteredData} />
+      {/* <DataTable columns={columns} data={filteredData} /> */}
+      {pages[activePageIndex]}
 
     </div>
   )

@@ -32,7 +32,9 @@ function Toolbar() {
     setSelectedCourses,
     selectedDepartment,
     setSelectedDepartment,
-    database
+    database,
+    activePageIndex,
+    setActivePageIndex,
   } = useScheduleContext();
 
   const [isDepartmentPopoverOpen, setIsDepartmentPopoverOpen] = useState(false);
@@ -56,6 +58,7 @@ function Toolbar() {
         style={{
           width:'16rem'
         }}
+        placeholder="Filter by title"
       >
       </input>
 
@@ -241,6 +244,17 @@ function Toolbar() {
           </Command>
         </PopoverContent>
       </Popover>
+
+      <button
+        onClick={() => {
+          console.log("Cycle through pages~");
+          /* NOTE: the 2 is the length of the pages array in MainContainer, */
+          /* remember to update it when adding new page to the array */
+          setActivePageIndex((activePageIndex + 1) % 2);
+        }}
+      >
+        Cycle to next page
+      </button>
 
       <button
         onClick={() => {
