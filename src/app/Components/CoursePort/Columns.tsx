@@ -29,4 +29,28 @@ export const columns: ColumnDef<Course>[] = [
     accessorKey: "title",
     header: "Title",
   },
+  {
+    accessorKey: "begin",
+    header: "Begin",
+  },
+  {
+    accessorKey: "end",
+    header: "End",
+  },
+  {
+    accessorKey: "days",
+    header: "Days",
+  },
+  {
+    accessorKey: "roomNumber",
+    header: "Room",
+  },
+  {
+    accessorKey: "building",
+    header: "Building",
+  },
+  {
+    accessorKey: "instructor",
+    header: "Instructor",
+  },
 ]
