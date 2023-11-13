@@ -37,6 +37,10 @@
 /**/
 /* } */
 
+.table-header > .table-row:hover {
+  background-color: hsla(var(--grey), 0);
+}
+
 .table-row:hover {
   background-color: hsla(var(--grey), 0.25);
   color: hsla(var(--yellow));
