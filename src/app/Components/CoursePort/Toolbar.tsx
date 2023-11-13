@@ -85,7 +85,7 @@ function Toolbar() {
                 /* borderWidth:'0', */
                 borderBottomLeftRadius:'0',
                 borderBottomRightRadius:'0',
-                borderColor:'hsla(var(--red))',
+                // borderColor:'hsla(var(--red))',
                 /* borderBottomWidth:'1px', */
               }}
               placeholder="Type to search..."
@@ -95,7 +95,7 @@ function Toolbar() {
                 borderWidth:'1px',
                 borderBottomLeftRadius:'0.25rem',
                 borderBottomRightRadius:'0.25rem',
-                borderColor:'hsla(var(--red))',
+                // borderColor:'hsla(var(--red))',
               }}
             >
               <CommandEmpty> No result found. </CommandEmpty>
@@ -136,7 +136,7 @@ function Toolbar() {
                 /* borderWidth:'0', */
                 /* borderBottomLeftRadius:'0', */
                 /* borderBottomRightRadius:'0', */
-                borderColor:'hsla(var(--red))',
+                // borderColor:'hsla(var(--red))',
                 /* borderBottomWidth:'1px', */
               }}
               placeholder="Type to search..."

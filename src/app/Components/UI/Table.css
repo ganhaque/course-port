@@ -39,14 +39,18 @@
 
 .table-row:hover {
   background-color: hsla(var(--grey), 0.25);
+  color: hsla(var(--yellow));
 }
 
 .table-row[data-state=selected]:hover {
   background-color: hsla(var(--grey), 0.25);
+  color: hsla(var(--yellow));
 }
 
 .table-row[data-state=selected] {
-  background-color: hsla(var(--grey), 0.4);
+  background-color: hsla(var(--grey), 0.25);
+  /* background-color: hsla(var(--catppuccin_lavender), 0.2); */
+  color: hsla(var(--purple));
 }
 
 .table-head {
