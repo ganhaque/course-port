@@ -34,11 +34,12 @@ export function DataTable<TData, TValue>({
   data,
 }: DataTableProps<TData, TValue>) {
   const {
-    /* selectedSemester, */
+    selectedSemester,
     /* setSelectedSemester, */
     selectedCourses,
     /* setSelectedCourses, */
-    /* selectedDepartment, */
+    selectedDepartment,
+    selectedDays,
     /* setSelectedDepartment, */
     /* database, */
     addCourse,
@@ -60,24 +61,27 @@ export function DataTable<TData, TValue>({
 
   useEffect(() => {
     console.log("reset");
-    table.toggleAllRowsSelected(false)
-  }, [data]);
 
-  useEffect(() => {
-    console.log("reset 2");
-    table.getRowModel().rows.forEach((row) => {
-      const isRowSelected =
-      selectedCourses.some((course) =>
-        course.number === row.getValue("number") &&
-          course.section === row.getValue("section") &&
-          course.abbreviation === row.getValue("abbreviation")
-      );
+    setTimeout(() => {
+      table.getRowModel().rows.forEach((row) => {
+        const isRowSelected =
+        selectedCourses.some((course) =>
+          course.number === row.getValue("number") &&
+            course.section === row.getValue("section") &&
+            course.abbreviation === row.getValue("abbreviation")
+        );
 
-      if (isRowSelected) {
-        row.toggleSelected(true);
-      }
-    });
-  }, [data, selectedCourses]);
+        if (isRowSelected) {
+          console.log("old", row.getIsSelected());
+          row.toggleSelected(true);
+          console.log("new", row.getIsSelected());
+        }
+        else {
+          row.toggleSelected(false);
+        }
+      });
+    }, 0);
+  }, [selectedSemester, selectedDepartment, selectedDays, selectedCourses]);
 
   return (
     <div className="rounded-md border">
