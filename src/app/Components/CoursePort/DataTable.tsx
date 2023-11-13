@@ -73,7 +73,7 @@ export function DataTable<TData, TValue>({
             table.getRowModel().rows.map((row) => (
               <TableRow
                 key={row.id}
-                data-state={row.getIsSelected() && "selected"}
+                data-state={row.getIsSelected() ||
                   (selectedCourses.some(course =>
                     course.number === row.getValue("number") && course.section === row.getValue("section")))
                     && "selected"}
