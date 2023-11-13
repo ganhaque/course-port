@@ -1,9 +1,13 @@
 "use client"
 
+import { useState } from "react";
+
 import {
   ColumnDef,
+  SortingState,
   flexRender,
   getCoreRowModel,
+  getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table"
 
@@ -41,10 +45,17 @@ export function DataTable<TData, TValue>({
     removeCourse,
   } = useScheduleContext();
 
+  const [sorting, setSorting] = useState<SortingState>([])
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    onSortingChange: setSorting,
+    getSortedRowModel: getSortedRowModel(),
+    state: {
+      sorting,
+    },
+    enableSortingRemoval: false,
   })
 
   return (

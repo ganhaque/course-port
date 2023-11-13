@@ -1,7 +1,8 @@
 import { ColumnDef } from "@tanstack/react-table"
 import { Course } from "./Data";
 
-import { PlusCircle, MinusCircle } from "lucide-react";
+// import { PlusCircle, MinusCircle } from "lucide-react";
+import { ArrowUpDown, MoreHorizontal } from "lucide-react"
 
 export const columns: ColumnDef<Course>[] = [
   {
@@ -11,23 +12,71 @@ export const columns: ColumnDef<Course>[] = [
   },
   {
     accessorKey: "available",
-    header: () => <div style={{width:"5rem"}}>Available</div>,
+    header: ({ column }) => {
+      return (
+        <button
+          className="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Available
+          <ArrowUpDown style={{
+            marginLeft:"0.5rem",
+            height : "1rem",
+            width : "1rem",
+          }} className="ml-2 h-4 w-4" />
+        </button>
+      )
+    },
   },
   {
     accessorKey: "enrollmentCount",
-    header: "Enrollment",
+    header: ({ column }) => {
+      return (
+        <button
+          className="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Enrollment
+          <ArrowUpDown style={{
+            marginLeft:"0.5rem",
+            height : "1rem",
+            width : "1rem",
+          }} className="ml-2 h-4 w-4" />
+        </button>
+      )
+    },
   },
   {
     accessorKey: "abbreviation",
     header: "Abbreviation",
   },
   {
+    // sortDescFirst: false,
+    invertSorting: true,
     accessorKey: "number",
-    header: "Number",
+    header: ({ column }) => {
+      return (
+        <button
+          className="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc" )}
+        >
+          Number
+          <ArrowUpDown style={{
+            marginLeft:"0.5rem",
+            height : "1rem",
+            width : "1rem",
+          }} className="ml-2 h-4 w-4" />
+        </button>
+      )
+    },
   },
   {
     accessorKey: "title",
     header: "Title",
+  },
+  {
+    accessorKey: "section",
+    header: "Section",
   },
   {
     accessorKey: "begin",
@@ -39,7 +88,21 @@ export const columns: ColumnDef<Course>[] = [
   },
   {
     accessorKey: "days",
-    header: "Days",
+    header: ({ column }) => {
+      return (
+        <button
+          className="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc" )}
+        >
+          Days
+          <ArrowUpDown style={{
+            marginLeft:"0.5rem",
+            height : "1rem",
+            width : "1rem",
+          }} className="ml-2 h-4 w-4" />
+        </button>
+      )
+    },
   },
   {
     accessorKey: "roomNumber",
@@ -51,6 +114,20 @@ export const columns: ColumnDef<Course>[] = [
   },
   {
     accessorKey: "instructor",
-    header: "Instructor",
+    header: ({ column }) => {
+      return (
+        <button
+          className="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc" )}
+        >
+          Instructor
+          <ArrowUpDown style={{
+            marginLeft:"0.5rem",
+            height : "1rem",
+            width : "1rem",
+          }} className="ml-2 h-4 w-4" />
+        </button>
+      )
+    },
   },
 ]

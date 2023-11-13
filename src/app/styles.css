@@ -150,6 +150,15 @@ button {
   white-space: nowrap;
 }
 
+button.ghost {
+  /* padding: 0; */
+  border: 0;
+}
+
+button.ghost:hover {
+  background: hsla(var(--grey));
+}
+
 textarea {
   min-height: 5rem;
 }
