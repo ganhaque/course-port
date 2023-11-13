@@ -32,7 +32,7 @@ export function DataTable<TData, TValue>({
   const {
     /* selectedSemester, */
     /* setSelectedSemester, */
-    /* selectedCourses, */
+    selectedCourses,
     /* setSelectedCourses, */
     /* selectedDepartment, */
     /* setSelectedDepartment, */
@@ -74,6 +74,9 @@ export function DataTable<TData, TValue>({
               <TableRow
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
+                  (selectedCourses.some(course =>
+                    course.number === row.getValue("number") && course.section === row.getValue("section")))
+                    && "selected"}
               >
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id}>
