@@ -88,21 +88,22 @@ export const columns: ColumnDef<Course>[] = [
   },
   {
     accessorKey: "days",
-    header: ({ column }) => {
-      return (
-        <button
-          className="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc" )}
-        >
-          Days
-          <ArrowUpDown style={{
-            marginLeft:"0.5rem",
-            height : "1rem",
-            width : "1rem",
-          }} className="ml-2 h-4 w-4" />
-        </button>
-      )
-    },
+    header: "Days",
+    // header: ({ column }) => {
+    //   return (
+    //     <button
+    //       className="ghost"
+    //       onClick={() => column.toggleSorting(column.getIsSorted() === "asc" )}
+    //     >
+    //       Days
+    //       <ArrowUpDown style={{
+    //         marginLeft:"0.5rem",
+    //         height : "1rem",
+    //         width : "1rem",
+    //       }} className="ml-2 h-4 w-4" />
+    //     </button>
+    //   )
+    // },
   },
   {
     accessorKey: "roomNumber",

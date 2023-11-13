@@ -2694,3 +2694,20 @@ export const semesters = [
   'Spring 2024',
   "Fall 2023"
 ]
+
+
+export const days = [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+]
+
+export const mapDaysToShortForm: { [longForm: string]: string } = {
+  "Monday": "M",
+  "Tuesday": "T",
+  "Wednesday": "W",
+  "Thursday": "H", // it's just H so that it get detected by the filter
+  "Friday": "F",
+};

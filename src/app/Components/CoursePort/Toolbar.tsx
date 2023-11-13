@@ -1,5 +1,6 @@
 'use client';
 
+import { CheckIcon } from "lucide-react";
 import {
   Popover,
   PopoverContent,
@@ -17,6 +18,8 @@ import {
   timeIntervals,
   departments,
   semesters,
+  days,
+  mapDaysToShortForm,
 } from './Data'
 import { useState } from "react";
 import { useScheduleContext } from "./ScheduleProvider";
@@ -32,6 +35,8 @@ function Toolbar() {
     setSelectedCourses,
     selectedDepartment,
     setSelectedDepartment,
+    selectedDays,
+    setSelectedDays,
     database,
     activePageIndex,
     setActivePageIndex,
@@ -163,6 +168,57 @@ function Toolbar() {
         </PopoverContent>
       </Popover>
 
+      <Popover>
+        <PopoverTrigger>
+          Days
+        </PopoverTrigger>
+        <PopoverContent
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            background: "hsla(var(--darker_black))",
+            borderWidth: "1px",
+            borderRadius: "0.25rem"
+          }}
+        >
+          {days.map((day) => (
+            <button
+              key={day}
+              style={{
+                width:"100%",
+                display:"flex",
+                alignItems:"center",
+              }}
+              className="ghost"
+              onClick={() => {
+                console.log("click");
+                setSelectedDays((prevSelectedDays) => {
+                  const isDaySelected = prevSelectedDays.includes(day);
+
+                  if (isDaySelected) {
+                    return prevSelectedDays.filter((selectedDay) => selectedDay !== day);
+                  }
+                  else {
+                    return [...prevSelectedDays, day];
+                  }
+                });
+              }}
+
+            >
+              <CheckIcon style={{
+                marginRight:"0.5rem",
+                height:"1rem",
+                width:"1rem",
+                opacity: (selectedDays.some(sday => sday === day)) ? "1" : "0"
+              }}
+              />
+              {day}
+            </button>
+          ))}
+        </PopoverContent>
+      </Popover>
+
       From:
       <Popover>
         <PopoverTrigger>
@@ -245,6 +301,7 @@ function Toolbar() {
         </PopoverContent>
       </Popover>
 
+
       <button
         onClick={() => {
           console.log("Cycle through pages~");
@@ -261,6 +318,9 @@ function Toolbar() {
           console.log("Selected Course:");
           selectedCourses.forEach((courses) => {
             console.log(courses);
+          })
+          selectedDays.forEach((day) => {
+            console.log(day);
           })
         }}
       >

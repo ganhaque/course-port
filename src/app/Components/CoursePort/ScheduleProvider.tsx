@@ -9,6 +9,7 @@ import {
   timeIntervals,
   departments,
   semesters,
+  days,
 } from './Data'
 
 interface ProviderContextType {
@@ -20,6 +21,8 @@ interface ProviderContextType {
   removeCourse: <T extends Course>(course: T) => void;
   selectedDepartment: string;
   setSelectedDepartment: React.Dispatch<React.SetStateAction<string>>;
+  selectedDays: string[];
+  setSelectedDays: React.Dispatch<React.SetStateAction<string[]>>;
   database: Semester[];
   activePageIndex: number;
   setActivePageIndex: React.Dispatch<React.SetStateAction<number>>;
@@ -31,6 +34,7 @@ const ScheduleContext = createContext<ProviderContextType | null>(null);
 export const ScheduleProvider: React.FC<{children: ReactNode}> = ({ children }) => {
   const [selectedSemester, setSelectedSemester] = useState<string>(semesters[0])
   const [selectedDepartment, setSelectedDepartment] = useState<string>(departments[0])
+  const [selectedDays, setSelectedDays] = useState<string[]>(days)
   const [selectedCourses, setSelectedCourses] = useState<Course[]>([]);
   /* const [database, setDatabase] = useState<Semester[]>(exampleDatabase); */
   const database = exampleDatabase;
@@ -70,6 +74,8 @@ export const ScheduleProvider: React.FC<{children: ReactNode}> = ({ children }) 
         removeCourse,
         selectedDepartment,
         setSelectedDepartment,
+        selectedDays,
+        setSelectedDays,
         database,
         activePageIndex,
         setActivePageIndex
@@ -88,3 +94,4 @@ export const useScheduleContext = () => {
   }
   return context;
 };
+

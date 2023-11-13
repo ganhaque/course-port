@@ -156,7 +156,7 @@ button.ghost {
 }
 
 button.ghost:hover {
-  background: hsla(var(--grey));
+  background: hsla(var(--grey), 0.5);
 }
 
 textarea {

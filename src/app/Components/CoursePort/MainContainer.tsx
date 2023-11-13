@@ -3,7 +3,7 @@
 /* import { Popover } from "../UI/Popover"; */
 import { useScheduleContext } from "./ScheduleProvider";
 import { useState, useEffect } from "react";
-import { Course } from "./Data";
+import { Course, mapDaysToShortForm } from "./Data";
 import { columns } from "./Columns";
 import { DataTable } from "./DataTable"
 import { SelectedPlaceHolder } from "./SelectedPlaceholder";
@@ -16,6 +16,8 @@ function MainContainer() {
     setSelectedCourses,
     selectedDepartment,
     setSelectedDepartment,
+    selectedDays,
+    setSelectedDays,
     database,
     activePageIndex,
     setActivePageIndex
@@ -35,10 +37,14 @@ function MainContainer() {
       );
       if (filteredDepartment) {
         /* console.log('Filtered Department:', filteredDepartment); */
-        setFilteredData(filteredDepartment.courses)
+        setFilteredData(filteredDepartment.courses.filter(course => {
+          const courseDaysArray = course.days.split("");
+          const selectedDaysShortForm = selectedDays.map(day => mapDaysToShortForm[day]);
+          return selectedDaysShortForm.some((selectedDay) => courseDaysArray.includes(selectedDay));
+        }))
       }
     }
-  }, [selectedSemester, selectedDepartment, database]);
+  }, [selectedSemester, selectedDepartment, selectedDays, database]);
 
   const pages = [
     <DataTable columns={columns} data={filteredData} />,
