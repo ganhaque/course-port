@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
   ColumnDef,
@@ -58,6 +58,27 @@ export function DataTable<TData, TValue>({
     enableSortingRemoval: false,
   })
 
+  useEffect(() => {
+    console.log("reset");
+    table.toggleAllRowsSelected(false)
+  }, [data]);
+
+  useEffect(() => {
+    console.log("reset 2");
+    table.getRowModel().rows.forEach((row) => {
+      const isRowSelected =
+      selectedCourses.some((course) =>
+        course.number === row.getValue("number") &&
+          course.section === row.getValue("section") &&
+          course.abbreviation === row.getValue("abbreviation")
+      );
+
+      if (isRowSelected) {
+        row.toggleSelected(true);
+      }
+    });
+  }, [data, selectedCourses]);
+
   return (
     <div className="rounded-md border">
       <Table>
@@ -84,10 +105,7 @@ export function DataTable<TData, TValue>({
             table.getRowModel().rows.map((row) => (
               <TableRow
                 key={row.id}
-                data-state={row.getIsSelected() ||
-                  (selectedCourses.some(course =>
-                    course.number === row.getValue("number") && course.section === row.getValue("section")))
-                    && "selected"}
+                data-state={(row.getIsSelected() && "selected")}
               >
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id}>
@@ -98,7 +116,6 @@ export function DataTable<TData, TValue>({
                           boxShadow: "none",
                         }}
                         onClick={() => {
-                          row.toggleSelected(!row.getIsSelected());
                           const course = row.original as Course;
                           if (row.getIsSelected()) {
                             removeCourse(course);
