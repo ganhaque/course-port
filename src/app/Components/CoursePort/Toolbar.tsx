@@ -82,11 +82,10 @@ function Toolbar() {
           <Command>
             <CommandInput
               style={{
-                /* borderWidth:'0', */
                 borderBottomLeftRadius:'0',
                 borderBottomRightRadius:'0',
-                // borderColor:'hsla(var(--red))',
-                /* borderBottomWidth:'1px', */
+                borderColor:'hsla(var(--yellow))',
+                borderBottomWidth:"0",
               }}
               placeholder="Type to search..."
             />
@@ -95,7 +94,7 @@ function Toolbar() {
                 borderWidth:'1px',
                 borderBottomLeftRadius:'0.25rem',
                 borderBottomRightRadius:'0.25rem',
-                // borderColor:'hsla(var(--red))',
+                borderColor:'hsla(var(--yellow))',
               }}
             >
               <CommandEmpty> No result found. </CommandEmpty>
@@ -133,21 +132,19 @@ function Toolbar() {
           <Command>
             <CommandInput
               style={{
-                /* borderWidth:'0', */
-                /* borderBottomLeftRadius:'0', */
-                /* borderBottomRightRadius:'0', */
-                // borderColor:'hsla(var(--red))',
-                /* borderBottomWidth:'1px', */
+                borderBottomLeftRadius:'0',
+                borderBottomRightRadius:'0',
+                borderColor:'hsla(var(--yellow))',
+                borderBottomWidth:"0",
               }}
               placeholder="Type to search..."
             />
             <CommandList
               style={{
-                /* borderWidth:'1px', */
-                /* borderBottomLeftRadius:'0.25rem', */
-                /* borderBottomRightRadius:'0.25rem', */
-                borderRadius:'0.25rem',
-                /* borderColor:'hsla(var(--red))', */
+                borderWidth:'1px',
+                borderBottomLeftRadius:'0.25rem',
+                borderBottomRightRadius:'0.25rem',
+                borderColor:'hsla(var(--yellow))',
               }}
             >
               <CommandEmpty> No result found. </CommandEmpty>
@@ -179,6 +176,7 @@ function Toolbar() {
             alignItems: "center",
             background: "hsla(var(--darker_black))",
             borderWidth: "1px",
+            borderColor: "hsla(var(--yellow))",
             borderRadius: "0.25rem"
           }}
         >
@@ -235,7 +233,8 @@ function Toolbar() {
               style={{
                 borderBottomLeftRadius:'0',
                 borderBottomRightRadius:'0',
-                borderColor:'hsla(var(--red))',
+                borderColor:'hsla(var(--yellow))',
+                borderBottomWidth:"0",
               }}
               placeholder="Type to search..."
             />
@@ -244,7 +243,7 @@ function Toolbar() {
                 borderWidth:'1px',
                 borderBottomLeftRadius:'0.25rem',
                 borderBottomRightRadius:'0.25rem',
-                borderColor:'hsla(var(--red))',
+                borderColor:'hsla(var(--yellow))',
               }}
             >
               <CommandEmpty> No result found. </CommandEmpty>
@@ -276,7 +275,8 @@ function Toolbar() {
               style={{
                 borderBottomLeftRadius:'0',
                 borderBottomRightRadius:'0',
-                borderColor:'hsla(var(--red))',
+                borderColor:'hsla(var(--yellow))',
+                borderBottomWidth:"0",
               }}
               placeholder="Type to search..."
             />
@@ -285,7 +285,7 @@ function Toolbar() {
                 borderWidth:'1px',
                 borderBottomLeftRadius:'0.25rem',
                 borderBottomRightRadius:'0.25rem',
-                borderColor:'hsla(var(--red))',
+                borderColor:'hsla(var(--yellow))',
               }}
             >
               <CommandEmpty> No result found. </CommandEmpty>

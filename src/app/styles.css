@@ -153,6 +153,7 @@ button {
 button.ghost {
   /* padding: 0; */
   border: 0;
+  box-shadow: none;
 }
 
 button.ghost:hover {

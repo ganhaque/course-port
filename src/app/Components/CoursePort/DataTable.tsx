@@ -135,7 +135,7 @@ export function DataTable<TData, TValue>({
                         {row.getIsSelected() ? (
                           <div
                             style={{
-                              color:"hsla(var(--red))"
+                              color:"hsla(var(--purple))"
                             }}
                           >
                             <MinusCircle
@@ -148,7 +148,7 @@ export function DataTable<TData, TValue>({
                         ) : (
                             <div
                               style={{
-                                color:"hsla(var(--green))"
+                                color:"hsla(var(--yellow))"
                               }}
                             >
                               <PlusCircle
