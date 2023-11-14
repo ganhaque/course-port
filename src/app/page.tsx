@@ -12,7 +12,8 @@ export default function Home() {
       <div style={{
         display:'flex',
         flexDirection:'column',
-        gap:'0.5rem',
+        padding: "0.5rem",
+        gap:'1rem',
         height:'calc(100vh - 1rem)',
         /* padding:'0.2rem' */
         /* alignItems:'center', */
