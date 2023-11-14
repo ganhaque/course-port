@@ -1,0 +1,12 @@
+.toolbar-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  height: 4rem;
+  padding: 1rem;
+  background-color: hsla(var(--black2));
+}
+
+.toolbar-container > button {
+  /* flex-grow: 1; */
+}

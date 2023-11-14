@@ -1,6 +1,6 @@
 'use client';
 
-import { CheckIcon } from "lucide-react";
+import { CheckIcon, CalendarDays } from "lucide-react";
 import {
   Popover,
   PopoverContent,
@@ -23,6 +23,7 @@ import {
 } from './Data'
 import { useState } from "react";
 import { useScheduleContext } from "./ScheduleProvider";
+import './toolbar.css';
 
 function Toolbar() {
   const reversedTimeIntervals = [...timeIntervals].reverse();
@@ -40,6 +41,8 @@ function Toolbar() {
     database,
     activePageIndex,
     setActivePageIndex,
+    filterString,
+    setFilterString
   } = useScheduleContext();
 
   const [isDepartmentPopoverOpen, setIsDepartmentPopoverOpen] = useState(false);
@@ -58,12 +61,15 @@ function Toolbar() {
         /* borderTopRightRadius:'0.75rem', */
         borderRadius:'0.75rem',
       }}
+      className="toolbar-container"
     >
       <input
         style={{
           width:'16rem'
         }}
-        placeholder="Filter by title"
+        value={filterString}
+        onChange={(event) => {setFilterString(event.target.value)}}
+        placeholder="Filter courses"
       >
       </input>
 
@@ -87,7 +93,7 @@ function Toolbar() {
                 borderColor:'hsla(var(--yellow))',
                 borderBottomWidth:"0",
               }}
-              placeholder="Type to search..."
+              placeholder="Filter semester"
             />
             <CommandList
               style={{
@@ -137,7 +143,7 @@ function Toolbar() {
                 borderColor:'hsla(var(--yellow))',
                 borderBottomWidth:"0",
               }}
-              placeholder="Type to search..."
+              placeholder="Filter Department"
             />
             <CommandList
               style={{
@@ -167,7 +173,15 @@ function Toolbar() {
 
       <Popover>
         <PopoverTrigger>
-          Days
+          <div
+            style={{
+              display:"flex",
+              alignItems:"center"
+            }}
+          >
+            <CalendarDays style={{height:"1rem", width:"1rem", marginRight:"0.5rem"}}/>
+            Days
+          </div>
         </PopoverTrigger>
         <PopoverContent
           style={{
@@ -310,22 +324,22 @@ function Toolbar() {
           setActivePageIndex((activePageIndex + 1) % 2);
         }}
       >
-        Cycle to next page
+        Time Table View
       </button>
 
-      <button
-        onClick={() => {
-          console.log("Selected Course:");
-          selectedCourses.forEach((courses) => {
-            console.log(courses);
-          })
-          selectedDays.forEach((day) => {
-            console.log(day);
-          })
-        }}
-      >
-        DEBUG: Selected Courses
-      </button>
+      {/* <button */}
+      {/*   onClick={() => { */}
+      {/*     console.log("Selected Course:"); */}
+      {/*     selectedCourses.forEach((courses) => { */}
+      {/*       console.log(courses); */}
+      {/*     }) */}
+      {/*     selectedDays.forEach((day) => { */}
+      {/*       console.log(day); */}
+      {/*     }) */}
+      {/*   }} */}
+      {/* > */}
+      {/*   DEBUG: Selected Courses */}
+      {/* </button> */}
     </div>
   )
 }

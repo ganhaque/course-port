@@ -26,6 +26,8 @@ interface ProviderContextType {
   database: Semester[];
   activePageIndex: number;
   setActivePageIndex: React.Dispatch<React.SetStateAction<number>>;
+  filterString: string;
+  setFilterString: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const ScheduleContext = createContext<ProviderContextType | null>(null);
@@ -38,6 +40,7 @@ export const ScheduleProvider: React.FC<{children: ReactNode}> = ({ children }) 
   const [selectedCourses, setSelectedCourses] = useState<Course[]>([]);
   /* const [database, setDatabase] = useState<Semester[]>(exampleDatabase); */
   const database = exampleDatabase;
+  const [filterString, setFilterString] = useState<string>("");
 
   const [activePageIndex, setActivePageIndex] = useState<number>(0);
 
@@ -78,7 +81,9 @@ export const ScheduleProvider: React.FC<{children: ReactNode}> = ({ children }) 
         setSelectedDays,
         database,
         activePageIndex,
-        setActivePageIndex
+        setActivePageIndex,
+        filterString,
+        setFilterString
       }}
     >
       {children}

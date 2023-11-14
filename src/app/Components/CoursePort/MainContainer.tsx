@@ -20,7 +20,8 @@ function MainContainer() {
     setSelectedDays,
     database,
     activePageIndex,
-    setActivePageIndex
+    setActivePageIndex,
+    filterString
   } = useScheduleContext();
   const [filteredData, setFilteredData] = useState<Course[]>([]);
 
@@ -40,11 +41,19 @@ function MainContainer() {
         setFilteredData(filteredDepartment.courses.filter(course => {
           const courseDaysArray = course.days.split("");
           const selectedDaysShortForm = selectedDays.map(day => mapDaysToShortForm[day]);
-          return selectedDaysShortForm.some((selectedDay) => courseDaysArray.includes(selectedDay));
+          const hasMatchingDays = selectedDaysShortForm.some(
+            selectedDay => courseDaysArray.includes(selectedDay)
+          );
+          const matchesTitle = course.title.toLowerCase().includes(filterString.toLowerCase());
+          const matchesNumber = String(course.number).includes(filterString);
+          const matchesInstructor = course.instructor ? course.instructor.toLowerCase().includes(filterString.toLowerCase()) : false;
+          /* return selectedDaysShortForm.some((selectedDay) => courseDaysArray.includes(selectedDay)) && */
+          /*   course.title.toLowerCase().includes(filterString.toLowerCase()); */
+          return hasMatchingDays && (filterString === '' || matchesTitle || matchesNumber || matchesInstructor);
         }))
       }
     }
-  }, [selectedSemester, selectedDepartment, selectedDays, database]);
+  }, [selectedSemester, selectedDepartment, selectedDays, filterString, database]);
 
   const pages = [
     <DataTable columns={columns} data={filteredData} />,
@@ -60,6 +69,7 @@ function MainContainer() {
         backgroundColor: 'hsla(var(--black2))',
         /* borderBottomLeftRadius:'0.75rem', */
         /* borderBottomRightRadius:'0.75rem', */
+        padding: "1rem",
         borderRadius:'0.75rem',
       }}
     >
