@@ -44,6 +44,7 @@ export function DataTable<TData, TValue>({
     /* database, */
     addCourse,
     removeCourse,
+    filterString,
   } = useScheduleContext();
 
   const [sorting, setSorting] = useState<SortingState>([])
@@ -60,28 +61,13 @@ export function DataTable<TData, TValue>({
   })
 
   useEffect(() => {
-    console.log("reset");
-
     setTimeout(() => {
       table.getRowModel().rows.forEach((row) => {
-        const isRowSelected =
-        selectedCourses.some((course) =>
-          course.number === row.getValue("number") &&
-            course.section === row.getValue("section") &&
-            course.abbreviation === row.getValue("abbreviation")
-        );
-
-        if (isRowSelected) {
-          console.log("old", row.getIsSelected());
-          row.toggleSelected(true);
-          console.log("new", row.getIsSelected());
-        }
-        else {
-          row.toggleSelected(false);
-        }
+        const isRowSelected = selectedCourses.some((course) => course === (row.original as Course));
+        row.toggleSelected(isRowSelected);
       });
     }, 0);
-  }, [selectedSemester, selectedDepartment, selectedDays, selectedCourses]);
+  }, [selectedSemester, selectedDepartment, selectedDays, filterString, selectedCourses]);
 
   return (
     <div className="rounded-md border">
