@@ -4,7 +4,8 @@
   gap: 0.5rem;
   height: 4rem;
   padding: 1rem;
-  background-color: hsla(var(--black2));
+  background-color: hsla(var(--black));
+  border-radius: 0.75rem;
 }
 
 .toolbar-container > button {

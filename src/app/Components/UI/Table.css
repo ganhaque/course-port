@@ -44,7 +44,7 @@
 .table-head {
   position: sticky;
   top: 0;
-  background-color: hsla(var(--black2));
+  background-color: hsla(var(--black));
   height: 3rem;
   /* padding-left: 1rem; */
   /* padding-right: 1rem; */

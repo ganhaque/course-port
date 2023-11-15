@@ -66,7 +66,7 @@ function MainContainer() {
         display:'flex',
         flexDirection:'column',
         flexGrow:'1',
-        backgroundColor: 'hsla(var(--black2))',
+        backgroundColor: 'hsla(var(--black))',
         /* borderBottomLeftRadius:'0.75rem', */
         /* borderBottomRightRadius:'0.75rem', */
         padding: "1rem",

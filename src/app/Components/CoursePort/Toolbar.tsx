@@ -49,20 +49,7 @@ function Toolbar() {
   const [isSemesterPopoverOpen, setIsSemesterPopoverOpen] = useState(false);
 
   return (
-    <div
-      style={{
-        backgroundColor: 'hsla(var(--black2))',
-        display:'flex',
-        alignItems: 'center',
-        gap:'0.5rem',
-        height:'4rem',
-        padding:'1rem',
-        /* borderTopLeftRadius:'0.75rem', */
-        /* borderTopRightRadius:'0.75rem', */
-        borderRadius:'0.75rem',
-      }}
-      className="toolbar-container"
-    >
+    <div className="toolbar-container" >
       <input
         style={{
           width:'16rem'
