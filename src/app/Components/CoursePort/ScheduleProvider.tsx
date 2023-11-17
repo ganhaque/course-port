@@ -3,13 +3,15 @@
 import React, { createContext, ReactNode, useContext, useState } from 'react';
 import {
   Course,
-  Department,
-  Semester,
-  exampleDatabase,
+  /* Department, */
+  /* Semester, */
+  /* exampleDatabase, */
+  bookletData,
   timeIntervals,
   departments,
   semesters,
   days,
+  Database,
 } from './Data'
 
 interface ProviderContextType {
@@ -23,7 +25,7 @@ interface ProviderContextType {
   setSelectedDepartment: React.Dispatch<React.SetStateAction<string>>;
   selectedDays: string[];
   setSelectedDays: React.Dispatch<React.SetStateAction<string[]>>;
-  database: Semester[];
+  database: Database;
   activePageIndex: number;
   setActivePageIndex: React.Dispatch<React.SetStateAction<number>>;
   filterString: string;
@@ -35,11 +37,12 @@ const ScheduleContext = createContext<ProviderContextType | null>(null);
 // Create a provider to wrap the components that need access to the board context
 export const ScheduleProvider: React.FC<{children: ReactNode}> = ({ children }) => {
   const [selectedSemester, setSelectedSemester] = useState<string>(semesters[0])
-  const [selectedDepartment, setSelectedDepartment] = useState<string>(departments[0])
+  /* const [selectedDepartment, setSelectedDepartment] = useState<string>(departments[0]) */
+  const [selectedDepartment, setSelectedDepartment] = useState<string>("COMPUTER SCIENCE");
   const [selectedDays, setSelectedDays] = useState<string[]>(days)
   const [selectedCourses, setSelectedCourses] = useState<Course[]>([]);
   /* const [database, setDatabase] = useState<Semester[]>(exampleDatabase); */
-  const database = exampleDatabase;
+  const database: Database = bookletData;
   const [filterString, setFilterString] = useState<string>("");
 
   const [activePageIndex, setActivePageIndex] = useState<number>(0);
