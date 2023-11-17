@@ -72,7 +72,12 @@ function Toolbar() {
             borderRadius:'0.25rem',
           }}
           align='start'>
-          <Command>
+          <Command
+            filter={(value, search) => {
+              if (value.includes(search)) return 1
+              return 0
+            }}
+          >
             <CommandInput
               style={{
                 borderBottomLeftRadius:'0',
@@ -122,7 +127,12 @@ function Toolbar() {
             padding:'0.25rem'
           }}
           align='start'>
-          <Command>
+          <Command
+            filter={(value, search) => {
+              if (value.includes(search)) return 1
+              return 0
+            }}
+          >
             <CommandInput
               style={{
                 borderBottomLeftRadius:'0',
