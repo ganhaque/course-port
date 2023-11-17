@@ -2,6 +2,12 @@
 
 import { CheckIcon, CalendarDays } from "lucide-react";
 import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "../UI/DropdownMenu"
+import {
   Popover,
   PopoverContent,
   PopoverTrigger
@@ -24,6 +30,7 @@ import {
 import { useState } from "react";
 import { useScheduleContext } from "./ScheduleProvider";
 import './toolbar.css';
+import { columnIdArray } from "./Columns";
 
 function Toolbar() {
   const reversedTimeIntervals = [...timeIntervals].reverse();
@@ -42,7 +49,9 @@ function Toolbar() {
     activePageIndex,
     setActivePageIndex,
     filterString,
-    setFilterString
+    setFilterString,
+    visibleColumns,
+    setVisibleColumns
   } = useScheduleContext();
 
   const [isDepartmentPopoverOpen, setIsDepartmentPopoverOpen] = useState(false);
@@ -60,6 +69,91 @@ function Toolbar() {
       >
       </input>
 
+      <Popover>
+        <PopoverTrigger asChild>
+          <button className="ml-auto">
+            Columns
+          </button>
+        </PopoverTrigger>
+        <PopoverContent
+          style={{
+            backgroundColor:'hsla(var(--black))',
+            /* padding:'0.25rem', */
+            borderRadius:'0.25rem',
+            borderColor:'hsla(var(--yellow))',
+            borderWidth:"1px",
+          }}
+          align='start'
+        >
+          <Command
+            filter={(value, search) => {
+              if (value.includes(search)) return 1
+              return 0
+            }}
+          >
+            <CommandInput
+              style={{
+                borderBottomLeftRadius:'0',
+                borderBottomRightRadius:'0',
+                borderColor:'hsla(var(--yellow))',
+                borderBottomWidth:"0",
+              }}
+              placeholder="Toggle column visibility"
+            />
+            <CommandList
+              style={{
+                borderWidth:'1px',
+                borderBottomLeftRadius:'0.25rem',
+                borderBottomRightRadius:'0.25rem',
+                borderColor:'hsla(var(--yellow))',
+              }}
+            >
+              <CommandEmpty> No result found. </CommandEmpty>
+              <CommandGroup>
+
+                {columnIdArray.map((item, index) => {
+                  const isColumnVisible = visibleColumns.some((id) => id === item.id);
+                  return (
+                    <CommandItem
+                      key={index}
+                      onSelect={() => {
+                        console.log(item.id)
+                        if (isColumnVisible) {
+                          setVisibleColumns(prevState => prevState.filter
+                            (element => element !== item.id));
+                        }
+                        else {
+                          setVisibleColumns(prevState => [...prevState, item.id]);
+                        }
+                      }}
+                    >
+                      <CheckIcon style={{
+                        marginRight:"0.5rem",
+                        height:"1rem",
+                        width:"1rem",
+                        opacity: (isColumnVisible) ? "1" : "0"
+                      }}
+                      />
+                      {item.label}
+                    </CommandItem>
+                  )
+                })}
+                {/* {semesters.map((semester, index) => ( */}
+                {/*   <CommandItem */}
+                {/*     key={index} */}
+                {/*     onSelect={() => { */}
+                {/*       setSelectedSemester(semester); */}
+                {/*       setIsSemesterPopoverOpen(false); */}
+                {/*     }}> */}
+                {/*     {semester} */}
+                {/*   </CommandItem> */}
+                {/* ))} */}
+              </CommandGroup>
+            </CommandList>
+          </Command>
+        </PopoverContent>
+      </Popover>
+
       Semester:
       <Popover open={isSemesterPopoverOpen} onOpenChange={(isOpen) => {setIsSemesterPopoverOpen(isOpen)}}>
         <PopoverTrigger>
@@ -71,7 +165,8 @@ function Toolbar() {
             /* padding:'0.25rem', */
             borderRadius:'0.25rem',
           }}
-          align='start'>
+          align='start'
+        >
           <Command
             filter={(value, search) => {
               if (value.includes(search)) return 1
@@ -126,7 +221,8 @@ function Toolbar() {
             borderRadius:'0.25rem',
             padding:'0.25rem'
           }}
-          align='start'>
+          align='start'
+        >
           <Command
             filter={(value, search) => {
               if (value.includes(search)) return 1

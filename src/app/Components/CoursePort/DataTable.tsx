@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import {
   ColumnDef,
   SortingState,
+  VisibilityState,
   flexRender,
   getCoreRowModel,
   getSortedRowModel,
@@ -19,6 +20,13 @@ import {
   TableHeader,
   TableRow,
 } from "../UI/Table"
+
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "../UI/DropdownMenu"
 
 import { PlusCircle, MinusCircle } from "lucide-react";
 import { useScheduleContext } from "./ScheduleProvider";
@@ -45,17 +53,22 @@ export function DataTable<TData, TValue>({
     addCourse,
     removeCourse,
     filterString,
+    visibleColumns,
+    setVisibleColumns
   } = useScheduleContext();
 
   const [sorting, setSorting] = useState<SortingState>([])
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
+    onColumnVisibilityChange: setColumnVisibility,
     state: {
       sorting,
+      columnVisibility,
     },
     enableSortingRemoval: false,
   })
@@ -66,8 +79,19 @@ export function DataTable<TData, TValue>({
         const isRowSelected = selectedCourses.some((course) => course === (row.original as Course));
         row.toggleSelected(isRowSelected);
       });
+
+      /* column.toggleVisibility(!!value) */
     }, 0);
   }, [selectedSemester, selectedDepartment, selectedDays, filterString, selectedCourses]);
+
+  useEffect(() => {
+    console.log(visibleColumns);
+    table.getAllColumns().forEach((column) => {
+      const isColumnVisible = visibleColumns.some((id) => id === column.id);
+      console.log(column.id, isColumnVisible);
+      column.toggleVisibility(isColumnVisible);
+    })
+  }, [visibleColumns])
 
   return (
     <div className="rounded-md border">

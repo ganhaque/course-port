@@ -14,6 +14,24 @@ import {
   Database,
 } from './Data'
 
+const initialVisibleColumnId: string[] = [
+  "available",
+  "enrollmentCount",
+  /* "capacity", */
+  /* "abbreviation", */
+  "number",
+  "type",
+  "title",
+  "section",
+  "begin-end",
+  /* "duration", */
+  "days",
+  "roomNumber",
+  "building",
+  /* "specialEnrollment", */
+  "instructor",
+];
+
 interface ProviderContextType {
   selectedSemester: string;
   setSelectedSemester: React.Dispatch<React.SetStateAction<string>>;
@@ -30,6 +48,8 @@ interface ProviderContextType {
   setActivePageIndex: React.Dispatch<React.SetStateAction<number>>;
   filterString: string;
   setFilterString: React.Dispatch<React.SetStateAction<string>>;
+  visibleColumns: string[];
+  setVisibleColumns: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
 const ScheduleContext = createContext<ProviderContextType | null>(null);
@@ -45,6 +65,7 @@ export const ScheduleProvider: React.FC<{children: ReactNode}> = ({ children }) 
   const database: Database = bookletData;
   const [filterString, setFilterString] = useState<string>("");
 
+  const [visibleColumns, setVisibleColumns] = useState<string[]>(initialVisibleColumnId);
   const [activePageIndex, setActivePageIndex] = useState<number>(0);
 
   const addCourse = <T extends Course>(course: T) => {
@@ -86,7 +107,9 @@ export const ScheduleProvider: React.FC<{children: ReactNode}> = ({ children }) 
         activePageIndex,
         setActivePageIndex,
         filterString,
-        setFilterString
+        setFilterString,
+        visibleColumns,
+        setVisibleColumns
       }}
     >
       {children}

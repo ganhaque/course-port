@@ -62,6 +62,31 @@ function getHourMinuteString(minutes: number): string {
   }
 }
 
+interface ColumnId {
+  id: string;
+  label: string;
+  /* icon: React.ComponentType<any>; // Assuming your icon components are React components */
+}
+
+export const columnIdArray: ColumnId[] = [
+  { id: "available", label: "Available" },
+  { id: "enrollmentCount", label: "Enrollment Count" },
+  { id: "capacity", label: "Capacity" },
+  { id: "abbreviation", label: "Abbreviation" },
+  { id: "number", label: "Course Number" },
+  { id: "type", label: "Type" },
+  { id: "title", label: "Title" },
+  { id: "Section", label: "Section" },
+  { id: "begin-end", label: "Begin-End" },
+  { id: "duration", label: "Duration" },
+  { id: "days", label: "Days" },
+  { id: "roomNumber", label: "Room Number" },
+  { id: "building", label: "Building" },
+  { id: "specialEnrollment", label: "Special Enrollment" },
+  { id: "instructor", label: "Instructor" },
+];
+
+
 export const columns: ColumnDef<Course>[] = [
   {
     id: "add",
@@ -183,7 +208,8 @@ export const columns: ColumnDef<Course>[] = [
     accessorKey: "duration",
     header: "Duration",
     cell: ({ row }) => {
-      return <div className="">{getHourMinuteString(row.getValue("duration"))}</div>
+      if (row.original.duration === "TBA") return <div>TBA</div>;
+      return <div className="">{getHourMinuteString(row.original.duration)}</div>
     },
   },
   {
