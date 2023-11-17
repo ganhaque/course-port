@@ -44,3 +44,10 @@ git commit -m "message goes here"
 # Push to the repo on Github
 git push
 ```
+
+## IDEA/TODO
+- Duplicate Indication & Toggle
+    - displayDuplicate = false (default);
+    - OR duplicateBlacklist = [string];
+    - Column to indicate & toggle duplicate of the num
+

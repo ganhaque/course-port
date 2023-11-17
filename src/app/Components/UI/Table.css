@@ -7,6 +7,7 @@
   position: relative;
   width: 100%;
   overflow: auto;
+  border-radius: 0.5rem;
   height: calc(100vh - 4rem - 2rem - 3rem);
 }
 
@@ -18,8 +19,7 @@
   line-height: 1.25rem;
 }
 
-.table-header > tr {
-  border-bottom: 1px solid hsla(var(--grey));
+.table-header {
 }
 
 .table-body > tr:not(:last-child) {
@@ -44,12 +44,15 @@
 .table-head {
   position: sticky;
   top: 0;
-  background-color: hsla(var(--black));
+  /* background-color: hsla(var(--black)); */
+  background-color: hsla(var(--darker_black));
   height: 3rem;
   /* padding-left: 1rem; */
   /* padding-right: 1rem; */
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
+  /* padding-left: 0.5rem; */
+  /* padding-right: 0.5rem; */
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
   text-align: left;
   text-align: center;
   vertical-align: middle;
@@ -62,7 +65,7 @@
 
 .table-cell {
   /* padding: 1rem; */
-  padding: 0.5rem;
+  /* padding: 0.5rem; */
   vertical-align: middle;
   text-align: center;
 }

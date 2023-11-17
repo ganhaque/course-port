@@ -35,7 +35,8 @@ function MainContainer() {
         const courseDaysArray = course.days.split("");
         const selectedDaysShortForm = selectedDays.map(day => mapDaysToShortForm[day]);
         const hasMatchingDays = selectedDaysShortForm.some(
-          selectedDay => courseDaysArray.includes(selectedDay)
+          selectedDay => courseDaysArray.includes(selectedDay) ||
+            course.days === "TBA"
         );
         const matchesTitle = course.title.toLowerCase().includes(filterString.toLowerCase());
         const matchesNumber = String(course.number).includes(filterString);
@@ -44,29 +45,6 @@ function MainContainer() {
       })
       setFilteredCourses(newFilteredCourses);
     }
-    /* const filteredSemester = database.find( */
-    /*   (semester) => semester.semesterTitle === selectedSemester */
-    /* ); */
-
-    /* console.log('Filtered Semester:', filteredSemester); */
-    /* if (filteredSemester) { */
-    /*   const filteredDepartment = filteredSemester.departments.find( */
-    /*     (dept) => dept.departmentTitle === selectedDepartment */
-    /*   ); */
-    /*   if (filteredDepartment) { */
-    /*     setFilteredData(filteredDepartment.courses.filter(course => { */
-    /*       const courseDaysArray = course.days.split(""); */
-    /*       const selectedDaysShortForm = selectedDays.map(day => mapDaysToShortForm[day]); */
-    /*       const hasMatchingDays = selectedDaysShortForm.some( */
-    /*         selectedDay => courseDaysArray.includes(selectedDay) */
-    /*       ); */
-    /*       const matchesTitle = course.title.toLowerCase().includes(filterString.toLowerCase()); */
-    /*       const matchesNumber = String(course.number).includes(filterString); */
-    /*       const matchesInstructor = course.instructor ? course.instructor.toLowerCase().includes(filterString.toLowerCase()) : false; */
-    /*       return hasMatchingDays && (filterString === '' || matchesTitle || matchesNumber || matchesInstructor); */
-    /*     })) */
-    /*   } */
-    /* } */
   }, [selectedSemester, selectedDepartment, selectedDays, filterString, database]);
 
   const pages = [
@@ -83,7 +61,7 @@ function MainContainer() {
         backgroundColor: 'hsla(var(--black))',
         /* borderBottomLeftRadius:'0.75rem', */
         /* borderBottomRightRadius:'0.75rem', */
-        padding: "1rem",
+        /* padding: "1rem", */
         borderRadius:'0.75rem',
       }}
     >

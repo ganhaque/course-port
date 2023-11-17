@@ -4,6 +4,64 @@ import { Course } from "./Data";
 // import { PlusCircle, MinusCircle } from "lucide-react";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react"
 
+function getAMPMTime(minutes: number): string {
+  /* if (isNaN(minutes)) { */
+  /*   return "TBA"; */
+  /* } */
+  if (minutes < 0 || minutes > 1439) {
+    return 'Invalid input';
+  }
+
+  const hours: number = Math.floor(minutes / 60);
+  const mins: number = minutes % 60;
+
+  const ampm: string = hours >= 12 ? 'PM' : 'AM';
+  const displayHours: number = hours % 12 || 12;
+
+  const formattedTime: string = `${displayHours}:${mins.toString().padStart(2, '0')} ${ampm}`;
+
+  return formattedTime;
+}
+
+function getTimeWithoutAMPM(minutes: number): string {
+  /* if (isNaN(minutes)) { */
+  /*   return "TBA"; */
+  /* } */
+  if (minutes < 0 || minutes > 1439) {
+    return 'Invalid input';
+  }
+
+  const hours: number = Math.floor(minutes / 60);
+  const mins: number = minutes % 60;
+
+  /* const ampm: string = hours >= 12 ? 'PM' : 'AM'; */
+  const displayHours: number = hours % 12 || 12;
+
+  const formattedTime: string = `${displayHours}:${mins.toString().padStart(2, '0')}`;
+
+  return formattedTime;
+}
+
+function getHourMinuteString(minutes: number): string {
+  if (isNaN(minutes)) {
+    return "TBA";
+  }
+  if (minutes < 0) {
+    return 'Invalid input';
+  }
+
+  const hours: number = Math.floor(minutes / 60);
+  const mins: number = minutes % 60;
+
+  if (hours === 0) {
+    return `${mins}m`;
+  } else if (mins === 0) {
+    return `${hours}h`;
+  } else {
+    return `${hours}h${mins}m`;
+  }
+}
+
 export const columns: ColumnDef<Course>[] = [
   {
     id: "add",
@@ -18,7 +76,7 @@ export const columns: ColumnDef<Course>[] = [
           className="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Available
+          A
           <ArrowUpDown style={{
             marginLeft:"0.5rem",
             height : "1rem",
@@ -36,7 +94,25 @@ export const columns: ColumnDef<Course>[] = [
           className="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Enrollment
+          E
+          <ArrowUpDown style={{
+            marginLeft:"0.5rem",
+            height : "1rem",
+            width : "1rem",
+          }} className="ml-2 h-4 w-4" />
+        </button>
+      )
+    },
+  },
+  {
+    accessorKey: "capacity",
+    header: ({ column }) => {
+      return (
+        <button
+          className="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          C
           <ArrowUpDown style={{
             marginLeft:"0.5rem",
             height : "1rem",
@@ -48,7 +124,7 @@ export const columns: ColumnDef<Course>[] = [
   },
   {
     accessorKey: "abbreviation",
-    header: "Abbreviation",
+    header: "ABBR",
   },
   {
     // sortDescFirst: false,
@@ -60,7 +136,7 @@ export const columns: ColumnDef<Course>[] = [
           className="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc" )}
         >
-          Number
+          NUM
           <ArrowUpDown style={{
             marginLeft:"0.5rem",
             height : "1rem",
@@ -71,20 +147,44 @@ export const columns: ColumnDef<Course>[] = [
     },
   },
   {
+    accessorKey: "type",
+    header: "T",
+    cell: ({ row }) => {
+      return (
+        <div>
+          {row.original.lab && <div>HasLab</div>}
+          {row.original.lab && row.original.type && ' - '}
+          {row.original.type && <span>{row.original.type}</span>}
+        </div>
+      )
+    },
+  },
+  {
     accessorKey: "title",
     header: "Title",
   },
   {
     accessorKey: "section",
-    header: "Section",
+    header: "SEC",
   },
   {
-    accessorKey: "begin",
-    header: "Begin",
+    accessorKey: "begin-end",
+    header: "Begin-End",
+    cell: ({ row }) => {
+      if (row.original.begin === "TBA" || row.original.end === "TBA") {
+        return <div>TBA</div>
+      }
+      const begin = getTimeWithoutAMPM(row.original.begin);
+      const end = getAMPMTime(row.original.end);
+      return <div className="">{begin}-{end}</div>
+    },
   },
   {
-    accessorKey: "end",
-    header: "End",
+    accessorKey: "duration",
+    header: "Duration",
+    cell: ({ row }) => {
+      return <div className="">{getHourMinuteString(row.getValue("duration"))}</div>
+    },
   },
   {
     accessorKey: "days",
@@ -112,6 +212,10 @@ export const columns: ColumnDef<Course>[] = [
   {
     accessorKey: "building",
     header: "Building",
+  },
+  {
+    accessorKey: "specialEnrollment",
+    header: "SPE",
   },
   {
     accessorKey: "instructor",
