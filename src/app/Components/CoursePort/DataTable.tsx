@@ -59,6 +59,7 @@ export function DataTable<TData, TValue>({
 
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
+  const [visibleColumnsLoaded, setVisibleColumnsLoaded] = useState(false);
   const table = useReactTable({
     data,
     columns,
@@ -85,106 +86,114 @@ export function DataTable<TData, TValue>({
   }, [selectedSemester, selectedDepartment, selectedDays, filterString, selectedCourses]);
 
   useEffect(() => {
-    console.log(visibleColumns);
+    /* console.log(visibleColumns); */
     table.getAllColumns().forEach((column) => {
       const isColumnVisible = visibleColumns.some((id) => id === column.id);
-      console.log(column.id, isColumnVisible);
+      /* console.log(column.id, isColumnVisible); */
       column.toggleVisibility(isColumnVisible);
     })
+    setVisibleColumnsLoaded(true);
   }, [visibleColumns])
 
   return (
     <div className="rounded-md border">
-      <Table>
-        <TableHeader>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
-              {headerGroup.headers.map((header) => {
-                return (
-                  <TableHead key={header.id}>
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
-                  </TableHead>
-                )
-              })}
-            </TableRow>
-          ))}
-        </TableHeader>
-        <TableBody>
-          {table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map((row) => (
-              <TableRow
-                key={row.id}
-                data-state={(row.getIsSelected() && "selected")}
-              >
-                {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>
-                    {cell.column.id === 'add' && (
-                      <button
-                        style={{
-                          borderWidth: "0",
-                          boxShadow: "none",
-                        }}
-                        onClick={() => {
-                          const course = row.original as Course;
-                          if (row.getIsSelected()) {
-                            removeCourse(course);
-                            console.log("removed", course);
-                          }
-                          else {
-                            // Call the function with the course data
-                            addCourse(course);
-                            console.log("added", course);
-                          }
-                        }}
-                      >
-                        {row.getIsSelected() ? (
-                          <div
-                            style={{
-                              color:"hsla(var(--purple))"
-                            }}
-                          >
-                            <MinusCircle
-                              style={{
-                                width:"1.5rem",
-                                height:"1.5rem",
-                              }}
-                            />
-                          </div>
-                        ) : (
+      {visibleColumnsLoaded ? ( // Render the table only when visibleColumnsLoaded is true
+        <Table>
+          <TableHeader>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => {
+                  return (
+                    <TableHead key={header.id}>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                    </TableHead>
+                  )
+                })}
+              </TableRow>
+            ))}
+          </TableHeader>
+          <TableBody>
+            {table.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map((row) => (
+                <TableRow
+                  key={row.id}
+                  data-state={(row.getIsSelected() && "selected")}
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id}>
+                      {cell.column.id === 'add' && (
+                        <button
+                          style={{
+                            borderWidth: "0",
+                            boxShadow: "none",
+                          }}
+                          onClick={() => {
+                            const course = row.original as Course;
+                            if (row.getIsSelected()) {
+                              removeCourse(course);
+                              console.log("removed", course);
+                            }
+                            else {
+                              // Call the function with the course data
+                              addCourse(course);
+                              console.log("added", course);
+                            }
+                          }}
+                        >
+                          {row.getIsSelected() ? (
                             <div
                               style={{
-                                color:"hsla(var(--yellow))"
+                                color:"hsla(var(--purple))"
                               }}
                             >
-                              <PlusCircle
+                              <MinusCircle
                                 style={{
                                   width:"1.5rem",
                                   height:"1.5rem",
                                 }}
                               />
                             </div>
-                          )}
-                      </button>
-                    )}
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                          ) : (
+                              <div
+                                style={{
+                                  color:"hsla(var(--yellow))"
+                                }}
+                              >
+                                <PlusCircle
+                                  style={{
+                                    width:"1.5rem",
+                                    height:"1.5rem",
+                                  }}
+                                />
+                              </div>
+                            )}
+                        </button>
+                      )}
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            ) : (
+                <TableRow>
+                  <TableCell colSpan={columns.length} className="h-24 text-center">
+                    No results.
                   </TableCell>
-                ))}
-              </TableRow>
-            ))
-          ) : (
-              <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-center">
-                  No results.
-                </TableCell>
-              </TableRow>
-            )}
-        </TableBody>
-      </Table>
+                </TableRow>
+              )}
+          </TableBody>
+        </Table>
+      ) : (
+          <div>
+            LOADING...
+          </div>
+        )
+      }
     </div>
   )
 }
