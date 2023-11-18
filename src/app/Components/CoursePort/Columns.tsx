@@ -78,7 +78,7 @@ export const columnIdArray: ColumnId[] = [
   { id: "number", label: "Course Number" },
   { id: "type", label: "Type" },
   { id: "title", label: "Title" },
-  { id: "Section", label: "Section" },
+  { id: "section", label: "Section" },
   { id: "begin-end", label: "Begin-End" },
   { id: "duration", label: "Duration" },
   { id: "days", label: "Days" },
