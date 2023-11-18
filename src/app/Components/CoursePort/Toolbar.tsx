@@ -26,12 +26,13 @@ import {
   CommandList
 } from "../UI/Command";
 import {
-  timeIntervals,
+  /* timeIntervals, */
   departments,
   semesters,
   days,
   /* mapDaysToShortForm, */
   departmentToAbbreviationMap,
+  timeStringToMinutes,
 } from './Data'
 import { useState } from "react";
 import { useScheduleContext } from "./ScheduleProvider";
@@ -40,9 +41,10 @@ import { columnIdArray } from "./Columns";
 import { Separator } from "../UI/Separator";
 
 function Toolbar() {
-  const reversedTimeIntervals = [...timeIntervals].reverse();
-  const [fromTime, setFromTime] = useState(timeIntervals[0]); // Initialize the selected time state
-  const [toTime, setToTime] = useState(reversedTimeIntervals[0]); // Initialize the selected time state
+  /* const reversedTimeIntervals = [...timeIntervals].reverse(); */
+  /* const [fromTime, setFromTime] = useState(timeIntervals[0]); // Initialize the selected time state */
+  /* const [toTime, setToTime] = useState(reversedTimeIntervals[0]); // Initialize the selected time state */
+  /* const [toTime, setToTime] = useState(reversedTimeIntervals[0]); // Initialize the selected time state */
   const {
     selectedSemester,
     setSelectedSemester,
@@ -61,12 +63,25 @@ function Toolbar() {
     setVisibleColumns,
     toggleSelectedDays,
     toggleDaySelection,
-    isShowTBA,
-    setIsShowTBA,
+    isShowTBADays,
+    setIsShowTBADays,
+    isShowTBATime,
+    setIsShowTBATime,
+    timeIntervals,
+    reversedTimeIntervals,
+    fromTime,
+    setFromTime,
+    toTime,
+    setToTime,
   } = useScheduleContext();
+
+  /* const timeIntervals = Object.keys(timeStringToMinutes); */
+  /* const reversedTimeIntervals = Object.keys(timeStringToMinutes).reverse(); */
 
   const [isDepartmentPopoverOpen, setIsDepartmentPopoverOpen] = useState(false);
   const [isSemesterPopoverOpen, setIsSemesterPopoverOpen] = useState(false);
+  const [isFromPopoverOpen, setIsFromPopoverOpen] = useState(false);
+  const [isToPopoverOpen, setIsToPopoverOpen] = useState(false);
 
   return (
     <div className="toolbar-container" >
@@ -331,14 +346,14 @@ function Toolbar() {
               alignItems:"center",
             }}
             onClick={() => {
-              setIsShowTBA(!isShowTBA);
+              setIsShowTBADays(!isShowTBADays);
             }}
           >
             <CheckIcon style={{
               marginRight:"0.5rem",
               height:"1rem",
               width:"1rem",
-              opacity: isShowTBA ? "1" : "0"
+              opacity: isShowTBADays ? "1" : "0"
             }}/>
             TBA
           </button>
@@ -366,7 +381,7 @@ function Toolbar() {
             }}
             className="ghost"
             onClick={() => {
-              setIsShowTBA(true);
+              setIsShowTBADays(true);
               const updatedDays: { [day: string]: boolean } = {};
               Object.keys(selectedDays).forEach(day => {
                 updatedDays[day] = true;
@@ -374,7 +389,7 @@ function Toolbar() {
               setSelectedDays(updatedDays);
             }}
           >
-            Select All
+            Display All
           </button>
         </PopoverContent>
       </Popover>
@@ -394,98 +409,165 @@ function Toolbar() {
         <PopoverContent
           style={{
             display: "flex",
-            /* flexDirection: "column", */
+            flexDirection: "column",
             alignItems: "center",
             background: "hsla(var(--darker_black))",
             borderWidth: "1px",
             borderColor: "hsla(var(--yellow))",
             borderRadius: "0.25rem",
-            padding: "0.5rem",
           }}
         >
-          <Popover>
-            <PopoverTrigger>
-              {fromTime}
-            </PopoverTrigger>
-            <PopoverContent
-              style={{
-                backgroundColor:'hsla(var(--black))',
-                borderRadius:'0.25rem',
-              }}
-              align='start'>
-              <Command>
-                <CommandInput
-                  style={{
-                    borderBottomLeftRadius:'0',
-                    borderBottomRightRadius:'0',
-                    borderColor:'hsla(var(--yellow))',
-                    borderBottomWidth:"0",
-                  }}
-                  placeholder="Type to search..."
-                />
-                <CommandList
-                  style={{
-                    borderWidth:'1px',
-                    borderBottomLeftRadius:'0.25rem',
-                    borderBottomRightRadius:'0.25rem',
-                    borderColor:'hsla(var(--yellow))',
-                  }}
-                >
-                  <CommandEmpty> No result found. </CommandEmpty>
-                  <CommandGroup>
-                    {timeIntervals.map((time, index) => (
-                      <CommandItem key={index} onSelect={() => {setFromTime(time)}}>
-                        {time}
-                      </CommandItem>
-                    ))}
-                  </CommandGroup>
-                </CommandList>
-              </Command>
-            </PopoverContent>
-          </Popover>
-          <div style={{margin:"0 0.5rem"}}>
-            -
+          {/* <div */}
+          {/*   style={{ */}
+          {/*     display:"flex", */}
+          {/*     flexDirection:"column", */}
+          {/*   }} */}
+          {/* > */}
+          <button
+            style={{
+              width:"100%",
+            }}
+            className="ghost"
+            onClick={() => {
+              setIsShowTBATime(!isShowTBATime);
+            }}
+          >
+            <CheckIcon style={{
+              marginRight:"0.5rem",
+              height:"1rem",
+              width:"1rem",
+              opacity: isShowTBATime ? "1" : "0"
+            }}/>
+            TBA
+          </button>
+          <button
+            style={{
+              width:"100%",
+            }}
+            className="ghost"
+            onClick={() => {
+            }}
+          >
+            Reset
+          </button>
+          {/* </div> */}
+          <Separator
+            style={{
+              margin:"0.25rem 0",
+              backgroundColor:"hsla(var(--yellow))"
+            }}
+            orientation="horizontal"
+          />
+          <div
+            style={{
+              display: "flex",
+              padding: "0.5rem",
+              alignItems: "center",
+            }}
+          >
+            {/* TODO: MAYBE DONT NEED THE SEARCH */}
+            <Popover open={isFromPopoverOpen} onOpenChange={(isOpen) => {setIsFromPopoverOpen(isOpen)}}>
+              <PopoverTrigger>
+                {fromTime}
+              </PopoverTrigger>
+              <PopoverContent
+                style={{
+                  backgroundColor:'hsla(var(--black))',
+                  borderRadius:'0.25rem',
+                }}
+                align='start'
+              >
+                <Command>
+                  <CommandInput
+                    style={{
+                      borderBottomLeftRadius:'0',
+                      borderBottomRightRadius:'0',
+                      borderColor:'hsla(var(--yellow))',
+                      borderBottomWidth:"0",
+                    }}
+                    placeholder="From"
+                  />
+                  <CommandList
+                    style={{
+                      borderWidth:'1px',
+                      borderBottomLeftRadius:'0.25rem',
+                      borderBottomRightRadius:'0.25rem',
+                      borderColor:'hsla(var(--yellow))',
+                    }}
+                  >
+                    <CommandEmpty> No result found. </CommandEmpty>
+                    <CommandGroup>
+                      {timeIntervals
+                        .map((time, index) => (
+                          <CommandItem
+                            key={index}
+                            onSelect={() => {
+                              setFromTime(time)
+                              setIsFromPopoverOpen(false);
+                            }}
+                          >
+                            {time}
+                          </CommandItem>
+                        ))}
+                    </CommandGroup>
+                  </CommandList>
+                </Command>
+              </PopoverContent>
+            </Popover>
+            <div style={{margin:"0 0.5rem"}}>
+              -
+            </div>
+            <Popover open={isToPopoverOpen} onOpenChange={(isOpen) => {setIsToPopoverOpen(isOpen)}}>
+              <PopoverTrigger>
+                {toTime}
+              </PopoverTrigger>
+              <PopoverContent
+                style={{
+                  backgroundColor:'hsla(var(--black))',
+                  borderRadius:'0.25rem',
+                }}
+                align='start'>
+                <Command>
+                  <CommandInput
+                    style={{
+                      borderBottomLeftRadius:'0',
+                      borderBottomRightRadius:'0',
+                      borderColor:'hsla(var(--yellow))',
+                      borderBottomWidth:"0",
+                    }}
+                    placeholder="To"
+                  />
+                  <CommandList
+                    style={{
+                      borderWidth:'1px',
+                      borderBottomLeftRadius:'0.25rem',
+                      borderBottomRightRadius:'0.25rem',
+                      borderColor:'hsla(var(--yellow))',
+                    }}
+                  >
+                    <CommandEmpty> No result found. </CommandEmpty>
+                    <CommandGroup>
+                      {timeIntervals
+                        .filter((time) => {
+                          return timeStringToMinutes[time] > timeStringToMinutes[fromTime]
+                        })
+                        .map((time, index) => (
+                          <CommandItem
+                            key={index}
+                            onSelect={() => {
+                              setToTime(time)
+                              setIsToPopoverOpen(false);
+                            }}
+                          >
+                            {time}
+                          </CommandItem>
+                        ))}
+                    </CommandGroup>
+                  </CommandList>
+                </Command>
+              </PopoverContent>
+            </Popover>
           </div>
-          <Popover>
-            <PopoverTrigger>
-              {toTime}
-            </PopoverTrigger>
-            <PopoverContent
-              style={{
-                backgroundColor:'hsla(var(--black))',
-                borderRadius:'0.25rem',
-              }}
-              align='start'>
-              <Command>
-                <CommandInput
-                  style={{
-                    borderBottomLeftRadius:'0',
-                    borderBottomRightRadius:'0',
-                    borderColor:'hsla(var(--yellow))',
-                    borderBottomWidth:"0",
-                  }}
-                  placeholder="Type to search..."
-                />
-                <CommandList
-                  style={{
-                    borderWidth:'1px',
-                    borderBottomLeftRadius:'0.25rem',
-                    borderBottomRightRadius:'0.25rem',
-                    borderColor:'hsla(var(--yellow))',
-                  }}
-                >
-                  <CommandEmpty> No result found. </CommandEmpty>
-                  <CommandGroup>
-                    {reversedTimeIntervals.map((time, index) => (
-                      <CommandItem key={index} onSelect={() => {setToTime(time)}}>
-                        {time}
-                      </CommandItem>
-                    ))}
-                  </CommandGroup>
-                </CommandList>
-              </Command>
-            </PopoverContent>
-          </Popover>
         </PopoverContent>
       </Popover>
 

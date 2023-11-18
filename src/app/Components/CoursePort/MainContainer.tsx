@@ -3,7 +3,7 @@
 /* import { Popover } from "../UI/Popover"; */
 import { useScheduleContext } from "./ScheduleProvider";
 import { useState, useEffect } from "react";
-import { Database, Course, mapDaysToShortForm } from "./Data";
+import { Database, Course, mapDaysToShortForm, timeStringToMinutes } from "./Data";
 import { columns } from "./Columns";
 import { DataTable } from "./DataTable"
 import { SelectedPlaceHolder } from "./SelectedPlaceholder";
@@ -11,18 +11,21 @@ import { SelectedPlaceHolder } from "./SelectedPlaceholder";
 function MainContainer() {
   const {
     selectedSemester,
-    setSelectedSemester,
-    selectedCourses,
-    setSelectedCourses,
+    /* setSelectedSemester, */
+    /* selectedCourses, */
+    /* setSelectedCourses, */
     selectedDepartment,
-    setSelectedDepartment,
+    /* setSelectedDepartment, */
     selectedDays,
-    setSelectedDays,
+    /* setSelectedDays, */
     database,
     activePageIndex,
-    setActivePageIndex,
+    /* setActivePageIndex, */
     filterString,
-    isShowTBA,
+    isShowTBADays,
+    isShowTBATime,
+    fromTime,
+    toTime,
   } = useScheduleContext();
   const [filteredCourses, setFilteredCourses] = useState<Course[]>([]);
 
@@ -42,24 +45,39 @@ function MainContainer() {
         const hasMatchingDays = selectedDaysShortForm.some(
           selectedDay => (
             (courseDaysArray.includes(selectedDay) && course.days !== "TBA")
-            || isShowTBA && course.days === "TBA"
+              || isShowTBADays && course.days === "TBA"
           )
         );
         const matchesTitle = course.title.toLowerCase().includes(filterString.toLowerCase());
         const matchesNumber = String(course.number).includes(filterString);
         const matchesInstructor = course.instructor ? course.instructor.toLowerCase().includes(filterString.toLowerCase()) : false;
-        return hasMatchingDays && (filterString === '' || matchesTitle || matchesNumber || matchesInstructor);
+        const fromTimeMinute = timeStringToMinutes[fromTime];
+        const toTimeMinute = timeStringToMinutes[toTime];
+        const isTimeValid = fromTimeMinute <= toTimeMinute;
+        const isWithinTime = (
+          ((course.begin !== "TBA") ? course.begin : Number.MIN_SAFE_INTEGER) >= fromTimeMinute
+            && ((course.end !== "TBA") ? course.end : Number.MAX_SAFE_INTEGER) <= toTimeMinute
+        );
+        return (
+          hasMatchingDays
+          && isTimeValid
+          && (isWithinTime || (isShowTBATime && course.begin === "TBA"))
+          && (filterString === '' || matchesTitle || matchesNumber || matchesInstructor)
+        );
       })
       setFilteredCourses(newFilteredCourses);
     }
   }, [
-    selectedSemester,
-    selectedDepartment,
-    selectedDays,
-    filterString,
-    isShowTBA,
-    database
-  ]);
+      selectedSemester,
+      selectedDepartment,
+      selectedDays,
+      filterString,
+      isShowTBADays,
+      isShowTBATime,
+      fromTime,
+      toTime,
+      database
+    ]);
 
   const pages = [
     <DataTable columns={columns} data={filteredCourses} />,

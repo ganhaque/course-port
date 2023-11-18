@@ -10,6 +10,7 @@ import {
   timeIntervals,
   departments,
   initialDays,
+  timeStringToMinutes,
   semesters,
   days,
   Database,
@@ -38,17 +39,28 @@ interface ProviderContextType {
   setVisibleColumns: React.Dispatch<React.SetStateAction<string[]>>;
   /* isExclusiveDays: boolean; */
   /* setIsExclusiveDays: React.Dispatch<React.SetStateAction<boolean>>; */
-  isShowTBA: boolean;
-  setIsShowTBA: React.Dispatch<React.SetStateAction<boolean>>;
+  isShowTBADays: boolean;
+  setIsShowTBADays: React.Dispatch<React.SetStateAction<boolean>>;
+  isShowTBATime: boolean;
+  setIsShowTBATime: React.Dispatch<React.SetStateAction<boolean>>;
   /* toggleIsExclusiveDays: () => void; */
   toggleSelectedDays: () => void;
   toggleDaySelection: (day: string) => void;
+  timeIntervals: string[];
+  reversedTimeIntervals: string[];
+  fromTime: string;
+  setFromTime: React.Dispatch<React.SetStateAction<string>>;
+  toTime: string;
+  setToTime: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const ScheduleContext = createContext<ProviderContextType | null>(null);
 
 // Create a provider to wrap the components that need access to the board context
 export const ScheduleProvider: React.FC<{children: ReactNode}> = ({ children }) => {
+  const timeIntervals = Object.keys(timeStringToMinutes);
+  const reversedTimeIntervals = Object.keys(timeStringToMinutes).reverse();
+
   const [selectedSemester, setSelectedSemester] = useState<string>(semesters[0])
   /* const [selectedDepartment, setSelectedDepartment] = useState<string>(departments[0]) */
   const [selectedDepartment, setSelectedDepartment] = useState<string>("COMPUTER SCIENCE");
@@ -56,13 +68,17 @@ export const ScheduleProvider: React.FC<{children: ReactNode}> = ({ children }) 
   const [selectedDays, setSelectedDays] = useState<{ [key: string]: boolean }>(initialDays);
   /* const [isExclusiveDays, setIsExclusiveDays] = useState<boolean>(false); */
   const [selectedCourses, setSelectedCourses] = useState<Course[]>([]);
-  const [isShowTBA, setIsShowTBA] = useState<boolean>(true);
+  const [isShowTBADays, setIsShowTBADays] = useState<boolean>(true);
+  const [isShowTBATime, setIsShowTBATime] = useState<boolean>(true);
   /* const [database, setDatabase] = useState<Semester[]>(exampleDatabase); */
   const database: Database = bookletData;
   const [filterString, setFilterString] = useState<string>("");
 
   const [visibleColumns, setVisibleColumns] = useState<string[]>(initialVisibleColumnId);
   const [activePageIndex, setActivePageIndex] = useState<number>(0);
+
+  const [fromTime, setFromTime] = useState(timeIntervals[0]);
+  const [toTime, setToTime] = useState(reversedTimeIntervals[0]);
 
   const toggleDaySelection = (day: string) => {
     setSelectedDays(prevSelectedDays => ({
@@ -73,7 +89,7 @@ export const ScheduleProvider: React.FC<{children: ReactNode}> = ({ children }) 
 
   // Toggle the value for each day
   const toggleSelectedDays = () => {
-    setIsShowTBA(!isShowTBA);
+    setIsShowTBADays(!isShowTBADays);
     const updatedDays: { [day: string]: boolean } = {};
 
     Object.keys(selectedDays).forEach(day => {
@@ -127,8 +143,16 @@ export const ScheduleProvider: React.FC<{children: ReactNode}> = ({ children }) 
         setVisibleColumns,
         toggleSelectedDays,
         toggleDaySelection,
-        isShowTBA,
-        setIsShowTBA,
+        isShowTBADays,
+        setIsShowTBADays,
+        isShowTBATime,
+        setIsShowTBATime,
+        timeIntervals,
+        reversedTimeIntervals,
+        fromTime,
+        setFromTime,
+        toTime,
+        setToTime,
       }}
     >
       {children}
