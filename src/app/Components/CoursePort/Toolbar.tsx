@@ -26,6 +26,7 @@ import {
   semesters,
   days,
   mapDaysToShortForm,
+  departmentToAbbreviationMap,
 } from './Data'
 import { useState } from "react";
 import { useScheduleContext } from "./ScheduleProvider";
@@ -61,7 +62,9 @@ function Toolbar() {
     <div className="toolbar-container" >
       <input
         style={{
-          width:'16rem'
+          minWidth:'6rem',
+          flexGrow:'1',
+          overflow:'hidden'
         }}
         value={filterString}
         onChange={(event) => {setFilterString(event.target.value)}}
@@ -110,7 +113,6 @@ function Toolbar() {
             >
               <CommandEmpty> No result found. </CommandEmpty>
               <CommandGroup>
-
                 {columnIdArray.map((item, index) => {
                   const isColumnVisible = visibleColumns.some((id) => id === item.id);
                   return (
@@ -154,7 +156,6 @@ function Toolbar() {
         </PopoverContent>
       </Popover>
 
-      Semester:
       <Popover open={isSemesterPopoverOpen} onOpenChange={(isOpen) => {setIsSemesterPopoverOpen(isOpen)}}>
         <PopoverTrigger>
           {selectedSemester}
@@ -208,9 +209,10 @@ function Toolbar() {
         </PopoverContent>
       </Popover>
 
-      Department:
       <Popover open={isDepartmentPopoverOpen} onOpenChange={(isOpen) => {setIsDepartmentPopoverOpen(isOpen)}}>
         <PopoverTrigger>
+          {departmentToAbbreviationMap[selectedDepartment]}
+          {departmentToAbbreviationMap[selectedDepartment] === "" ? "" : " - "}
           {selectedDepartment}
           {/* Department: */}
         </PopoverTrigger>
@@ -255,6 +257,8 @@ function Toolbar() {
                       setSelectedDepartment(department);
                       setIsDepartmentPopoverOpen(false);
                     }}>
+                    {departmentToAbbreviationMap[department]}
+                    {departmentToAbbreviationMap[department] === "" ? "" : " - "}
                     {department}
                   </CommandItem>
                 ))}

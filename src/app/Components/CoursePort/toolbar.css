@@ -3,11 +3,12 @@
   align-items: center;
   gap: 0.5rem;
   height: 4rem;
-  padding: 1rem;
+  padding: 0.5rem;
   background-color: hsla(var(--black));
   border-radius: 0.75rem;
+  overflow: auto;
 }
 
-.toolbar-container > button {
-  /* flex-grow: 1; */
-}
+/* .toolbar-container > button { */
+/* flex-grow: 1; */
+/* } */
