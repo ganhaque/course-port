@@ -1,5 +1,11 @@
 import { ColumnDef } from "@tanstack/react-table"
 import { Course } from "./Data";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "../UI/Tooltip"
 
 // import { PlusCircle, MinusCircle } from "lucide-react";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react"
@@ -86,6 +92,23 @@ export const columnIdArray: ColumnId[] = [
   { id: "instructor", label: "Instructor" },
 ];
 
+export const initialVisibleColumnId: string[] = [
+  "available",
+  /* "enrollmentCount", */
+  /* "capacity", */
+  /* "abbreviation", */
+  "number",
+  "type",
+  "title",
+  "section",
+  "begin-end",
+  /* "duration", */
+  "days",
+  /* "roomNumber", */
+  /* "building", */
+  "specialEnrollment",
+  "instructor",
+];
 
 export const columns: ColumnDef<Course>[] = [
   {
@@ -161,7 +184,7 @@ export const columns: ColumnDef<Course>[] = [
           className="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc" )}
         >
-          NUM
+          N
           <ArrowUpDown style={{
             marginLeft:"0.5rem",
             height : "1rem",
@@ -173,7 +196,7 @@ export const columns: ColumnDef<Course>[] = [
   },
   {
     accessorKey: "type",
-    header: "T",
+    header: "Type",
     cell: ({ row }) => {
       return (
         <div>
@@ -190,11 +213,43 @@ export const columns: ColumnDef<Course>[] = [
   },
   {
     accessorKey: "section",
-    header: "SEC",
+    header: "S",
   },
   {
     accessorKey: "begin-end",
-    header: "Begin-End",
+    header: ({ column }) => {
+      return (
+        <button
+          className="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Begin-End
+          <ArrowUpDown style={{
+            marginLeft:"0.5rem",
+            height : "1rem",
+            width : "1rem",
+          }} className="ml-2 h-4 w-4" />
+        </button>
+      )
+    },
+    sortingFn: (
+      rowA: any,
+      rowB: any,
+      columnId
+    ) => {
+      if (rowA.original.begin === rowB.original.begin) return 0;
+      if (rowA.original.begin === "TBA") {
+        return -1;
+      }
+      if (rowB.original.begin === "TBA") {
+        return 1;
+      }
+      return rowA.original.begin < rowB.original.begin ? 1 : -1;
+      /* const numA = rowA.getValue(columnId).count; */
+      /* const numB= rowB.getValue(columnId).count; */
+      /**/
+      /* return numA < numB ? 1 : numA > numB ? -1 : 0; */
+    },
     cell: ({ row }) => {
       if (row.original.begin === "TBA" || row.original.end === "TBA") {
         return <div>TBA</div>
@@ -241,7 +296,18 @@ export const columns: ColumnDef<Course>[] = [
   },
   {
     accessorKey: "specialEnrollment",
-    header: "SPE",
+    header: "Special",
+    /* cell: ({ row }) => { */
+    /*   return ( */
+    /*     <div */
+    /*       style={{ */
+    /*         fontSize:"0.75rem" */
+    /*       }} */
+    /*     > */
+    /*       {row.original.specialEnrollment} */
+    /*     </div> */
+    /*   ); */
+    /* }, */
   },
   {
     accessorKey: "instructor",

@@ -13,24 +13,7 @@ import {
   days,
   Database,
 } from './Data'
-
-const initialVisibleColumnId: string[] = [
-  "available",
-  "enrollmentCount",
-  /* "capacity", */
-  /* "abbreviation", */
-  "number",
-  "type",
-  "title",
-  "section",
-  "begin-end",
-  /* "duration", */
-  "days",
-  "roomNumber",
-  "building",
-  /* "specialEnrollment", */
-  "instructor",
-];
+import { initialVisibleColumnId } from './Columns';
 
 interface ProviderContextType {
   selectedSemester: string;
