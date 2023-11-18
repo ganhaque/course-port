@@ -51,6 +51,8 @@ export const bookletData = data as Database;
 /* export const database: Database = data; */
 /* export const database = (data as Database); */
 
+/* 7:00 AM to 9:00 PM */
+
 export const timeIntervals = [
   '7:30 AM',
   '8:00 AM',
@@ -59,6 +61,14 @@ export const timeIntervals = [
   '9:30 AM',
   // Add more time intervals here...
 ];
+
+export const initialDays = {
+  "Monday": true,
+  "Tuesday": true,
+  "Wednesday": true,
+  "Thursday": true,
+  "Friday": true,
+};
 
 export const days = [
   "Monday",

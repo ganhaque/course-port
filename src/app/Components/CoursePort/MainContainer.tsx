@@ -21,22 +21,29 @@ function MainContainer() {
     database,
     activePageIndex,
     setActivePageIndex,
-    filterString
+    filterString,
+    isShowTBA,
   } = useScheduleContext();
   const [filteredCourses, setFilteredCourses] = useState<Course[]>([]);
 
   // Use useEffect to update filtered data when selectedSemester or selectedDepartment changes
   useEffect(() => {
+    /* console.log("Update"); */
     /* const courses = database[selectedSemester][selectedDepartment]; */
     /* const sourses: Course[] = database[selectedSemester][selectedDepartment]; */
     const courses: Course[] | undefined = database[selectedSemester]?.[selectedDepartment];
     if (courses) {
       const newFilteredCourses = courses.filter(course => {
         const courseDaysArray = course.days.split("");
-        const selectedDaysShortForm = selectedDays.map(day => mapDaysToShortForm[day]);
+        /* const selectedDaysShortForm = selectedDays.map(day => mapDaysToShortForm[day]); */
+        const selectedDaysShortForm = Object.keys(selectedDays)
+        .filter(day => selectedDays[day])
+        .map(day => mapDaysToShortForm[day]);
         const hasMatchingDays = selectedDaysShortForm.some(
-          selectedDay => courseDaysArray.includes(selectedDay) ||
-            course.days === "TBA"
+          selectedDay => (
+            (courseDaysArray.includes(selectedDay) && course.days !== "TBA")
+            || isShowTBA && course.days === "TBA"
+          )
         );
         const matchesTitle = course.title.toLowerCase().includes(filterString.toLowerCase());
         const matchesNumber = String(course.number).includes(filterString);
@@ -45,7 +52,14 @@ function MainContainer() {
       })
       setFilteredCourses(newFilteredCourses);
     }
-  }, [selectedSemester, selectedDepartment, selectedDays, filterString, database]);
+  }, [
+    selectedSemester,
+    selectedDepartment,
+    selectedDays,
+    filterString,
+    isShowTBA,
+    database
+  ]);
 
   const pages = [
     <DataTable columns={columns} data={filteredCourses} />,
