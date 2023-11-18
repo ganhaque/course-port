@@ -53,7 +53,7 @@
   /* overflow: hidden; */
   padding: 0.25rem;
   overflow: scroll;
-  max-height: 52rem;
+  max-height: 42rem;
 }
 
 .command-item {
