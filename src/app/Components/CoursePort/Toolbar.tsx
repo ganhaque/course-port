@@ -389,7 +389,7 @@ function Toolbar() {
               setSelectedDays(updatedDays);
             }}
           >
-            Display All
+            Reset
           </button>
         </PopoverContent>
       </Popover>

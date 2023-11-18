@@ -5,6 +5,8 @@ import {
 
 // import { PlusCircle, MinusCircle } from "lucide-react";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react"
+import { Popover, PopoverContent, PopoverTrigger } from "../UI/Popover";
+import { Separator } from "../UI/Separator";
 
 function getAMPMTime(minutes: number): string {
   /* if (isNaN(minutes)) { */
@@ -194,11 +196,86 @@ export const columns: ColumnDef<Course>[] = [
     accessorKey: "type",
     header: "Type",
     cell: ({ row }) => {
+      const lab = row.original.lab;
       return (
         <div>
-          {row.original.lab && <div>HasLab</div>}
-          {row.original.lab && row.original.type && ' - '}
-          {row.original.type && <span>{row.original.type}</span>}
+          {row.original.type && <div>{row.original.type}</div>}
+          {row.original.type && lab && ' - '}
+          {lab && (
+            <Popover>
+              <PopoverTrigger asChild>
+                <button className="ghost">
+                  {lab.type}+
+                </button>
+              </PopoverTrigger>
+              <PopoverContent
+                side="right"
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "start",
+                  background: "hsla(var(--darker_black))",
+                  borderWidth: "1px",
+                  borderColor: "hsla(var(--yellow))",
+                  borderRadius: "0.25rem",
+                }}
+              >
+                <div
+                  style={{
+                    padding: "0.25rem",
+                    display: "flex",
+                    gap: "0.5rem",
+                  }}
+                >
+                  <div style={{ color:"hsla(var(--muted_foreground))" }} >
+                    Begin-End:
+                  </div>
+                  {(lab.begin === "TBA" || lab.end === "TBA")
+                    ? "TBA"
+                    : (getTimeWithoutAMPM(lab.begin) + "-" + getAMPMTime(lab.end))}
+                </div>
+                {/* <Separator */}
+                {/*   style={{ */}
+                {/*     margin:"0.25rem 0", */}
+                {/*     backgroundColor:"hsla(var(--yellow))" */}
+                {/*   }} */}
+                {/*   orientation="horizontal" */}
+                {/* /> */}
+                <div
+                  style={{
+                    padding: "0.25rem",
+                    display: "flex",
+                    gap: "0.5rem",
+                  }}
+                >
+                  <div style={{ color:"hsla(var(--muted_foreground))" }} >
+                    Location:
+                  </div>
+                  {lab.roomNumber ? lab.roomNumber : "TBA"}
+                  {" "}
+                  {lab.building ? lab.building : ""}
+                </div>
+                {/* <Separator */}
+                {/*   style={{ */}
+                {/*     margin:"0.25rem 0", */}
+                {/*     backgroundColor:"hsla(var(--yellow))" */}
+                {/*   }} */}
+                {/*   orientation="horizontal" */}
+                {/* /> */}
+                <div style={{ padding: "0.25rem", display: "flex", gap: "0.5rem", }} >
+                  <div
+                    style={{
+                      color:"hsla(var(--muted_foreground))"
+                    }}
+                  >
+                    Instructor:
+                  </div>
+                  {lab.instructor ? lab.instructor : "TBA"}
+                </div>
+              </PopoverContent>
+            </Popover>
+          )}
+          {/* {lab && <div>{lab.type}+</div>} */}
         </div>
       )
     },

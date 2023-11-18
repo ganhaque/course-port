@@ -50,7 +50,7 @@ git push
     - displayDuplicate = false (default);
     - OR duplicateBlacklist = [string];
     - Column to indicate & toggle duplicate of the num
-- Dialog open when click on HasLab or HasRec
+- [x] Popover open w/ more info when click on LAB+ or REC+
 - Better department display. Add/Map Abbreviation to it.
 - Tooltip!
 - Theme switcher / Dark/Light mode toggle
