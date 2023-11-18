@@ -50,4 +50,16 @@ git push
     - displayDuplicate = false (default);
     - OR duplicateBlacklist = [string];
     - Column to indicate & toggle duplicate of the num
-
+- Dialog open when click on HasLab or HasRec
+- Better department display. Add/Map Abbreviation to it.
+- Tooltip!
+- Theme switcher / Dark/Light mode toggle
+- Time filter.
+- Duration filter.
+- Days blacklist filter (current one is whitelist)
+- The Telescope command search experience
+    - tab and shift-tab to cycle
+    - sorting
+        - searching 'EE' should have 'EE' before 'AEEE'
+- Settings window/sidebar/container?
+    - Hide class with avl == 0

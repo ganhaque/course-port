@@ -50,10 +50,10 @@
 }
 
 .command-group {
-  overflow: hidden;
+  /* overflow: hidden; */
   padding: 0.25rem;
   overflow: scroll;
-  max-height: 24rem;
+  max-height: 52rem;
 }
 
 .command-item {
@@ -71,8 +71,10 @@
   outline: none;
 }
 .command-item[aria-selected] {
-  background-color: hsla(var(--grey));
-  color: hsla(var(--base06));
+  /* background-color: hsla(var(--grey)); */
+  /* color: hsla(var(--base06)); */
+  background-color: hsla(var(--grey), 0.25);
+  color: hsla(var(--yellow));
   font-weight: 600;
 }
 .command-item[data-disabled] {

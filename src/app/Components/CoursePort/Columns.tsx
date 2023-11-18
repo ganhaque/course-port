@@ -1,11 +1,7 @@
 import { ColumnDef } from "@tanstack/react-table"
-import { Course } from "./Data";
 import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "../UI/Tooltip"
+  Course,
+} from "./Data";
 
 // import { PlusCircle, MinusCircle } from "lucide-react";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react"

@@ -7,8 +7,8 @@
   position: relative;
   width: 100%;
   overflow: auto;
-  border-radius: 0.5rem;
-  height: calc(100vh - 4rem - 2rem - 3rem);
+  border-radius: 0.75rem;
+  height: calc(100vh - 4rem - 0.5rem - 3rem);
 }
 
 .table {
@@ -19,8 +19,8 @@
   line-height: 1.25rem;
 }
 
-.table-header {
-}
+/* .table-header { */
+/* } */
 
 .table-body > tr:not(:last-child) {
   border-bottom: 1px solid hsla(var(--grey), 0.5);
