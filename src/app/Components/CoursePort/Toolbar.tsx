@@ -446,6 +446,8 @@ function Toolbar() {
             }}
             className="ghost"
             onClick={() => {
+              setFromTime(timeIntervals[0]);
+              setToTime(reversedTimeIntervals[0]);
             }}
           >
             Reset
