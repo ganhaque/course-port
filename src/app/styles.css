@@ -1,95 +1,100 @@
 :root {
-  --gap-size: 0.8rem;
-  --radius:0.5rem;
+--gap-size: 0.8rem;
+--radius:0.5rem;
 
-  /* --base00: 213, 20%, 9%; */
-  --base00: 240, 21%, 7%;
-  /* --base00: 249, 19%, 7%; */
-  --base01: 210, 15%, 12%;
-  --base02: 220, 15%, 16%;
-  --base03: 220, 15%, 18%;
-  --base04: 220, 14%, 19%;
-  --base05: 230, 43%, 97%;
-  /* --base06: 0, 0%, 100%; */
-  --base06: 226, 64%, 88%;
-  --base07: 240, 1%, 83%;
-  --base08: 216, 87%, 57%;
-  --base09: 42, 91%, 65%;
-  --base0A: 327, 100%, 72%;
-  --base0B: 79, 69%, 69%;
-  --base0C: 205, 79%, 69%;
-  --base0D: 174, 67%, 40%;
-  --base0E: 276, 80%, 75%;
-  --base0F: 216, 43%, 73%;
+/* --base00: 213, 20%, 9%; */
+--base00: 240, 21%, 7%;
+/* --base00: 249, 19%, 7%; */
+--base01: 210, 15%, 12%;
+--base02: 220, 15%, 16%;
+--base03: 220, 15%, 18%;
+--base04: 220, 14%, 19%;
+/* --base05: 230, 43%, 97%; */
+--base05: 226, 64%, 88%;
+/* --base06: 0, 0%, 100%; */
+--base06: 247, 66%, 90%;
+--base07: 225, 67%, 94%;
+--base08: 216, 87%, 57%;
+--base09: 42, 91%, 65%;
+--base0A: 327, 100%, 72%;
+--base0B: 79, 69%, 69%;
+--base0C: 205, 79%, 69%;
+--base0D: 174, 67%, 40%;
+--base0E: 276, 80%, 75%;
+--base0F: 216, 43%, 73%;
 
 
-  /* --muted_foreground:228 17% 64%; */
-  --muted_foreground:230 13% 55%;
+/* --muted_foreground:228 17% 64%; */
+/* --muted_foreground:230 13% 55%; */
+--muted_foreground:228 24% 72%;
 
-  /* --white: 0, 0%, 100%; */
-  --white: 226, 64%, 88%;
-  --darker_white: 240, 1%, 45%;
-  /* --darker_black: 220, 15%, 2%; */
-  --darker_black: 248, 25%, 6%;
-  /* --black: 220, 15%, 8%; */
-  /* --black2: 220, 15%, 11%; */
-  --black: 240, 21%, 7%;
-  --black2: 248, 18%, 9%;
-  /* --black: 249, 19%, 7%; */
+/* --white: 0, 0%, 100%; */
+--white: 226, 64%, 88%;
+--darker_white: 240, 1%, 45%;
+/* --darker_black: 220, 15%, 2%; */
+--darkest_black: 0 0% 0%;
+--darker_black: 248, 25%, 6%;
+/* --black: 220, 15%, 8%; */
+/* --black2: 220, 15%, 11%; */
+--black: 240, 21%, 7%;
+--black2: 248, 18%, 9%;
+/* --black: 249, 19%, 7%; */
 
-  --one_bg1: 220, 15%, 15%;
-  --one_bg2: 220, 15%, 18%;
-  --one_bg3: 220, 15%, 20%;
+--one_bg1: 220, 15%, 15%;
+--one_bg2: 220, 15%, 18%;
+--one_bg3: 220, 15%, 20%;
 
-  --grey: 244, 10%, 31%;
-  --grey_fg: 220, 8%, 30%;
-  --grey_fg2: 220, 9%, 31%;
-  --light_grey: 220, 10%, 33%;
+--grey: 244, 10%, 31%;
+--grey_fg: 220, 8%, 30%;
+--grey_fg2: 220, 9%, 31%;
+--light_grey: 220, 10%, 33%;
 
-  --red: 346, 80%, 66%;
-  --baby_pink: 348, 89%, 69%;
-  --pink: 328, 100%, 71%;
-  --catppuccin_flamingo: 350, 62%, 83%;
-  --horizon_orange: 14, 88%, 70%;
-  --orange: 29, 100%, 71%;
-  --yellow: 43, 90%, 65%;
-  --pale_yellow_green: 85, 90%, 87%;
-  --yellow_green: 79, 69%, 69%;
-  --pale_green: 135, 81%, 84%;
-  --catppuccin_green: 123, 62%, 82%;
-  --dead_green: 128, 61%, 69%;
-  --light_green: 140, 74%, 68%;
-  --green: 135, 51%, 43%;
-  --vibrant_green: 162, 82%, 61%;
-  --teal: 178, 65%, 47%;
-  --green_cyan: 184, 64%, 43%;
-  --cyan: 194, 76%, 43%;
-  --pale_blue: 208, 45%, 79%;
-  --light_blue: 203, 80%, 70%;
-  --blue: 217, 63%, 66%;
-  --nord_blue: 222, 61%, 63%;
-  --purple: 276, 80%, 75%;
-  --dark_purple: 263, 46%, 61%;
-  --catppuccin_lavender: 239, 71%, 80%;
+--red: 346, 80%, 66%;
+--baby_pink: 348, 89%, 69%;
+--pink: 328, 100%, 71%;
+--catppuccin_flamingo: 350, 62%, 83%;
+--horizon_orange: 14, 88%, 70%;
+--orange: 29, 100%, 71%;
+--yellow: 43, 90%, 65%;
+--pale_yellow_green: 85, 90%, 87%;
+--yellow_green: 79, 69%, 69%;
+--pale_green: 135, 81%, 84%;
+--catppuccin_green: 123, 62%, 82%;
+--dead_green: 128, 61%, 69%;
+--light_green: 140, 74%, 68%;
+/* --green: 135, 51%, 43%; */
+--teal_green: 181, 49%, 43%;
+--green: 134, 75%, 72%;
+--vibrant_green: 162, 82%, 61%;
+--teal: 178, 65%, 47%;
+--green_cyan: 184, 64%, 43%;
+--cyan: 194, 76%, 43%;
+--pale_blue: 208, 45%, 79%;
+--light_blue: 203, 80%, 70%;
+--blue: 217, 63%, 66%;
+--nord_blue: 222, 61%, 63%;
+--purple: 276, 80%, 75%;
+--dark_purple: 263, 46%, 61%;
+--catppuccin_lavender: 239, 71%, 80%;
 
-  --primary: var(--yellow);
-  --secondary: var(--purple);
-  --tertiary: var(--yellow);
-  --quaternary: var(--catppuccin_green);
+--primary: var(--teal_green);
+--secondary: var(--pink);
+--tertiary: var(--yellow);
+--quaternary: var(--catppuccin_green);
 
-  /* font-family: Inter, Avenir, Helvetica, Arial, sans-serif; */
-  font-size: 1rem;
-  line-height: 1.5rem;
-  font-weight: 400;
+/* font-family: Inter, Avenir, Helvetica, Arial, sans-serif; */
+font-size: 1rem;
+line-height: 1.5rem;
+font-weight: 400;
 
-  /* color: #0f0f0f; */
-  /* background-color: #f6f6f6; */
+/* color: #0f0f0f; */
+/* background-color: #f6f6f6; */
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
+font-synthesis: none;
+text-rendering: optimizeLegibility;
+-webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
+-webkit-text-size-adjust: 100%;
 }
 
 /* @font-face { */
@@ -114,21 +119,25 @@
 }
 
 * {
-  box-sizing:border-box;
-  border:0 solid hsl(var(--grey));
+box-sizing:border-box;
+border:0 solid hsl(var(--grey));
 }
 
 html {
-  /* background-color: hsla(var(--darker_black), 1); */
-  background-color: black;
-  color: hsla(var(--base06), 1);
+/* background-color: hsla(var(--darker_black), 1); */
+background-color: hsla(var(--darkest_black));
+color: hsla(var(--base05), 1);
 
-  line-height:1.5;
-  -moz-tab-size:4;
-  -o-tab-size:4;
-  tab-size:4;
+line-height:1.5;
+-moz-tab-size:4;
+-o-tab-size:4;
+tab-size:4;
 
-  font-family: 'Ubuntu' !important;
+font-family: 'Ubuntu' !important;
+}
+
+body {
+  margin: 0;
 }
 
 a {
@@ -184,8 +193,8 @@ textarea {
   background-color: transparent;
   color: inherit;
   transition:
-  border-color 0.5s,
-  opacity 0.25s;
+    border-color 0.5s,
+    opacity 0.25s;
   box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
   outline: none;
 }
@@ -198,8 +207,8 @@ textarea::placeholder {
 }
 input:hover,
 button:hover {
-  border-color: hsla(var(--base06));
-  border-color: hsla(var(--purple));
+  /* border-color: hsla(var(--base05)); */
+  border-color: hsla(var(--primary));
 }
 input:active,
 button:active {
@@ -207,7 +216,7 @@ button:active {
 }
 input:focus-visible,
 button:focus-visible {
-  border-color: hsla(var(--yellow), 1);
+  border-color: hsla(var(--primary), 1);
 }
 
 button.link:hover {
@@ -216,10 +225,10 @@ button.link:hover {
 
 button[type="submit"] {
   color: hsla(var(--black));
-  background-color: hsla(var(--base06));
+  background-color: hsla(var(--base05));
 }
 button[type="submit"]:hover {
-  background-color: hsla(var(--base06), 0.9);
+  background-color: hsla(var(--base05), 0.9);
 }
 
 h1, h2, h3, h4, h5, h6, hr, p, pre {
@@ -250,18 +259,18 @@ h1, h2, h3, h4, h5, h6, hr, p, pre {
   /* :root { */
   /*   color: #f6f6f6; */
   /*   background-color: #2f2f2f; */
-/* } */
+  /* } */
   /**/
   /* a:hover { */
   /*   color: #24c8db; */
-/* } */
+  /* } */
   /**/
   /* input, */
   /* button { */
   /*   color: #ffffff; */
   /*   background-color: #0f0f0f98; */
-/* } */
+  /* } */
   /* button:active { */
   /*   background-color: #0f0f0f69; */
-/* } */
+  /* } */
 }

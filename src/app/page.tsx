@@ -12,9 +12,9 @@ export default function Home() {
       <div style={{
         display:'flex',
         flexDirection:'column',
-        padding: "0.5rem",
-        gap:'1rem',
-        height:'calc(100vh - 1rem)',
+        /* padding: "0.5rem", */
+        gap:'0.5rem',
+        height:'calc(100vh)',
         /* padding:'0.2rem' */
         /* alignItems:'center', */
       }}

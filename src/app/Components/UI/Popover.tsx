@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import * as PopoverPrimitive from "@radix-ui/react-popover"
+import "./Popover.css"
 
 /* import { cn } from "@/lib/utils" */
 
@@ -18,7 +19,7 @@ React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Content>
       ref={ref}
       align={align}
       sideOffset={sideOffset}
-      className={`todo ${className}`}
+      className={`popover-content ${className}`}
       {...props}
     />
   </PopoverPrimitive.Portal>

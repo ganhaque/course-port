@@ -62,7 +62,7 @@ React.ComponentPropsWithoutRef<typeof CommandPrimitive.List>
 >(({ className, ...props }, ref) => (
   <CommandPrimitive.List
     ref={ref}
-    className={ 'a' }
+    className={ 'command-list' }
     {...props}
   />
 ))

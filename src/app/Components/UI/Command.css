@@ -13,7 +13,7 @@
   /* background-color: hsla(var(--darker_black)); */
   /* background-color: hsla(var(--black)); */
   /* background-color: rgba(0, 0, 0, 1); */
-  color: hsla(var(--base06));
+  color: hsla(var(--base05));
 }
 
 .command-input-container {
@@ -26,6 +26,10 @@
 }
 
 .command-input {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-color: hsla(var(--primary));
+  border-bottom-width: 0;
   /* display: flex; */
   /* height: 2.5rem; */
   /* width: 100%; */
@@ -74,7 +78,7 @@
   /* background-color: hsla(var(--grey)); */
   /* color: hsla(var(--base06)); */
   background-color: hsla(var(--grey), 0.25);
-  color: hsla(var(--yellow));
+  color: hsla(var(--primary));
   font-weight: 600;
 }
 .command-item[data-disabled] {
@@ -87,4 +91,11 @@
   margin-right: -1px;
   height: 1px;
   background-color: hsla(var(--grey));
+}
+
+.command-list {
+  border-width: 1px;
+  border-bottom-left-radius: 0.25rem;
+  border-bottom-right-radius: 0.25rem;
+  border-color: hsla(var(--primary));
 }

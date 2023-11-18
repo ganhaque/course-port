@@ -7,6 +7,7 @@ import { Database, Course, mapDaysToShortForm, timeStringToMinutes } from "./Dat
 import { columns } from "./Columns";
 import { DataTable } from "./DataTable"
 import { SelectedPlaceHolder } from "./SelectedPlaceholder";
+import Settings from "./Settings";
 
 function MainContainer() {
   const {
@@ -80,6 +81,7 @@ function MainContainer() {
     ]);
 
   const pages = [
+    <Settings/>,
     <DataTable columns={columns} data={filteredCourses} />,
     <SelectedPlaceHolder/>
   ]
@@ -93,8 +95,9 @@ function MainContainer() {
         backgroundColor: 'hsla(var(--black))',
         /* borderBottomLeftRadius:'0.75rem', */
         /* borderBottomRightRadius:'0.75rem', */
-        /* padding: "1rem", */
-        borderRadius:'0.75rem',
+        /* borderRadius:'0.75rem', */
+        /* margin:"0 0.5rem" */
+        /* padding:"0 0.5rem" */
       }}
     >
       {/* <DataTable columns={columns} data={filteredData} /> */}

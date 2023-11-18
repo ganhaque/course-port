@@ -1,6 +1,12 @@
 'use client';
 
-import React, { createContext, ReactNode, useContext, useState } from 'react';
+import React, {
+  createContext,
+  ReactNode,
+  useContext,
+  useState,
+  useEffect
+} from 'react';
 import {
   Course,
   /* Department, */
@@ -16,6 +22,7 @@ import {
   Database,
 } from './Data'
 import { initialVisibleColumnId } from './Columns';
+import { changeTheme, ThemeMap } from './Colorscheme';
 
 interface ProviderContextType {
   selectedSemester: string;
@@ -52,6 +59,8 @@ interface ProviderContextType {
   setFromTime: React.Dispatch<React.SetStateAction<string>>;
   toTime: string;
   setToTime: React.Dispatch<React.SetStateAction<string>>;
+  selectedTheme: string;
+  setSelectedTheme: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const ScheduleContext = createContext<ProviderContextType | null>(null);
@@ -60,6 +69,7 @@ const ScheduleContext = createContext<ProviderContextType | null>(null);
 export const ScheduleProvider: React.FC<{children: ReactNode}> = ({ children }) => {
   const timeIntervals = Object.keys(timeStringToMinutes);
   const reversedTimeIntervals = Object.keys(timeStringToMinutes).reverse();
+  const [selectedTheme, setSelectedTheme] = useState(Object.keys(ThemeMap)[0]); // Set initial theme
 
   const [selectedSemester, setSelectedSemester] = useState<string>(semesters[0])
   /* const [selectedDepartment, setSelectedDepartment] = useState<string>(departments[0]) */
@@ -75,10 +85,14 @@ export const ScheduleProvider: React.FC<{children: ReactNode}> = ({ children }) 
   const [filterString, setFilterString] = useState<string>("");
 
   const [visibleColumns, setVisibleColumns] = useState<string[]>(initialVisibleColumnId);
-  const [activePageIndex, setActivePageIndex] = useState<number>(0);
+  const [activePageIndex, setActivePageIndex] = useState<number>(1);
 
   const [fromTime, setFromTime] = useState(timeIntervals[0]);
   const [toTime, setToTime] = useState(reversedTimeIntervals[0]);
+
+  useEffect(() => {
+    changeTheme(selectedTheme);
+  }, [selectedTheme]);
 
   const toggleDaySelection = (day: string) => {
     setSelectedDays(prevSelectedDays => ({
@@ -153,6 +167,8 @@ export const ScheduleProvider: React.FC<{children: ReactNode}> = ({ children }) 
         setFromTime,
         toTime,
         setToTime,
+        selectedTheme,
+        setSelectedTheme,
       }}
     >
       {children}

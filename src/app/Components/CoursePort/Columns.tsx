@@ -1,6 +1,6 @@
 import { ColumnDef } from "@tanstack/react-table"
 import {
-  Course,
+  Course, timeStringToMinutes,
 } from "./Data";
 
 // import { PlusCircle, MinusCircle } from "lucide-react";
@@ -81,6 +81,7 @@ export const columnIdArray: ColumnId[] = [
   { id: "type", label: "Type" },
   { id: "title", label: "Title" },
   { id: "section", label: "Section" },
+  { id: "creditHour", label: "Credit Hour" },
   { id: "begin-end", label: "Begin-End" },
   { id: "duration", label: "Duration" },
   { id: "days", label: "Days" },
@@ -99,6 +100,7 @@ export const initialVisibleColumnId: string[] = [
   "type",
   "title",
   "section",
+  "creditHour",
   "begin-end",
   /* "duration", */
   "days",
@@ -131,6 +133,22 @@ export const columns: ColumnDef<Course>[] = [
         </button>
       )
     },
+    cell: ({ row }) => {
+      const available = row.original.available;
+      const capacity = row.original.capacity;
+      const percentage = available / capacity * 100;
+
+      return (
+        <div
+          style={{
+            /* color:`hsla(var(--${color}))` */
+            color: `color-mix(in hsl, hsl(var(--green)) ${percentage}%, hsl(var(--red)))`
+          }}
+        >
+          {row.original.available}
+        </div>
+      );
+    }
   },
   {
     accessorKey: "enrollmentCount",
@@ -149,6 +167,23 @@ export const columns: ColumnDef<Course>[] = [
         </button>
       )
     },
+    cell: ({ row }) => {
+      const enrollmentCount = row.original.enrollmentCount;
+      const capacity = row.original.capacity;
+      const percentage = enrollmentCount / capacity * 100;
+
+      return (
+        <div
+          style={{
+            /* color:`hsla(var(--${color}))` */
+            color: `color-mix(in hsl, hsl(var(--green)), hsl(var(--red)) ${percentage}%)`
+            /* color: `color-mix(in hsl, hsl(var(--green)) ${percentage}%, hsl(var(--red)))` */
+          }}
+        >
+          {row.original.enrollmentCount}
+        </div>
+      );
+    }
   },
   {
     accessorKey: "capacity",
@@ -191,6 +226,27 @@ export const columns: ColumnDef<Course>[] = [
         </button>
       )
     },
+    cell: ({ row }) => {
+      const color =
+        row.original.number < 2000
+          ? "green"
+          : row.original.number < 3000
+            ? "yellow"
+            : row.original.number < 4000
+              ? "orange"
+              : row.original.number < 5000
+                ? "red"
+                : "purple"
+      return (
+        <div
+          style={{
+            color:`hsla(var(--${color}))`
+          }}
+        >
+          {row.original.number}
+        </div>
+      );
+    }
   },
   {
     accessorKey: "type",
@@ -211,13 +267,9 @@ export const columns: ColumnDef<Course>[] = [
               <PopoverContent
                 side="right"
                 style={{
-                  display: "flex",
-                  flexDirection: "column",
                   alignItems: "start",
-                  background: "hsla(var(--darker_black))",
                   borderWidth: "1px",
-                  borderColor: "hsla(var(--yellow))",
-                  borderRadius: "0.25rem",
+                  borderColor: "hsla(var(--primary))",
                 }}
               >
                 <div
@@ -283,10 +335,57 @@ export const columns: ColumnDef<Course>[] = [
   {
     accessorKey: "title",
     header: "Title",
+    cell: ({ row }) => {
+      const number = row.original.number;
+      const color1 =
+        number < 2000 
+          ? "green"
+          : number < 3000
+            ? "yellow"
+            : number < 4000
+              ? "orange"
+              : number < 5000
+                ? "red"
+                : "purple"
+      const color2 =
+        number < 2000
+          ? "yellow"
+          : number < 3000
+            ? "orange"
+            : number < 4000
+              ? "red"
+              : number < 5000
+                ? "purple"
+                : "blue"
+
+      const percentage =
+        number < 2000
+          ? ((number - 1000) / 1000) * 100
+          : number < 3000
+            ? ((number - 2000) / 1000) * 100
+            : number < 4000
+              ? ((number - 3000) / 1000) * 100
+              : number < 5000
+                ? ((number - 4000) / 1000) * 100
+                : ((number - 5000) / 5000) * 100
+      return (
+        <div
+          style={{
+            color: `color-mix(in hsl, hsl(var(--${color1})) , hsl(var(--${color2})) ${percentage}%)`
+          }}
+        >
+          {row.original.title}
+        </div>
+      );
+    }
   },
   {
     accessorKey: "section",
     header: "S",
+  },
+  {
+    accessorKey: "creditHour",
+    header: "CR",
   },
   {
     accessorKey: "begin-end",
@@ -308,7 +407,7 @@ export const columns: ColumnDef<Course>[] = [
     sortingFn: (
       rowA: any,
       rowB: any,
-      columnId
+      /* columnId */
     ) => {
       if (rowA.original.begin === rowB.original.begin) return 0;
       if (rowA.original.begin === "TBA") {
@@ -324,12 +423,98 @@ export const columns: ColumnDef<Course>[] = [
       /* return numA < numB ? 1 : numA > numB ? -1 : 0; */
     },
     cell: ({ row }) => {
-      if (row.original.begin === "TBA" || row.original.end === "TBA") {
-        return <div>TBA</div>
+      const begin = row.original.begin;
+      const end = row.original.end;
+      if (begin === "TBA" || end === "TBA" || row.original.duration === "TBA") {
+        return (
+          <div
+            style={{
+              color:`hsla(var(--grey))`
+            }}
+          >
+            TBA
+          </div>
+        )
       }
-      const begin = getTimeWithoutAMPM(row.original.begin);
-      const end = getAMPMTime(row.original.end);
-      return <div className="">{begin}-{end}</div>
+      const formattedBegin = getTimeWithoutAMPM(begin);
+      const formattedEnd = getAMPMTime(end);
+
+
+      const breakpoints = [
+        "7:00 AM",
+        "9:00 AM",
+        "12:30 PM",
+        "3:30 PM",
+        "6:00 PM",
+        "9:00 PM",
+      ]
+      const breakpointsMapped = breakpoints.map(time => timeStringToMinutes[time])
+      /* const color1 = */
+      /*   begin < 666 */
+      /*     ? "yellow" */
+      /*     : begin < 960 */
+      /*       ? "red" */
+      /*       : "purple" */
+      /* const color2 = "purple"; */
+      /* const color2 = */
+      /*   begin < 666 */
+      /*     ? "red" */
+      /*     : begin < 960 */
+      /*       ? "purple" */
+      /*       : "blue" */
+      /* const percentage = (begin - 420) / 1260 * 100 */
+      /* const percentage =  */
+      /*   begin < 666 */
+      /*     ? ((begin - 420) / (666 - 420)) * 100 */
+      /*     : begin < 960 */
+      /*       ? ((begin - 666) / (960 - 666)) * 100 */
+      /*       : ((begin - 960) / (1260 - 960)) * 100 */
+
+      const color1 =
+        begin < breakpointsMapped[1]
+          ? "green"
+          : begin < breakpointsMapped[2]
+            ? "yellow"
+            : begin < breakpointsMapped[3]
+              ? "orange"
+              : begin < breakpointsMapped[4]
+                ? "red"
+                : "purple"
+      const color2 =
+        begin < breakpointsMapped[1]
+          ? "yellow"
+          : begin < breakpointsMapped[2]
+            ? "orange"
+            : begin < breakpointsMapped[3]
+              ? "red"
+              : begin < breakpointsMapped[4]
+                ? "purple"
+                : "blue"
+
+      const percentage =
+        begin < breakpointsMapped[1]
+          ? ((begin - breakpointsMapped[0]) / (breakpointsMapped[1] - breakpointsMapped[0]))
+          : begin < breakpointsMapped[2]
+            ? ((begin - breakpointsMapped[1]) / (breakpointsMapped[2] - breakpointsMapped[1]))
+            : begin < breakpointsMapped[3]
+              ? ((begin - breakpointsMapped[2]) / (breakpointsMapped[3] - breakpointsMapped[2]))
+              : begin < breakpointsMapped[4]
+                ? ((begin - breakpointsMapped[3]) / (breakpointsMapped[4] - breakpointsMapped[3]))
+                : ((begin - breakpointsMapped[4]) / (breakpointsMapped[5] - breakpointsMapped[4]))
+      return (
+        <div
+          style={{
+            /* color:`hsla(var(--${color}))` */
+            /* color: `color-mix(in hsl, hsl(var(--green)) , hsl(var(--blue)) ${percentage}%)` */
+            color: `color-mix(in hsl, hsl(var(--${color1})), hsl(var(--${color2})) ${percentage}%)`
+            /* color: `color-mix(in hsl, hsl(var(--${color1})) ${percentage}%, hsl(var(--${color2})))` */
+          }}
+        >
+          {formattedBegin}
+          -
+          {formattedEnd}
+        </div>
+      )
     },
   },
   {
@@ -343,21 +528,30 @@ export const columns: ColumnDef<Course>[] = [
   {
     accessorKey: "days",
     header: "Days",
-    // header: ({ column }) => {
-    //   return (
-    //     <button
-    //       className="ghost"
-    //       onClick={() => column.toggleSorting(column.getIsSorted() === "asc" )}
-    //     >
-    //       Days
-    //       <ArrowUpDown style={{
-    //         marginLeft:"0.5rem",
-    //         height : "1rem",
-    //         width : "1rem",
-    //       }} className="ml-2 h-4 w-4" />
-    //     </button>
-    //   )
-    // },
+    cell: ({ row }) => {
+      const color =
+        row.original.days === "TBA"
+          ? "grey"
+          : row.original.days.includes("M W F")
+            ? "orange"
+            : row.original.days.includes("T TH")
+              ? "teal_green"
+              : "purple"
+      /* : row.original.number < 4000 */
+      /*   ? "orange" */
+      /*   : row.original.number < 5000 */
+      /*     ? "red" */
+      /*     : "purple" */
+      return (
+        <div
+          style={{
+            color:`hsla(var(--${color}))`
+          }}
+        >
+          {row.original.days}
+        </div>
+      );
+    }
   },
   {
     accessorKey: "roomNumber",

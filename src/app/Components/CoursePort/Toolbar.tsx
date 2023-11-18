@@ -5,6 +5,12 @@ import {
   CalendarDays,
   /* XIcon, */
   Clock,
+  Palette,
+  Settings,
+  CalendarCheck,
+  ChevronRight,
+  ChevronLeft,
+  /* ChevronRightSquare */
 } from "lucide-react";
 /* import { */
 /*   DropdownMenu, */
@@ -39,6 +45,7 @@ import { useScheduleContext } from "./ScheduleProvider";
 import './toolbar.css';
 import { columnIdArray } from "./Columns";
 import { Separator } from "../UI/Separator";
+import { ThemeMap } from "./Colorscheme";
 
 function Toolbar() {
   /* const reversedTimeIntervals = [...timeIntervals].reverse(); */
@@ -73,6 +80,8 @@ function Toolbar() {
     setFromTime,
     toTime,
     setToTime,
+    /* selectedTheme, */
+    setSelectedTheme
   } = useScheduleContext();
 
   /* const timeIntervals = Object.keys(timeStringToMinutes); */
@@ -85,6 +94,44 @@ function Toolbar() {
 
   return (
     <div className="toolbar-container" >
+
+      <div
+        style={{
+          display:"flex",
+          alignItems:"center"
+        }}
+      >
+        <button
+          style={{
+            display:"flex",
+            height:"100%",
+            alignItems:"center",
+            justifyContent:"center",
+          }}
+          /* className="ghost" */
+          onClick={() => {
+
+          }}
+        >
+          <ChevronLeft
+            style={{
+              textAlign:"center",
+              height:"1.25rem",
+              width:"1.25rem",
+              marginRight:"0.5rem"
+            }}
+          />
+          <Settings
+            style={{
+              textAlign:"center",
+              height:"1.25rem",
+              width:"1.25rem",
+            }}
+          />
+          {/* Settings */}
+        </button>
+      </div>
+
       <input
         style={{
           minWidth:'10rem',
@@ -103,39 +150,17 @@ function Toolbar() {
             Columns
           </button>
         </PopoverTrigger>
-        <PopoverContent
-          style={{
-            backgroundColor:'hsla(var(--black))',
-            /* padding:'0.25rem', */
-            borderRadius:'0.25rem',
-            borderColor:'hsla(var(--yellow))',
-            borderWidth:"1px",
-          }}
-          align='start'
-        >
+        <PopoverContent align='start'>
           <Command
             filter={(value, search) => {
-              if (value.includes(search)) return 1
+              if (value.includes(search.toLowerCase())) return 1
               return 0
             }}
           >
             <CommandInput
-              style={{
-                borderBottomLeftRadius:'0',
-                borderBottomRightRadius:'0',
-                borderColor:'hsla(var(--yellow))',
-                borderBottomWidth:"0",
-              }}
               placeholder="Toggle column visibility"
             />
-            <CommandList
-              style={{
-                borderWidth:'1px',
-                borderBottomLeftRadius:'0.25rem',
-                borderBottomRightRadius:'0.25rem',
-                borderColor:'hsla(var(--yellow))',
-              }}
-            >
+            <CommandList>
               <CommandEmpty> No result found. </CommandEmpty>
               <CommandGroup>
                 {columnIdArray.map((item, index) => {
@@ -165,16 +190,6 @@ function Toolbar() {
                     </CommandItem>
                   )
                 })}
-                {/* {semesters.map((semester, index) => ( */}
-                {/*   <CommandItem */}
-                {/*     key={index} */}
-                {/*     onSelect={() => { */}
-                {/*       setSelectedSemester(semester); */}
-                {/*       setIsSemesterPopoverOpen(false); */}
-                {/*     }}> */}
-                {/*     {semester} */}
-                {/*   </CommandItem> */}
-                {/* ))} */}
               </CommandGroup>
             </CommandList>
           </Command>
@@ -185,37 +200,17 @@ function Toolbar() {
         <PopoverTrigger>
           {selectedSemester}
         </PopoverTrigger>
-        <PopoverContent
-          style={{
-            backgroundColor:'hsla(var(--black))',
-            /* padding:'0.25rem', */
-            borderRadius:'0.25rem',
-          }}
-          align='start'
-        >
+        <PopoverContent align='start'>
           <Command
             filter={(value, search) => {
-              if (value.includes(search)) return 1
+              if (value.includes(search.toLowerCase())) return 1
               return 0
             }}
           >
             <CommandInput
-              style={{
-                borderBottomLeftRadius:'0',
-                borderBottomRightRadius:'0',
-                borderColor:'hsla(var(--yellow))',
-                borderBottomWidth:"0",
-              }}
               placeholder="Filter semester"
             />
-            <CommandList
-              style={{
-                borderWidth:'1px',
-                borderBottomLeftRadius:'0.25rem',
-                borderBottomRightRadius:'0.25rem',
-                borderColor:'hsla(var(--yellow))',
-              }}
-            >
+            <CommandList>
               <CommandEmpty> No result found. </CommandEmpty>
               <CommandGroup>
                 {semesters.map((semester, index) => (
@@ -239,7 +234,52 @@ function Toolbar() {
           {departmentToAbbreviationMap[selectedDepartment]}
           {departmentToAbbreviationMap[selectedDepartment] === "" ? "" : " - "}
           {selectedDepartment}
-          {/* Department: */}
+        </PopoverTrigger>
+        <PopoverContent align='start'>
+          <Command
+            filter={(value, search) => {
+              if (value.includes(search.toLowerCase())) return 1
+              return 0
+            }}
+          >
+            <CommandInput
+              placeholder="Filter Department"
+            />
+            <CommandList>
+              <CommandEmpty> No result found. </CommandEmpty>
+              <CommandGroup>
+                {/* Filter out the one without any abbreviation/no class, add a setting to change this later*/}
+                {departments
+                  .filter(department => departmentToAbbreviationMap[department] !== "")
+                  .map((department, index) => (
+                    <CommandItem
+                      key={index}
+                      onSelect={() => {
+                        setSelectedDepartment(department);
+                        setIsDepartmentPopoverOpen(false);
+                      }}>
+                      {departmentToAbbreviationMap[department]}
+                      {departmentToAbbreviationMap[department] === "" ? "" : " - "}
+                      {department}
+                    </CommandItem>
+                  ))}
+              </CommandGroup>
+            </CommandList>
+          </Command>
+        </PopoverContent>
+      </Popover>
+
+      <Popover>
+        <PopoverTrigger>
+          <div
+            style={{
+              display:"flex",
+              alignItems:"center"
+            }}
+          >
+            <Palette style={{height:"1rem", width:"1rem", marginRight:"0.5rem"}}/>
+            Theme
+          </div>
         </PopoverTrigger>
         <PopoverContent
           style={{
@@ -252,39 +292,23 @@ function Toolbar() {
         >
           <Command
             filter={(value, search) => {
-              if (value.includes(search)) return 1
+              if (value.includes(search.toLowerCase())) return 1
               return 0
             }}
           >
             <CommandInput
-              style={{
-                borderBottomLeftRadius:'0',
-                borderBottomRightRadius:'0',
-                borderColor:'hsla(var(--yellow))',
-                borderBottomWidth:"0",
-              }}
-              placeholder="Filter Department"
+              placeholder="Switch theme"
             />
-            <CommandList
-              style={{
-                borderWidth:'1px',
-                borderBottomLeftRadius:'0.25rem',
-                borderBottomRightRadius:'0.25rem',
-                borderColor:'hsla(var(--yellow))',
-              }}
-            >
+            <CommandList>
               <CommandEmpty> No result found. </CommandEmpty>
               <CommandGroup>
-                {departments.map((department, index) => (
+                {Object.entries(ThemeMap).map(([themeKey, theme]) => (
                   <CommandItem
-                    key={index}
+                    key={themeKey}
                     onSelect={() => {
-                      setSelectedDepartment(department);
-                      setIsDepartmentPopoverOpen(false);
+                      setSelectedTheme(themeKey);
                     }}>
-                    {departmentToAbbreviationMap[department]}
-                    {departmentToAbbreviationMap[department] === "" ? "" : " - "}
-                    {department}
+                    {theme.label}
                   </CommandItem>
                 ))}
               </CommandGroup>
@@ -307,13 +331,8 @@ function Toolbar() {
         </PopoverTrigger>
         <PopoverContent
           style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            background: "hsla(var(--darker_black))",
-            borderWidth: "1px",
-            borderColor: "hsla(var(--yellow))",
-            borderRadius: "0.25rem"
+            borderWidth:"1px",
+            borderColor:"hsla(var(--primary)"
           }}
         >
           {days.map((day) => (
@@ -360,7 +379,7 @@ function Toolbar() {
           <Separator
             style={{
               margin:"0.25rem 0",
-              backgroundColor:"hsla(var(--yellow))"
+              backgroundColor:"hsla(var(--primary))"
             }}
             orientation="horizontal"
           />
@@ -408,13 +427,8 @@ function Toolbar() {
         </PopoverTrigger>
         <PopoverContent
           style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            background: "hsla(var(--darker_black))",
-            borderWidth: "1px",
-            borderColor: "hsla(var(--yellow))",
-            borderRadius: "0.25rem",
+            borderWidth:"1px",
+            borderColor:"hsla(var(--primary))"
           }}
         >
           {/* <div */}
@@ -456,7 +470,7 @@ function Toolbar() {
           <Separator
             style={{
               margin:"0.25rem 0",
-              backgroundColor:"hsla(var(--yellow))"
+              backgroundColor:"hsla(var(--primary))"
             }}
             orientation="horizontal"
           />
@@ -467,7 +481,6 @@ function Toolbar() {
               alignItems: "center",
             }}
           >
-            {/* TODO: MAYBE DONT NEED THE SEARCH */}
             <Popover open={isFromPopoverOpen} onOpenChange={(isOpen) => {setIsFromPopoverOpen(isOpen)}}>
               <PopoverTrigger>
                 {fromTime}
@@ -481,22 +494,9 @@ function Toolbar() {
               >
                 <Command>
                   <CommandInput
-                    style={{
-                      borderBottomLeftRadius:'0',
-                      borderBottomRightRadius:'0',
-                      borderColor:'hsla(var(--yellow))',
-                      borderBottomWidth:"0",
-                    }}
                     placeholder="From"
                   />
-                  <CommandList
-                    style={{
-                      borderWidth:'1px',
-                      borderBottomLeftRadius:'0.25rem',
-                      borderBottomRightRadius:'0.25rem',
-                      borderColor:'hsla(var(--yellow))',
-                    }}
-                  >
+                  <CommandList>
                     <CommandEmpty> No result found. </CommandEmpty>
                     <CommandGroup>
                       {timeIntervals
@@ -528,25 +528,13 @@ function Toolbar() {
                   backgroundColor:'hsla(var(--black))',
                   borderRadius:'0.25rem',
                 }}
-                align='start'>
+                align='start'
+              >
                 <Command>
                   <CommandInput
-                    style={{
-                      borderBottomLeftRadius:'0',
-                      borderBottomRightRadius:'0',
-                      borderColor:'hsla(var(--yellow))',
-                      borderBottomWidth:"0",
-                    }}
                     placeholder="To"
                   />
-                  <CommandList
-                    style={{
-                      borderWidth:'1px',
-                      borderBottomLeftRadius:'0.25rem',
-                      borderBottomRightRadius:'0.25rem',
-                      borderColor:'hsla(var(--yellow))',
-                    }}
-                  >
+                  <CommandList>
                     <CommandEmpty> No result found. </CommandEmpty>
                     <CommandGroup>
                       {timeIntervals
@@ -574,17 +562,45 @@ function Toolbar() {
       </Popover>
 
 
-
-      <button
-        onClick={() => {
-          console.log("Cycle through pages~");
-          /* NOTE: the 2 is the length of the pages array in MainContainer, */
-          /* remember to update it when adding new page to the array */
-          setActivePageIndex((activePageIndex + 1) % 2);
+      <div
+        style={{
+          display:"flex",
+          alignItems:"center"
         }}
       >
-        Time Table View
-      </button>
+        <button
+          style={{
+            display:"flex",
+            height:"100%",
+            alignItems:"center",
+            justifyContent:"center",
+          }}
+          /* className="ghost" */
+          onClick={() => {
+            console.log("Cycle through pages~");
+            /* NOTE: the 3 is the length of the pages array in MainContainer, */
+            /* remember to update it when adding new page to the array */
+            setActivePageIndex((activePageIndex + 1) % 3);
+          }}
+        >
+          <CalendarCheck
+            style={{
+              textAlign:"center",
+              height:"1.25rem",
+              width:"1.25rem",
+            }}
+          />
+          <ChevronRight
+            style={{
+              textAlign:"center",
+              height:"1.25rem",
+              width:"1.25rem",
+              marginLeft:"0.5rem"
+            }}
+          />
+          {/* Settings */}
+        </button>
+      </div>
 
       {/* <button */}
       {/*   onClick={() => { */}

@@ -8,7 +8,7 @@
   width: 100%;
   overflow: auto;
   border-radius: 0.75rem;
-  height: calc(100vh - 4rem - 0.5rem - 3rem);
+  height: calc(100vh - 4rem - 0.5rem - 2rem);
 }
 
 .table {
@@ -27,18 +27,20 @@
 }
 
 .table-row:hover {
-  color: hsla(var(--yellow));
+  background-color: hsla(var(--grey), 0.1);
+  /* color: hsla(var(--primary)); */
 }
 
 .table-row[data-state=selected]:hover {
-  background-color: hsla(var(--grey), 0.25);
-  color: hsla(var(--yellow));
+  background-color: hsla(var(--grey), 0.35);
+  /* color: hsla(var(--primary)); */
+  /* color: hsla(var(--secondary)); */
 }
 
 .table-row[data-state=selected] {
   background-color: hsla(var(--grey), 0.25);
   /* background-color: hsla(var(--catppuccin_lavender), 0.2); */
-  color: hsla(var(--purple));
+  /* color: hsla(var(--secondary)); */
 }
 
 .table-head {

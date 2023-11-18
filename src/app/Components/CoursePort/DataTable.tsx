@@ -99,7 +99,7 @@ export function DataTable<TData, TValue>({
     <>
       {visibleColumnsLoaded ? ( // Render the table only when visibleColumnsLoaded is true
         <div style={{
-          overflow:"visible"
+          overflow:"visible",
         }}
         >
           <Table>
@@ -127,6 +127,14 @@ export function DataTable<TData, TValue>({
                   <TableRow
                     key={row.id}
                     data-state={(row.getIsSelected() && "selected")}
+                    onAuxClick={() => {
+                      if (row.getIsSelected()) {
+                        removeCourse(row.original as Course);
+                      }
+                      else {
+                        addCourse(row.original as Course);
+                      }
+                    }}
                   >
                     {row.getVisibleCells().map((cell) => (
                       <TableCell key={cell.id}>
@@ -136,6 +144,7 @@ export function DataTable<TData, TValue>({
                               borderWidth: "0",
                               boxShadow: "none",
                             }}
+                            /* className="ghost" */
                             onClick={() => {
                               const course = row.original as Course;
                               if (row.getIsSelected()) {
@@ -143,7 +152,6 @@ export function DataTable<TData, TValue>({
                                 console.log("removed", course);
                               }
                               else {
-                                // Call the function with the course data
                                 addCourse(course);
                                 console.log("added", course);
                               }
@@ -152,26 +160,26 @@ export function DataTable<TData, TValue>({
                             {row.getIsSelected() ? (
                               <div
                                 style={{
-                                  color:"hsla(var(--purple))"
+                                  color:"hsla(var(--red))"
                                 }}
                               >
                                 <MinusCircle
                                   style={{
-                                    width:"1.5rem",
-                                    height:"1.5rem",
+                                    width:"1rem",
+                                    height:"1rem",
                                   }}
                                 />
                               </div>
                             ) : (
                                 <div
                                   style={{
-                                    color:"hsla(var(--yellow))"
+                                    color:"hsla(var(--green))"
                                   }}
                                 >
                                   <PlusCircle
                                     style={{
-                                      width:"1.5rem",
-                                      height:"1.5rem",
+                                      width:"1rem",
+                                      height:"1rem",
                                     }}
                                   />
                                 </div>

@@ -64,7 +64,7 @@
   background-color: hsla(var(--darker_black));
 
   box-sizing: border-box;
-  border: 0 solid hsla(var(--base06));
+  border: 0 solid hsla(var(--base05));
   border-color: hsla(var(--grey));
   border-width: 1px;
   border-radius: 0.375rem;
@@ -87,14 +87,14 @@
 .dialog-close {
   /* background-color: hsla(var(--darker_black)); */
   background-color: transparent;
-  color: hsla(var(--base06));
+  color: hsla(var(--base05));
   position: absolute;
   right: 4px;
   top: 4px;
   /* border-radius: 0.125rem; */
 
   /* box-sizing: border-box; */
-  /* border: 0 solid hsla(var(--base06)); */
+  /* border: 0 solid hsla(var(--base05)); */
   border-color: transparent;
   /* border-width: 1px; */
   /* border-radius: 0.375rem; */
@@ -127,7 +127,7 @@
 .dialog-close[data-state="open"] {
   /* background-color: hsla(var(--black)); */
   background-color: transparent;
-  color: hsla(var(--base06));
+  color: hsla(var(--base05));
 }
 
 .dialog-close:disabled {
