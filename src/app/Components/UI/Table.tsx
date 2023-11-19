@@ -63,7 +63,8 @@ React.HTMLAttributes<HTMLTableRowElement>
     style={{
       /* borderBottomWidth:"1px", */
     }}
-    className="table-row"
+    /* className=`table-row ${className}` */
+    className={`table-row ${className || ''}`}
     /* className={ */
     /*   "border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted" */
     /* } */

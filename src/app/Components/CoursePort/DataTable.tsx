@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react";
+import { Fragment } from "react";
 
 import {
   ColumnDef,
@@ -125,73 +126,94 @@ export function DataTable<TData, TValue>({
             </TableHeader>
             <TableBody>
               {table.getRowModel().rows?.length ? (
-                table.getRowModel().rows.map((row) => (
-                  <TableRow
-                    key={row.id}
-                    data-state={(row.getIsSelected() && "selected")}
-                    onAuxClick={() => {
-                      if (row.getIsSelected()) {
-                        removeCourse(row.original as Course);
+                table.getRowModel().rows.map((row, index) => (
+                  <Fragment key={row.id}>
+                    {/* {(row.original as Course).section === 1 && ( */}
+                    {/*   <div style={{ height: "1rem" }} /> */}
+                    {/* )} */}
+
+                    {/* { */}
+                    {/*   index < table.getRowModel().rows.length - 1 */}
+                    {/*     && (table.getRowModel().rows[index + 1].original as Course).section === 1 */}
+                    {/*     && ( <div style={{ height: "1rem" }} />) */}
+                    {/* } */}
+                    <TableRow
+                      /* className={(row.original as Course).section === 1 ? "new-section" : "sdasdasd"} */
+                      className={
+                        (
+                          index < table.getRowModel().rows.length - 1 &&
+                          (table.getRowModel().rows[index + 1].original as Course).section === 1
+                            && table.getColumn("number")?.getIsSorted()
+                        )
+                          ? "new-section"
+                          : ""
                       }
-                      else {
-                        addCourse(row.original as Course);
-                      }
-                    }}
-                  >
-                    {row.getVisibleCells().map((cell) => (
-                      <TableCell key={cell.id}>
-                        {cell.column.id === 'add' && (
-                          <button
-                            style={{
-                              borderWidth: "0",
-                              boxShadow: "none",
-                            }}
-                            /* className="ghost" */
-                            onClick={() => {
-                              const course = row.original as Course;
-                              if (row.getIsSelected()) {
-                                removeCourse(course);
-                                console.log("removed", course);
-                              }
-                              else {
-                                addCourse(course);
-                                console.log("added", course);
-                              }
-                            }}
-                          >
-                            {row.getIsSelected() ? (
-                              <div
-                                style={{
-                                  color:"hsla(var(--red))"
-                                }}
-                              >
-                                <MinusCircle
-                                  style={{
-                                    width:"1rem",
-                                    height:"1rem",
-                                  }}
-                                />
-                              </div>
-                            ) : (
+                      /* key={row.id} */
+                      data-state={(row.getIsSelected() && "selected")}
+                      onAuxClick={() => {
+                        if (row.getIsSelected()) {
+                          removeCourse(row.original as Course);
+                        }
+                        else {
+                          addCourse(row.original as Course);
+                        }
+                      }}
+                    >
+                      {row.getVisibleCells().map((cell) => (
+                        <TableCell key={cell.id}>
+                          {cell.column.id === 'add' && (
+                            <button
+                              style={{
+                                borderWidth: "0",
+                                boxShadow: "none",
+                              }}
+                              /* className="ghost" */
+                              onClick={() => {
+                                const course = row.original as Course;
+                                if (row.getIsSelected()) {
+                                  removeCourse(course);
+                                  console.log("removed", course);
+                                }
+                                else {
+                                  addCourse(course);
+                                  console.log("added", course);
+                                }
+                              }}
+                            >
+                              {row.getIsSelected() ? (
                                 <div
                                   style={{
-                                    color:"hsla(var(--green))"
+                                    color:"hsla(var(--red))"
                                   }}
                                 >
-                                  <PlusCircle
+                                  <MinusCircle
                                     style={{
                                       width:"1rem",
                                       height:"1rem",
                                     }}
                                   />
                                 </div>
-                              )}
-                          </button>
-                        )}
-                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                      </TableCell>
-                    ))}
-                  </TableRow>
+                              ) : (
+                                  <div
+                                    style={{
+                                      color:"hsla(var(--green))"
+                                    }}
+                                  >
+                                    <PlusCircle
+                                      style={{
+                                        width:"1rem",
+                                        height:"1rem",
+                                      }}
+                                    />
+                                  </div>
+                                )}
+                            </button>
+                          )}
+                          {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  </Fragment>
                 ))
               ) : (
                   <TableRow>

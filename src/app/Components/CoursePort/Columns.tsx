@@ -303,6 +303,33 @@ export const columns: ColumnDef<Course>[] = [
     }
   },
   {
+    accessorKey: "section",
+    header: "S",
+    cell: ({ row }) => {
+      const colors = [
+        "blue",
+        "green",
+        "yellow",
+        /* "orange", */
+        "red",
+        "purple",
+      ]
+      return (
+        <div
+          style={{
+            /* color: (row.original.section === 1) */
+            /*   ? "hsla(var(--grey))" */
+            /*   : `hsla(var(--${colors[row.original.section % colors.length]}))` */
+            color: `hsla(var(--${colors[row.original.section % colors.length]}))`
+          }}
+        >
+          {row.original.section}
+          {/* {row.original.section === 1 ? "" : row.original.section} */}
+        </div>
+      );
+    }
+  },
+  {
     accessorKey: "type",
     header: "Type",
     cell: ({ row }) => {
@@ -432,10 +459,6 @@ export const columns: ColumnDef<Course>[] = [
         </div>
       );
     }
-  },
-  {
-    accessorKey: "section",
-    header: "S",
   },
   {
     accessorKey: "creditHour",

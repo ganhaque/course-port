@@ -65,6 +65,10 @@
   color: hsla(var(--yellow));
 }
 
+.table-row.new-section > .table-cell {
+  padding-bottom: 1rem;
+}
+
 .table-cell {
   /* padding: 1rem; */
   /* padding: 0.5rem; */
