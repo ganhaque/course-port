@@ -144,7 +144,7 @@ export const columns: ColumnDef<Course>[] = [
       return (
         <div
           style={{
-            color: `color-mix(in hsl, hsl(var(--green)) ${percentage}%, hsl(var(--red)))`
+            color: `color-mix(in oklch, hsl(var(--green)) ${percentage}%, hsl(var(--red)))`
           }}
         >
           {row.original.available}
@@ -180,7 +180,7 @@ export const columns: ColumnDef<Course>[] = [
       return (
         <div
           style={{
-            color: `color-mix(in hsl, hsl(var(--green)), hsl(var(--red)) ${percentage}%)`
+            color: `color-mix(in oklch, hsl(var(--green)), hsl(var(--red)) ${percentage}%)`
           }}
         >
           {row.original.enrollmentCount}
@@ -216,7 +216,7 @@ export const columns: ColumnDef<Course>[] = [
       return (
         <div
           style={{
-            color: `color-mix(in hsl, hsl(var(--green)), hsl(var(--red)) ${percentage}%)`
+            color: `color-mix(in oklch, hsl(var(--green)), hsl(var(--red)) ${percentage}%)`
           }}
         >
           {row.original.enrollmentCount}
@@ -294,7 +294,7 @@ export const columns: ColumnDef<Course>[] = [
       return (
         <div
           style={{
-            color: `color-mix(in hsl, hsl(var(--${color1})) , hsl(var(--${color2})) ${percentage}%)`
+            color: `color-mix(in oklch, hsl(var(--${color1})) , hsl(var(--${color2})) ${percentage}%)`
           }}
         >
           {row.original.number}
@@ -464,7 +464,7 @@ export const columns: ColumnDef<Course>[] = [
       return (
         <div
           style={{
-            color: `color-mix(in hsl, hsl(var(--${color1})) , hsl(var(--${color2})) ${percentage}%)`
+            color: `color-mix(in oklch, hsl(var(--${color1})) , hsl(var(--${color2})) ${percentage}%)`
           }}
         >
           {/* {row.original.title} */}
@@ -608,9 +608,9 @@ export const columns: ColumnDef<Course>[] = [
         <div
           style={{
             /* color:`hsla(var(--${color}))` */
-            /* color: `color-mix(in hsl, hsl(var(--green)) , hsl(var(--blue)) ${percentage}%)` */
-            color: `color-mix(in hsl, hsl(var(--${color1})), hsl(var(--${color2})) ${percentage * 100}%)`
-            /* color: `color-mix(in hsl, hsl(var(--${color1})) ${percentage}%, hsl(var(--${color2})))` */
+            /* color: `color-mix(in oklch, hsl(var(--green)) , hsl(var(--blue)) ${percentage}%)` */
+            color: `color-mix(in oklch, hsl(var(--${color1})), hsl(var(--${color2})) ${percentage * 100}%)`
+            /* color: `color-mix(in oklch, hsl(var(--${color1})) ${percentage}%, hsl(var(--${color2})))` */
           }}
         >
           {formattedBegin}
@@ -742,7 +742,7 @@ export const columns: ColumnDef<Course>[] = [
         row.original.instructor ? (
           <div
             style={{
-              color: `color-mix(in hsl, hsl(var(--${color1})) , hsl(var(--${color2})) ${percentage}%)`
+              color: `color-mix(in oklch, hsl(var(--${color1})) , hsl(var(--${color2})) ${percentage}%)`
             }}
           >
             {/* {row.original.instructor} */}
