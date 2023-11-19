@@ -123,7 +123,7 @@ export const columns: ColumnDef<Course>[] = [
       return (
         <button
           style={{
-            color: column.getIsSorted() ? "hsla(var(--primary))" : "hsla(var(--grey))"
+            color: column.getIsSorted() ? "hsla(var(--primary))" : "hsla(var(--muted_foreground))"
           }}
           className="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
@@ -164,7 +164,7 @@ export const columns: ColumnDef<Course>[] = [
       return (
         <button
           style={{
-            color: column.getIsSorted() ? "hsla(var(--primary))" : "hsla(var(--grey))"
+            color: column.getIsSorted() ? "hsla(var(--primary))" : "hsla(var(--muted_foreground))"
           }}
           className="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
@@ -203,7 +203,7 @@ export const columns: ColumnDef<Course>[] = [
       return (
         <button
           style={{
-            color: column.getIsSorted() ? "hsla(var(--primary))" : "hsla(var(--grey))"
+            color: column.getIsSorted() ? "hsla(var(--primary))" : "hsla(var(--muted_foreground))"
           }}
           className="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
@@ -302,7 +302,7 @@ export const columns: ColumnDef<Course>[] = [
       return (
         <button
           style={{
-            color: column.getIsSorted() ? "hsla(var(--primary))" : "hsla(var(--grey))"
+            color: column.getIsSorted() ? "hsla(var(--primary))" : "hsla(var(--muted_foreground))"
           }}
           className="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc" )}
@@ -592,7 +592,7 @@ export const columns: ColumnDef<Course>[] = [
       return (
         <button
           style={{
-            color: column.getIsSorted() ? "hsla(var(--primary))" : "hsla(var(--grey))"
+            color: column.getIsSorted() ? "hsla(var(--primary))" : "hsla(var(--muted_foreground))"
           }}
           className="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
@@ -834,7 +834,7 @@ export const columns: ColumnDef<Course>[] = [
       return (
         <button
           style={{
-            color: column.getIsSorted() ? "hsla(var(--primary))" : "hsla(var(--grey))"
+            color: column.getIsSorted() ? "hsla(var(--primary))" : "hsla(var(--muted_foreground))"
           }}
           className="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc" )}
