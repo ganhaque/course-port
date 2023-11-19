@@ -531,7 +531,7 @@ export const columns: ColumnDef<Course>[] = [
           style={{
             /* color:`hsla(var(--${color}))` */
             /* color: `color-mix(in hsl, hsl(var(--green)) , hsl(var(--blue)) ${percentage}%)` */
-            color: `color-mix(in hsl, hsl(var(--${color1})), hsl(var(--${color2})) ${percentage}%)`
+            color: `color-mix(in hsl, hsl(var(--${color1})), hsl(var(--${color2})) ${percentage * 100}%)`
             /* color: `color-mix(in hsl, hsl(var(--${color1})) ${percentage}%, hsl(var(--${color2})))` */
           }}
         >
