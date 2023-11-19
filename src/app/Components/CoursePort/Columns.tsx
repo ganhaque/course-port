@@ -409,12 +409,15 @@ export const columns: ColumnDef<Course>[] = [
       rowB: any,
       /* columnId */
     ) => {
-      if (rowA.original.begin === rowB.original.begin) return 0;
+      if (rowA.original.begin === "TBA" && rowB.original.begin === "TBA") return 0;
       if (rowA.original.begin === "TBA") {
         return -1;
       }
       if (rowB.original.begin === "TBA") {
         return 1;
+      }
+      if (rowA.original.begin === rowB.original.begin) {
+        return rowA.original.end < rowB.original.end ? 1 : -1;
       }
       return rowA.original.begin < rowB.original.begin ? 1 : -1;
       /* const numA = rowA.getValue(columnId).count; */
