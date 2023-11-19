@@ -227,20 +227,42 @@ export const columns: ColumnDef<Course>[] = [
       )
     },
     cell: ({ row }) => {
-      const color =
-        row.original.number < 2000
+      const number = row.original.number;
+      const color1 =
+        number < 2000 
           ? "green"
-          : row.original.number < 3000
+          : number < 3000
             ? "yellow"
-            : row.original.number < 4000
+            : number < 4000
               ? "orange"
-              : row.original.number < 5000
+              : number < 5000
                 ? "red"
                 : "purple"
+      const color2 =
+        number < 2000
+          ? "yellow"
+          : number < 3000
+            ? "orange"
+            : number < 4000
+              ? "red"
+              : number < 5000
+                ? "purple"
+                : "blue"
+
+      const percentage =
+        number < 2000
+          ? ((number - 1000) / 1000) * 100
+          : number < 3000
+            ? ((number - 2000) / 1000) * 100
+            : number < 4000
+              ? ((number - 3000) / 1000) * 100
+              : number < 5000
+                ? ((number - 4000) / 1000) * 100
+                : ((number - 5000) / 5000) * 100
       return (
         <div
           style={{
-            color:`hsla(var(--${color}))`
+            color: `color-mix(in hsl, hsl(var(--${color1})) , hsl(var(--${color2})) ${percentage}%)`
           }}
         >
           {row.original.number}
