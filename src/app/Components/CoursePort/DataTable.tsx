@@ -141,9 +141,9 @@ export function DataTable<TData, TValue>({
                     index < table.getRowModel().rows.length - 1 &&
                       ((table.getColumn("number")?.getIsSorted() === "asc" && isNextSectionOne) ||
                         (table.getColumn("number")?.getIsSorted() === "desc" && isSectionOne) ||
-                          ((isDifferentBeginEnd && (table.getColumn("begin-end")?.getIsSorted()) ||
-                            ((isDifferentInstructor && (table.getColumn("instructor")?.getIsSorted())))
-                          )));
+                        (table.getColumn("begin-end")?.getIsSorted() && isDifferentBeginEnd) ||
+                        (table.getColumn("instructor")?.getIsSorted() && isDifferentInstructor)
+                      );
                   return (
                     <Fragment key={row.id}>
                       {/* {(row.original as Course).section === 1 && ( */}
