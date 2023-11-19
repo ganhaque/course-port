@@ -122,6 +122,9 @@ export const columns: ColumnDef<Course>[] = [
     header: ({ column }) => {
       return (
         <button
+          style={{
+            color: column.getIsSorted() ? "hsla(var(--primary))" : "hsla(var(--grey))"
+          }}
           className="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
@@ -160,6 +163,9 @@ export const columns: ColumnDef<Course>[] = [
     header: ({ column }) => {
       return (
         <button
+          style={{
+            color: column.getIsSorted() ? "hsla(var(--primary))" : "hsla(var(--grey))"
+          }}
           className="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
@@ -196,6 +202,9 @@ export const columns: ColumnDef<Course>[] = [
     header: ({ column }) => {
       return (
         <button
+          style={{
+            color: column.getIsSorted() ? "hsla(var(--primary))" : "hsla(var(--grey))"
+          }}
           className="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
@@ -292,6 +301,9 @@ export const columns: ColumnDef<Course>[] = [
       /* column.toggleSorting(column.getIsSorted() === "asc"); */
       return (
         <button
+          style={{
+            color: column.getIsSorted() ? "hsla(var(--primary))" : "hsla(var(--grey))"
+          }}
           className="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc" )}
         >
@@ -579,6 +591,9 @@ export const columns: ColumnDef<Course>[] = [
     header: ({ column }) => {
       return (
         <button
+          style={{
+            color: column.getIsSorted() ? "hsla(var(--primary))" : "hsla(var(--grey))"
+          }}
           className="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
@@ -818,6 +833,9 @@ export const columns: ColumnDef<Course>[] = [
     header: ({ column }) => {
       return (
         <button
+          style={{
+            color: column.getIsSorted() ? "hsla(var(--primary))" : "hsla(var(--grey))"
+          }}
           className="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc" )}
         >
