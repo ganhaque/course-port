@@ -7,8 +7,8 @@
   position: relative;
   width: 100%;
   overflow: auto;
-  border-radius: 0.75rem;
-  height: calc(100vh - 4rem - 0.125rem - 1rem);
+  /* border-radius: 0.75rem; */
+  height: calc(100vh - 4rem);
 }
 
 .table {
@@ -22,9 +22,9 @@
 /* .table-header { */
 /* } */
 
-.table-body > tr:not(:last-child) {
-  /* border-bottom: 1px solid hsla(var(--grey), 0.5); */
-}
+/* .table-body > tr:not(:last-child) { */
+/* border-bottom: 1px solid hsla(var(--grey), 0.5); */
+/* } */
 
 .table-row:hover {
   background-color: hsla(var(--grey), 0.1);
@@ -85,12 +85,12 @@
 }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+from {
+  opacity: 0;
+}
+to {
+  opacity: 1;
+}
 }
 
 .table-container {
