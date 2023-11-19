@@ -762,10 +762,32 @@ export const columns: ColumnDef<Course>[] = [
   {
     accessorKey: "roomNumber",
     header: "Room",
+    cell: ({ row }) => {
+      return (
+        (row.original.roomNumber && row.original.roomNumber !== "TBA")  ?
+          (
+            <div style={{color: "hsla(var(--primary))"}}>
+              {row.original.roomNumber}
+            </div>
+          ) :
+          (<div style={{color:"hsla(var(--grey))"}}>?</div>)
+      );
+    },
   },
   {
     accessorKey: "building",
     header: "Building",
+    cell: ({ row }) => {
+      return (
+        (row.original.building && row.original.building !== "TBA")  ?
+          (
+            <div style={{color: "hsla(var(--primary))"}}>
+              {row.original.building}
+            </div>
+          ) :
+          (<div style={{color:"hsla(var(--grey))"}}>?</div>)
+      );
+    },
   },
   {
     accessorKey: "specialEnrollment",
