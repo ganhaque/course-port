@@ -270,7 +270,11 @@ function Toolbar() {
                       }}>
                       {departmentToAbbreviationMap[department]}
                       {departmentToAbbreviationMap[department] === "" ? "" : " - "}
-                      {department}
+                      {
+                        department
+                        .toLowerCase()
+                        .replace(/\b\w/g, (match) => match.toUpperCase())
+                      }
                     </CommandItem>
                   ))}
               </CommandGroup>
