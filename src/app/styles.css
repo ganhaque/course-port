@@ -197,7 +197,7 @@ textarea {
     border-color 0.5s,
     opacity 0.25s;
   box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
-  outline: none;
+  /* outline: none; */
 }
 
 input::placeholder {
@@ -215,9 +215,12 @@ input:active,
 button:active {
   opacity: 0.5;
 }
+div:focus-visible,
 input:focus-visible,
 button:focus-visible {
   border-color: hsla(var(--primary), 1);
+  /* outline: none; */
+  outline: 1px solid hsla(var(--primary));
 }
 
 button.link:hover {

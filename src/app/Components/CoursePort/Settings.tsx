@@ -1,7 +1,21 @@
 function Settings() {
   return (
     <div>
-      Course Port
+      <div>
+        Course Port
+      </div>
+      <div>
+        WIP
+      </div>
+      <div>
+        The data tries to be as accurate as possible (scraped & parsed from LSU Schedule Booklet)
+      </div>
+      <div>
+        Data was last updated at November 17th
+      </div>
+      <div>
+        If you come across any bugs or inaccuracies, please don't hesitate to reach out to me at ganhaquegnq@gmail.com.
+      </div>
     </div>
   )
 };
