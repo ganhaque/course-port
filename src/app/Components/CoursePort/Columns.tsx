@@ -472,6 +472,12 @@ export const columns: ColumnDef<Course>[] = [
             row.original.title
             .toLowerCase()
             .replace(/\b\w/g, (match) => match.toUpperCase())
+            .replace(/Ii\b/g, 'II') // Keeps 'II' in uppercase
+            .replace(/Iii\b/g, 'III')
+            .replace(/Iv\b/g, 'IV')
+            .replace(/Vi\b/g, 'VI')
+            .replace(/Vii\b/g, 'VII')
+            .replace(/Viii\b/g, 'VIII')
           }
         </div>
       );
