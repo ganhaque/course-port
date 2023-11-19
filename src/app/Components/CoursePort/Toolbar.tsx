@@ -12,6 +12,7 @@ import {
   ChevronLeft,
   /* ChevronRightSquare */
 } from "lucide-react";
+import { MixerHorizontalIcon } from "@radix-ui/react-icons"
 /* import { */
 /*   DropdownMenu, */
 /*   DropdownMenuCheckboxItem, */
@@ -95,59 +96,52 @@ function Toolbar() {
   return (
     <div className="toolbar-container" >
 
-      <div
+      <button
         style={{
           display:"flex",
-          alignItems:"center"
+          /* height:"100%", */
+          alignItems:"center",
+          justifyContent:"center",
+          marginRight:"auto",
+          paddingLeft: "0.25rem",
+        }}
+        /* className="ghost" */
+        onClick={() => {
+          console.log("Cycle through pages~");
+          /* NOTE: the 3 is the length of the pages array in MainContainer, */
+          /* remember to update it when adding new page to the array */
+          setActivePageIndex((activePageIndex - 1 + 3) % 3);
         }}
       >
-        <button
+        <ChevronLeft
           style={{
-            display:"flex",
-            height:"100%",
-            alignItems:"center",
-            justifyContent:"center",
+            textAlign:"center",
+            height:"1.5rem",
+            width:"1.5rem",
+            /* marginRight:"0.5rem" */
           }}
-          /* className="ghost" */
-          onClick={() => {
-
+        />
+        <Settings
+          style={{
+            textAlign:"center",
+            height:"1.5rem",
+            width:"1.5rem",
           }}
-        >
-          <ChevronLeft
-            style={{
-              textAlign:"center",
-              height:"1.25rem",
-              width:"1.25rem",
-              marginRight:"0.5rem"
-            }}
-          />
-          <Settings
-            style={{
-              textAlign:"center",
-              height:"1.25rem",
-              width:"1.25rem",
-            }}
-          />
-          {/* Settings */}
-        </button>
-      </div>
-
-      <input
-        style={{
-          minWidth:'10rem',
-          flexGrow:'1',
-          overflow:'hidden'
-        }}
-        value={filterString}
-        onChange={(event) => {setFilterString(event.target.value)}}
-        placeholder="Filter courses"
-      >
-      </input>
+        />
+        {/* Settings */}
+      </button>
 
       <Popover>
         <PopoverTrigger asChild>
-          <button className="ml-auto">
-            Columns
+          <button
+            style={{
+              display:"flex",
+              /* height:"100%", */
+              alignItems:"center",
+              justifyContent:"center",
+            }}
+          >
+            <MixerHorizontalIcon style={{height:"1.5rem", width:"1.5rem"}}/>
           </button>
         </PopoverTrigger>
         <PopoverContent align='start'>
@@ -196,6 +190,20 @@ function Toolbar() {
         </PopoverContent>
       </Popover>
 
+
+      <input
+        style={{
+          minWidth:'10rem',
+          maxWidth:'24rem',
+          flexGrow:'1',
+          overflow:'hidden'
+        }}
+        value={filterString}
+        onChange={(event) => {setFilterString(event.target.value)}}
+        placeholder="Filter by number, title, or instructor"
+      >
+      </input>
+
       <Popover open={isSemesterPopoverOpen} onOpenChange={(isOpen) => {setIsSemesterPopoverOpen(isOpen)}}>
         <PopoverTrigger>
           {selectedSemester}
@@ -232,8 +240,8 @@ function Toolbar() {
       <Popover open={isDepartmentPopoverOpen} onOpenChange={(isOpen) => {setIsDepartmentPopoverOpen(isOpen)}}>
         <PopoverTrigger>
           {departmentToAbbreviationMap[selectedDepartment]}
-          {departmentToAbbreviationMap[selectedDepartment] === "" ? "" : " - "}
-          {selectedDepartment}
+          {/* {departmentToAbbreviationMap[selectedDepartment] === "" ? "" : " - "} */}
+          {/* {selectedDepartment} */}
         </PopoverTrigger>
         <PopoverContent align='start'>
           <Command
@@ -266,150 +274,6 @@ function Toolbar() {
               </CommandGroup>
             </CommandList>
           </Command>
-        </PopoverContent>
-      </Popover>
-
-      <Popover>
-        <PopoverTrigger>
-          <div
-            style={{
-              display:"flex",
-              alignItems:"center"
-            }}
-          >
-            <Palette style={{height:"1rem", width:"1rem", marginRight:"0.5rem"}}/>
-            Theme
-          </div>
-        </PopoverTrigger>
-        <PopoverContent
-          style={{
-            backgroundColor:'hsla(var(--black))',
-            /* padding:'0.25rem', */
-            borderRadius:'0.25rem',
-            padding:'0.25rem'
-          }}
-          align='start'
-        >
-          <Command
-            filter={(value, search) => {
-              if (value.includes(search.toLowerCase())) return 1
-              return 0
-            }}
-          >
-            <CommandInput
-              placeholder="Switch theme"
-            />
-            <CommandList>
-              <CommandEmpty> No result found. </CommandEmpty>
-              <CommandGroup>
-                {Object.entries(ThemeMap).map(([themeKey, theme]) => (
-                  <CommandItem
-                    key={themeKey}
-                    onSelect={() => {
-                      setSelectedTheme(themeKey);
-                    }}>
-                    {theme.label}
-                  </CommandItem>
-                ))}
-              </CommandGroup>
-            </CommandList>
-          </Command>
-        </PopoverContent>
-      </Popover>
-
-      <Popover>
-        <PopoverTrigger>
-          <div
-            style={{
-              display:"flex",
-              alignItems:"center"
-            }}
-          >
-            <CalendarDays style={{height:"1rem", width:"1rem", marginRight:"0.5rem"}}/>
-            Days
-          </div>
-        </PopoverTrigger>
-        <PopoverContent
-          style={{
-            borderWidth:"1px",
-            borderColor:"hsla(var(--primary)"
-          }}
-        >
-          {days.map((day) => (
-            <button
-              key={day}
-              style={{
-                width:"100%",
-                display:"flex",
-                alignItems:"center",
-              }}
-              className="ghost"
-              onClick={() => {
-                toggleDaySelection(day);
-              }}
-            >
-              <CheckIcon style={{
-                marginRight:"0.5rem",
-                height:"1rem",
-                width:"1rem",
-                opacity: selectedDays[day] ? "1" : "0"
-              }}/>
-              {day}
-            </button>
-          ))}
-          <button
-            className="ghost"
-            style={{
-              width:"100%",
-              display:"flex",
-              alignItems:"center",
-            }}
-            onClick={() => {
-              setIsShowTBADays(!isShowTBADays);
-            }}
-          >
-            <CheckIcon style={{
-              marginRight:"0.5rem",
-              height:"1rem",
-              width:"1rem",
-              opacity: isShowTBADays ? "1" : "0"
-            }}/>
-            TBA
-          </button>
-          <Separator
-            style={{
-              margin:"0.25rem 0",
-              backgroundColor:"hsla(var(--primary))"
-            }}
-            orientation="horizontal"
-          />
-          <button
-            style={{
-              width:"100%",
-            }}
-            className="ghost"
-            onClick={() => {
-              toggleSelectedDays();
-            }}
-          >
-            Inverse
-          </button>
-          <button
-            style={{
-              width:"100%",
-            }}
-            className="ghost"
-            onClick={() => {
-              setIsShowTBADays(true);
-              const updatedDays: { [day: string]: boolean } = {};
-              Object.keys(selectedDays).forEach(day => {
-                updatedDays[day] = true;
-              });
-              setSelectedDays(updatedDays);
-            }}
-          >
-            Reset
-          </button>
         </PopoverContent>
       </Popover>
 
@@ -561,46 +425,185 @@ function Toolbar() {
         </PopoverContent>
       </Popover>
 
-
-      <div
-        style={{
-          display:"flex",
-          alignItems:"center"
-        }}
-      >
-        <button
+      <Popover>
+        <PopoverTrigger>
+          <div
+            style={{
+              display:"flex",
+              alignItems:"center"
+            }}
+          >
+            <CalendarDays style={{height:"1rem", width:"1rem", marginRight:"0.5rem"}}/>
+            Days
+          </div>
+        </PopoverTrigger>
+        <PopoverContent
           style={{
-            display:"flex",
-            height:"100%",
-            alignItems:"center",
-            justifyContent:"center",
-          }}
-          /* className="ghost" */
-          onClick={() => {
-            console.log("Cycle through pages~");
-            /* NOTE: the 3 is the length of the pages array in MainContainer, */
-            /* remember to update it when adding new page to the array */
-            setActivePageIndex((activePageIndex + 1) % 3);
+            borderWidth:"1px",
+            borderColor:"hsla(var(--primary)"
           }}
         >
-          <CalendarCheck
+          {days.map((day) => (
+            <button
+              key={day}
+              style={{
+                width:"100%",
+                display:"flex",
+                alignItems:"center",
+              }}
+              className="ghost"
+              onClick={() => {
+                toggleDaySelection(day);
+              }}
+            >
+              <CheckIcon style={{
+                marginRight:"0.5rem",
+                height:"1rem",
+                width:"1rem",
+                opacity: selectedDays[day] ? "1" : "0"
+              }}/>
+              {day}
+            </button>
+          ))}
+          <button
+            className="ghost"
             style={{
-              textAlign:"center",
-              height:"1.25rem",
-              width:"1.25rem",
+              width:"100%",
+              display:"flex",
+              alignItems:"center",
             }}
-          />
-          <ChevronRight
+            onClick={() => {
+              setIsShowTBADays(!isShowTBADays);
+            }}
+          >
+            <CheckIcon style={{
+              marginRight:"0.5rem",
+              height:"1rem",
+              width:"1rem",
+              opacity: isShowTBADays ? "1" : "0"
+            }}/>
+            TBA
+          </button>
+          <Separator
             style={{
-              textAlign:"center",
-              height:"1.25rem",
-              width:"1.25rem",
-              marginLeft:"0.5rem"
+              margin:"0.25rem 0",
+              backgroundColor:"hsla(var(--primary))"
             }}
+            orientation="horizontal"
           />
-          {/* Settings */}
-        </button>
-      </div>
+          <button
+            style={{
+              width:"100%",
+            }}
+            className="ghost"
+            onClick={() => {
+              toggleSelectedDays();
+            }}
+          >
+            Inverse
+          </button>
+          <button
+            style={{
+              width:"100%",
+            }}
+            className="ghost"
+            onClick={() => {
+              setIsShowTBADays(true);
+              const updatedDays: { [day: string]: boolean } = {};
+              Object.keys(selectedDays).forEach(day => {
+                updatedDays[day] = true;
+              });
+              setSelectedDays(updatedDays);
+            }}
+          >
+            Reset
+          </button>
+        </PopoverContent>
+      </Popover>
+
+      <Popover>
+        <PopoverTrigger>
+          <div
+            style={{
+              display:"flex",
+              alignItems:"center"
+            }}
+          >
+            <Palette style={{height:"1rem", width:"1rem", marginRight:"0.5rem"}}/>
+            Theme
+          </div>
+        </PopoverTrigger>
+        <PopoverContent
+          style={{
+            backgroundColor:'hsla(var(--black))',
+            /* padding:'0.25rem', */
+            borderRadius:'0.25rem',
+            padding:'0.25rem'
+          }}
+          align='start'
+        >
+          <Command
+            filter={(value, search) => {
+              if (value.includes(search.toLowerCase())) return 1
+              return 0
+            }}
+          >
+            <CommandInput
+              placeholder="Switch theme"
+            />
+            <CommandList>
+              <CommandEmpty> No result found. </CommandEmpty>
+              <CommandGroup>
+                {Object.entries(ThemeMap).map(([themeKey, theme]) => (
+                  <CommandItem
+                    key={themeKey}
+                    onSelect={() => {
+                      setSelectedTheme(themeKey);
+                    }}>
+                    {theme.label}
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            </CommandList>
+          </Command>
+        </PopoverContent>
+      </Popover>
+
+
+
+      <button
+        style={{
+          display:"flex",
+          /* height:"100%", */
+          alignItems:"center",
+          justifyContent:"center",
+          marginLeft:"auto",
+          paddingRight:"0.25rem",
+        }}
+        /* className="ghost" */
+        onClick={() => {
+          console.log("Cycle through pages~");
+          /* NOTE: the 3 is the length of the pages array in MainContainer, */
+          /* remember to update it when adding new page to the array */
+          setActivePageIndex((activePageIndex + 1) % 3);
+        }}
+      >
+        <CalendarCheck
+          style={{
+            textAlign:"center",
+            height:"1.5rem",
+            width:"1.5rem",
+          }}
+        />
+        <ChevronRight
+          style={{
+            textAlign:"center",
+            height:"1.5rem",
+            width:"1.5rem",
+          }}
+        />
+        {/* Settings */}
+      </button>
 
       {/* <button */}
       {/*   onClick={() => { */}
