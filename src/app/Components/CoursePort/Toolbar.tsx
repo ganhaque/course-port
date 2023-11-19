@@ -190,6 +190,10 @@ function Toolbar() {
               <CommandGroup>
                 {semesters.map((semester, index) => (
                   <CommandItem
+                    style={{
+                      backgroundColor: selectedSemester === semester ? "hsla(var(--grey), 0.4)" : "",
+                      color: selectedSemester === semester ? "hsla(var(--primary))" : "hsla(var(--base05))"
+                    }}
                     key={index}
                     onSelect={() => {
                       setSelectedSemester(semester);
@@ -235,6 +239,10 @@ function Toolbar() {
                   .filter(department => departmentToAbbreviationMap[department] !== "")
                   .map((department, index) => (
                     <CommandItem
+                      style={{
+                        backgroundColor: selectedDepartment === department ? "hsla(var(--grey), 0.4)" : "",
+                        color: selectedDepartment === department ? "hsla(var(--primary))" : "hsla(var(--base05))"
+                      }}
                       key={index}
                       onSelect={() => {
                         setSelectedDepartment(department);
