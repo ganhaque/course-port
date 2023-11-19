@@ -429,7 +429,7 @@ export const columns: ColumnDef<Course>[] = [
                     Begin-End:
                   </div>
                   {(lab.begin === "TBA" || lab.end === "TBA")
-                    ? "TBA"
+                    ? "?"
                     : (getTimeWithoutAMPM(lab.begin) + "-" + getAMPMTime(lab.end))}
                 </div>
                 <div
@@ -622,7 +622,7 @@ export const columns: ColumnDef<Course>[] = [
               color:`hsla(var(--grey))`
             }}
           >
-            TBA
+            ?
           </div>
         )
       }
@@ -712,7 +712,7 @@ export const columns: ColumnDef<Course>[] = [
     header: "Duration",
     cell: ({ row }) => {
       const duration = row.original.duration;
-      if (duration === "TBA") return <div style={{color:"hsla(var(--grey))"}}>TBA</div>;
+      if (duration === "TBA") return <div style={{color:"hsla(var(--grey))"}}>?</div>;
       const color =
         duration === 50 ?
           "green" :
@@ -754,7 +754,7 @@ export const columns: ColumnDef<Course>[] = [
             color:`hsla(var(--${color}))`
           }}
         >
-          {row.original.days}
+          {row.original.days !== "TBA" ? row.original.days : "?"}
         </div>
       );
     }
