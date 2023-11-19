@@ -440,7 +440,7 @@ export const columns: ColumnDef<Course>[] = [
                   <div style={{ color:"hsla(var(--muted_foreground))" }} >
                     Begin-End:
                   </div>
-                  {(lab.begin === "TBA" || lab.end === "TBA")
+                  {(lab.begin === "?" || lab.end === "?")
                     ? "?"
                     : (getTimeWithoutAMPM(lab.begin) + "-" + getAMPMTime(lab.end))}
                 </div>
@@ -454,7 +454,7 @@ export const columns: ColumnDef<Course>[] = [
                   <div style={{ color:"hsla(var(--muted_foreground))" }} >
                     Days:
                   </div>
-                  {lab.days ? lab.days : <div style={{color:"hsla(var(--grey))"}}>TBA</div>}
+                  {lab.days ? lab.days : <div style={{color:"hsla(var(--grey))"}}>?</div>}
                 </div>
                 {/* <Separator */}
                 {/*   style={{ */}
@@ -473,7 +473,7 @@ export const columns: ColumnDef<Course>[] = [
                   <div style={{ color:"hsla(var(--muted_foreground))" }} >
                     Location:
                   </div>
-                  {lab.roomNumber ? lab.roomNumber : <div style={{color:"hsla(var(--grey))"}}>TBA</div>}
+                  {lab.roomNumber ? lab.roomNumber : <div style={{color:"hsla(var(--grey))"}}>?</div>}
                   {" "}
                   {lab.building ? lab.building : ""}
                 </div>
@@ -492,7 +492,7 @@ export const columns: ColumnDef<Course>[] = [
                   >
                     Instructor:
                   </div>
-                  {lab.instructor ? lab.instructor : <div style={{color:"hsla(var(--grey))"}}>TBA</div>}
+                  {lab.instructor ? lab.instructor : <div style={{color:"hsla(var(--grey))"}}>?</div>}
                 </div>
               </PopoverContent>
             </Popover>
@@ -611,11 +611,11 @@ export const columns: ColumnDef<Course>[] = [
       rowB: any,
       /* columnId */
     ) => {
-      if (rowA.original.begin === "TBA" && rowB.original.begin === "TBA") return 0;
-      if (rowA.original.begin === "TBA") {
+      if (rowA.original.begin === "?" && rowB.original.begin === "?") return 0;
+      if (rowA.original.begin === "?") {
         return -1;
       }
-      if (rowB.original.begin === "TBA") {
+      if (rowB.original.begin === "?") {
         return 1;
       }
       if (rowA.original.begin === rowB.original.begin) {
@@ -630,7 +630,7 @@ export const columns: ColumnDef<Course>[] = [
     cell: ({ row }) => {
       const begin = row.original.begin;
       const end = row.original.end;
-      if (begin === "TBA" || end === "TBA" || row.original.duration === "TBA") {
+      if (begin === "?" || end === "?" || row.original.duration === "?") {
         return (
           <div
             style={{
@@ -727,7 +727,7 @@ export const columns: ColumnDef<Course>[] = [
     header: "Duration",
     cell: ({ row }) => {
       const duration = row.original.duration;
-      if (duration === "TBA") return <div style={{color:"hsla(var(--grey))"}}>?</div>;
+      if (duration === "?") return <div style={{color:"hsla(var(--grey))"}}>?</div>;
       const color =
         duration === 50 ?
           "green" :
@@ -751,7 +751,7 @@ export const columns: ColumnDef<Course>[] = [
     header: "Days",
     cell: ({ row }) => {
       const color =
-        row.original.days === "TBA"
+        row.original.days === "?"
           ? "grey"
           : row.original.days.includes("M W F")
             ? "orange"
@@ -769,7 +769,8 @@ export const columns: ColumnDef<Course>[] = [
             color:`hsla(var(--${color}))`
           }}
         >
-          {row.original.days !== "TBA" ? row.original.days : "?"}
+          {/* {row.original.days !== "?" ? row.original.days : "?"} */}
+          {row.original.days}
         </div>
       );
     }
@@ -779,7 +780,7 @@ export const columns: ColumnDef<Course>[] = [
     header: "Room",
     cell: ({ row }) => {
       return (
-        (row.original.roomNumber && row.original.roomNumber !== "TBA")  ?
+        (row.original.roomNumber && row.original.roomNumber !== "?")  ?
           (
             <div style={{color: "hsla(var(--primary))"}}>
               {row.original.roomNumber}
@@ -794,7 +795,7 @@ export const columns: ColumnDef<Course>[] = [
     header: "Building",
     cell: ({ row }) => {
       return (
-        (row.original.building && row.original.building !== "TBA")  ?
+        (row.original.building && row.original.building !== "?")  ?
           (
             <div style={{color: "hsla(var(--primary))"}}>
               {row.original.building}

@@ -80,8 +80,8 @@ export function DataTable() {
         .map(day => mapDaysToShortForm[day]);
         const hasMatchingDays = selectedDaysShortForm.some(
           selectedDay => (
-            (courseDaysArray.includes(selectedDay) && course.days !== "TBA")
-              || isShowTBADays && course.days === "TBA"
+            (courseDaysArray.includes(selectedDay) && course.days !== "?")
+              || isShowTBADays && course.days === "?"
           )
         );
         const matchesTitle = course.title.toLowerCase().includes(filterString.toLowerCase());
@@ -91,13 +91,13 @@ export function DataTable() {
         const toTimeMinute = timeStringToMinutes[toTime];
         const isTimeValid = fromTimeMinute <= toTimeMinute;
         const isWithinTime = (
-          ((course.begin !== "TBA") ? course.begin : Number.MIN_SAFE_INTEGER) >= fromTimeMinute
-            && ((course.end !== "TBA") ? course.end : Number.MAX_SAFE_INTEGER) <= toTimeMinute
+          ((course.begin !== "?") ? course.begin : Number.MIN_SAFE_INTEGER) >= fromTimeMinute
+            && ((course.end !== "?") ? course.end : Number.MAX_SAFE_INTEGER) <= toTimeMinute
         );
         return (
           hasMatchingDays
             && isTimeValid
-            && (isWithinTime || (isShowTBATime && course.begin === "TBA"))
+            && (isWithinTime || (isShowTBATime && course.begin === "?"))
             && (filterString === '' || matchesTitle || matchesNumber || matchesInstructor)
         );
       })

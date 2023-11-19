@@ -1,5 +1,5 @@
 /* import data from './booklet.json'; */
-import data from './booklet.json';
+import data from "../../../../data/booklet.json"
 
 
 export interface Course  {
@@ -12,9 +12,9 @@ export interface Course  {
   section: number;
   title: string;
   creditHour: string;
-  begin: number | "TBA";
-  end: number | "TBA";
-  duration: number | "TBA";
+  begin: number | "?";
+  end: number | "?";
+  duration: number | "?";
   days: string;
   roomNumber?: string;
   building?: string;
@@ -22,9 +22,9 @@ export interface Course  {
   specialEnrollment?: string;
   lab?: {
     type: string;
-    begin: number | "TBA";
-    end: number | "TBA";
-    duration: number | "TBA";
+    begin: number | "?";
+    end: number | "?";
+    duration: number | "?";
     days: string;
     roomNumber?: string;
     building?: string;
@@ -39,8 +39,9 @@ export interface Database {
 }
 
 export const bookletData = data as Database;
-/* const accountingCourses: Course[] | undefined = database['spring2024']['ACCOUNTING']; */
+/* const accountingCourses: Course[] | undefined = bookletData['Spring 2024']['COMPUTER SCIENCE']; */
 /* if (accountingCourses) { */
+/*   console.log(accountingCourses); */
 /*   if (accountingCourses) { */
 /*     const firstCourse: Course | undefined = accountingCourses[0]; */
 /*     if (firstCourse) { */

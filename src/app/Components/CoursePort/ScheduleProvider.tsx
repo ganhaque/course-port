@@ -67,6 +67,7 @@ const ScheduleContext = createContext<ProviderContextType | null>(null);
 
 // Create a provider to wrap the components that need access to the board context
 export const ScheduleProvider: React.FC<{children: ReactNode}> = ({ children }) => {
+  const database: Database = bookletData;
   const timeIntervals = Object.keys(timeStringToMinutes);
   const reversedTimeIntervals = Object.keys(timeStringToMinutes).reverse();
   const [selectedTheme, setSelectedTheme] = useState(Object.keys(ThemeMap)[0]); // Set initial theme
@@ -81,7 +82,6 @@ export const ScheduleProvider: React.FC<{children: ReactNode}> = ({ children }) 
   const [isShowTBADays, setIsShowTBADays] = useState<boolean>(true);
   const [isShowTBATime, setIsShowTBATime] = useState<boolean>(true);
   /* const [database, setDatabase] = useState<Semester[]>(exampleDatabase); */
-  const database: Database = bookletData;
   const [filterString, setFilterString] = useState<string>("");
 
   const [visibleColumns, setVisibleColumns] = useState<string[]>(initialVisibleColumnId);
