@@ -230,6 +230,49 @@ export const columns: ColumnDef<Course>[] = [
   {
     accessorKey: "abbreviation",
     header: "ABBR",
+    cell: ({ row }) => {
+      const number = row.original.number;
+      const color1 =
+        number < 2000
+          ? "green"
+          : number < 3000
+            ? "yellow"
+            : number < 4000
+              ? "orange"
+              : number < 5000
+                ? "red"
+                : "purple"
+      const color2 =
+        number < 2000
+          ? "yellow"
+          : number < 3000
+            ? "orange"
+            : number < 4000
+              ? "red"
+              : number < 5000
+                ? "purple"
+                : "blue"
+
+      const percentage =
+        number < 2000
+          ? ((number - 1000) / 1000) * 100
+          : number < 3000
+            ? ((number - 2000) / 1000) * 100
+            : number < 4000
+              ? ((number - 3000) / 1000) * 100
+              : number < 5000
+                ? ((number - 4000) / 1000) * 100
+                : ((number - 5000) / 5000) * 100
+      return (
+        <div
+          style={{
+            color: `color-mix(in oklch, hsl(var(--${color1})) , hsl(var(--${color2})) ${percentage}%)`
+          }}
+        >
+          {row.original.abbreviation}
+        </div>
+      );
+    }
   },
   {
     // sortDescFirst: false,
@@ -264,7 +307,7 @@ export const columns: ColumnDef<Course>[] = [
     cell: ({ row }) => {
       const number = row.original.number;
       const color1 =
-        number < 2000 
+        number < 2000
           ? "green"
           : number < 3000
             ? "yellow"
@@ -453,7 +496,7 @@ export const columns: ColumnDef<Course>[] = [
     cell: ({ row }) => {
       const number = row.original.number;
       const color1 =
-        number < 2000 
+        number < 2000
           ? "green"
           : number < 3000
             ? "yellow"
@@ -668,8 +711,24 @@ export const columns: ColumnDef<Course>[] = [
     accessorKey: "duration",
     header: "Duration",
     cell: ({ row }) => {
-      if (row.original.duration === "TBA") return <div>TBA</div>;
-      return <div className="">{getHourMinuteString(row.original.duration)}</div>
+      const duration = row.original.duration;
+      if (duration === "TBA") return <div style={{color:"hsla(var(--grey))"}}>TBA</div>;
+      const color =
+        duration === 50 ?
+          "green" :
+          duration === 80 ?
+            "yellow" :
+            "red"
+      return (
+        <div
+          style={{
+            color:`hsla(var(--${color}))`
+          }}
+          className=""
+        >
+          {getHourMinuteString(duration)}
+        </div>
+      );
     },
   },
   {
