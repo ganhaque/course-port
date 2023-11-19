@@ -84,7 +84,7 @@
 
 /* font-family: Inter, Avenir, Helvetica, Arial, sans-serif; */
 font-size: 1rem;
-line-height: 1.5rem;
+line-height: 1.25rem;
 font-weight: 400;
 
 /* color: #0f0f0f; */
@@ -128,7 +128,8 @@ html {
 background-color: hsla(var(--darkest_black));
 color: hsla(var(--base05), 1);
 
-line-height:1.5;
+line-height:1.25rem;
+
 -moz-tab-size:4;
 -o-tab-size:4;
 tab-size:4;

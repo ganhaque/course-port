@@ -8,6 +8,7 @@
   background-color: hsla(var(--black));
   /* border-radius: 0.75rem; */
   overflow: auto;
+  line-height: 1.25rem;
 }
 
 /* .toolbar-container > button { */

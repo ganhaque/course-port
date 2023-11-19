@@ -118,16 +118,16 @@ function Toolbar() {
         <ChevronLeft
           style={{
             textAlign:"center",
-            height:"1.5rem",
-            width:"1.5rem",
+            height:"1.25rem",
+            width:"1.25rem",
             /* marginRight:"0.5rem" */
           }}
         />
         <Settings
           style={{
             textAlign:"center",
-            height:"1.5rem",
-            width:"1.5rem",
+            height:"1.25rem",
+            width:"1.25rem",
           }}
         />
         {/* Settings */}
@@ -143,7 +143,7 @@ function Toolbar() {
               justifyContent:"center",
             }}
           >
-            <MixerHorizontalIcon style={{height:"1.5rem", width:"1.5rem"}}/>
+            <MixerHorizontalIcon style={{height:"1.25rem", width:"1.25rem"}}/>
           </button>
         </PopoverTrigger>
         <PopoverContent align='start'>
@@ -533,8 +533,8 @@ function Toolbar() {
           >
             <MdPalette
               style={{
-                height:"1.5rem",
-                width:"1.5rem",
+                height:"1.25rem",
+                width:"1.25rem",
                 /* marginRight:"0.5rem" */
               }}
             />
@@ -599,15 +599,15 @@ function Toolbar() {
         <CalendarCheck
           style={{
             textAlign:"center",
-            height:"1.5rem",
-            width:"1.5rem",
+            height:"1.25rem",
+            width:"1.25rem",
           }}
         />
         <ChevronRight
           style={{
             textAlign:"center",
-            height:"1.5rem",
-            width:"1.5rem",
+            height:"1.25rem",
+            width:"1.25rem",
           }}
         />
         {/* Settings */}
