@@ -136,12 +136,14 @@ export const columns: ColumnDef<Course>[] = [
     cell: ({ row }) => {
       const available = row.original.available;
       const capacity = row.original.capacity;
-      const percentage = available / capacity * 100;
+      const percentage =
+        capacity !== 0
+          ? available / capacity * 100
+          : 0
 
       return (
         <div
           style={{
-            /* color:`hsla(var(--${color}))` */
             color: `color-mix(in hsl, hsl(var(--green)) ${percentage}%, hsl(var(--red)))`
           }}
         >
@@ -170,14 +172,15 @@ export const columns: ColumnDef<Course>[] = [
     cell: ({ row }) => {
       const enrollmentCount = row.original.enrollmentCount;
       const capacity = row.original.capacity;
-      const percentage = enrollmentCount / capacity * 100;
+      const percentage =
+        capacity !== 0
+          ? enrollmentCount / capacity * 100
+          : 100
 
       return (
         <div
           style={{
-            /* color:`hsla(var(--${color}))` */
             color: `color-mix(in hsl, hsl(var(--green)), hsl(var(--red)) ${percentage}%)`
-            /* color: `color-mix(in hsl, hsl(var(--green)) ${percentage}%, hsl(var(--red)))` */
           }}
         >
           {row.original.enrollmentCount}
@@ -202,6 +205,24 @@ export const columns: ColumnDef<Course>[] = [
         </button>
       )
     },
+    cell: ({ row }) => {
+      const enrollmentCount = row.original.enrollmentCount;
+      const capacity = row.original.capacity;
+      const percentage =
+        capacity !== 0
+          ? enrollmentCount / capacity * 100
+          : 100
+
+      return (
+        <div
+          style={{
+            color: `color-mix(in hsl, hsl(var(--green)), hsl(var(--red)) ${percentage}%)`
+          }}
+        >
+          {row.original.enrollmentCount}
+        </div>
+      );
+    }
   },
   {
     accessorKey: "abbreviation",
