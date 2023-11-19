@@ -98,41 +98,6 @@ function Toolbar() {
   return (
     <div className="toolbar-container" >
 
-      <button
-        style={{
-          display:"flex",
-          /* height:"100%", */
-          alignItems:"center",
-          justifyContent:"center",
-          marginRight:"auto",
-          paddingLeft: "0.25rem",
-        }}
-        /* className="ghost" */
-        onClick={() => {
-          console.log("Cycle through pages~");
-          /* NOTE: the 3 is the length of the pages array in MainContainer, */
-          /* remember to update it when adding new page to the array */
-          setActivePageIndex((activePageIndex - 1 + 3) % 3);
-        }}
-      >
-        <ChevronLeft
-          style={{
-            textAlign:"center",
-            height:"1.25rem",
-            width:"1.25rem",
-            /* marginRight:"0.5rem" */
-          }}
-        />
-        <Settings
-          style={{
-            textAlign:"center",
-            height:"1.25rem",
-            width:"1.25rem",
-          }}
-        />
-        {/* Settings */}
-      </button>
-
       <Popover>
         <PopoverTrigger asChild>
           <button
@@ -196,7 +161,7 @@ function Toolbar() {
       <input
         style={{
           minWidth:'10rem',
-          maxWidth:'24rem',
+          maxWidth:'20rem',
           flexGrow:'1',
           overflow:'hidden'
         }}
@@ -582,7 +547,6 @@ function Toolbar() {
       </Popover>
 
 
-
       <button
         style={{
           display:"flex",
@@ -590,6 +554,42 @@ function Toolbar() {
           alignItems:"center",
           justifyContent:"center",
           marginLeft:"auto",
+          paddingLeft: "0.25rem",
+        }}
+        /* className="ghost" */
+        onClick={() => {
+          console.log("Cycle through pages~");
+          /* NOTE: the 3 is the length of the pages array in MainContainer, */
+          /* remember to update it when adding new page to the array */
+          setActivePageIndex((activePageIndex - 1 + 3) % 3);
+        }}
+      >
+        <ChevronLeft
+          style={{
+            textAlign:"center",
+            height:"1.25rem",
+            width:"1.25rem",
+            /* marginRight:"0.5rem" */
+          }}
+        />
+        {/* <Settings */}
+        {/*   style={{ */}
+        {/*     textAlign:"center", */}
+        {/*     height:"1.25rem", */}
+        {/*     width:"1.25rem", */}
+        {/*   }} */}
+        {/* /> */}
+        {/* Settings */}
+      </button>
+
+
+      <button
+        style={{
+          display:"flex",
+          /* height:"100%", */
+          alignItems:"center",
+          justifyContent:"center",
+          /* marginLeft:"auto", */
           paddingRight:"0.25rem",
         }}
         /* className="ghost" */
@@ -600,13 +600,13 @@ function Toolbar() {
           setActivePageIndex((activePageIndex + 1) % 3);
         }}
       >
-        <CalendarCheck
-          style={{
-            textAlign:"center",
-            height:"1.25rem",
-            width:"1.25rem",
-          }}
-        />
+        {/* <CalendarCheck */}
+        {/*   style={{ */}
+        {/*     textAlign:"center", */}
+        {/*     height:"1.25rem", */}
+        {/*     width:"1.25rem", */}
+        {/*   }} */}
+        {/* /> */}
         <ChevronRight
           style={{
             textAlign:"center",
