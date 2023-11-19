@@ -23,7 +23,7 @@
 /* } */
 
 .table-body > tr:not(:last-child) {
-  border-bottom: 1px solid hsla(var(--grey), 0.5);
+  /* border-bottom: 1px solid hsla(var(--grey), 0.5); */
 }
 
 .table-row:hover {
@@ -66,7 +66,8 @@
 }
 
 .table-row.new-section > .table-cell {
-  padding-bottom: 1rem;
+  /* padding-bottom: 1rem; */
+  border-bottom: 1px solid hsla(var(--grey), 0.5);
 }
 
 .table-cell {
