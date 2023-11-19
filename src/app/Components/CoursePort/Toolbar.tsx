@@ -10,8 +10,10 @@ import {
   CalendarCheck,
   ChevronRight,
   ChevronLeft,
+  Paintbrush
   /* ChevronRightSquare */
 } from "lucide-react";
+import { MdPalette } from "react-icons/md";
 import { MixerHorizontalIcon } from "@radix-ui/react-icons"
 /* import { */
 /*   DropdownMenu, */
@@ -285,7 +287,7 @@ function Toolbar() {
               alignItems:"center"
             }}
           >
-            <Clock style={{height:"1rem", width:"1rem", marginRight:"0.5rem"}}/>
+            <Clock style={{height:"1.25rem", width:"1.25rem", marginRight:"0.5rem"}}/>
             Time
           </div>
         </PopoverTrigger>
@@ -433,7 +435,7 @@ function Toolbar() {
               alignItems:"center"
             }}
           >
-            <CalendarDays style={{height:"1rem", width:"1rem", marginRight:"0.5rem"}}/>
+            <CalendarDays style={{height:"1.25rem", width:"1.25rem", marginRight:"0.5rem"}}/>
             Days
           </div>
         </PopoverTrigger>
@@ -529,8 +531,14 @@ function Toolbar() {
               alignItems:"center"
             }}
           >
-            <Palette style={{height:"1rem", width:"1rem", marginRight:"0.5rem"}}/>
-            Theme
+            <MdPalette
+              style={{
+                height:"1.5rem",
+                width:"1.5rem",
+                /* marginRight:"0.5rem" */
+              }}
+            />
+            {/* Theme */}
           </div>
         </PopoverTrigger>
         <PopoverContent
