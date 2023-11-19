@@ -64,7 +64,7 @@ function Toolbar() {
     setSelectedDepartment,
     selectedDays,
     setSelectedDays,
-    /* database, */
+    database,
     activePageIndex,
     setActivePageIndex,
     filterString,
@@ -236,7 +236,7 @@ function Toolbar() {
                 {/* </CommandItem> */}
                 {/* Filter out the one without any abbreviation/no class, add a setting to change this later*/}
                 {departments
-                  .filter(department => departmentToAbbreviationMap[department] !== "")
+                  .filter(department => database[selectedSemester][department].length !== 0)
                   .map((department, index) => (
                     <CommandItem
                       style={{
