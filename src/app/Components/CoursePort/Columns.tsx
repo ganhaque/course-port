@@ -367,6 +367,18 @@ export const columns: ColumnDef<Course>[] = [
                     ? "TBA"
                     : (getTimeWithoutAMPM(lab.begin) + "-" + getAMPMTime(lab.end))}
                 </div>
+                <div
+                  style={{
+                    padding: "0.25rem",
+                    display: "flex",
+                    gap: "0.5rem",
+                  }}
+                >
+                  <div style={{ color:"hsla(var(--muted_foreground))" }} >
+                    Days:
+                  </div>
+                  {lab.days ? lab.days : "TBA"}
+                </div>
                 {/* <Separator */}
                 {/*   style={{ */}
                 {/*     margin:"0.25rem 0", */}
