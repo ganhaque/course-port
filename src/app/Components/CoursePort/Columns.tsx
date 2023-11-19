@@ -219,7 +219,7 @@ export const columns: ColumnDef<Course>[] = [
             color: `color-mix(in oklch, hsl(var(--green)), hsl(var(--red)) ${percentage}%)`
           }}
         >
-          {row.original.enrollmentCount}
+          {row.original.capacity}
         </div>
       );
     }
