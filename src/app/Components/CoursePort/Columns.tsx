@@ -232,7 +232,18 @@ export const columns: ColumnDef<Course>[] = [
     // sortDescFirst: false,
     invertSorting: true,
     accessorKey: "number",
+    sortingFn: (
+      rowA: any,
+      rowB: any,
+      /* columnId */
+    ) => {
+      if (rowA.original.number === rowB.original.number) {
+        return rowA.original.section < rowB.original.section ? 1 : -1;
+      }
+      return rowA.original.number < rowB.original.number ? 1 : -1;
+    },
     header: ({ column }) => {
+      /* column.toggleSorting(column.getIsSorted() === "asc"); */
       return (
         <button
           className="ghost"

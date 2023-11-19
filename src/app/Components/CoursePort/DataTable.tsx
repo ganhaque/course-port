@@ -57,7 +57,9 @@ export function DataTable<TData, TValue>({
     setVisibleColumns
   } = useScheduleContext();
 
-  const [sorting, setSorting] = useState<SortingState>([])
+  const [sorting, setSorting] = useState<SortingState>([
+    {id: "number", desc: false}
+  ])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [visibleColumnsLoaded, setVisibleColumnsLoaded] = useState(false);
   const table = useReactTable({
