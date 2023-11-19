@@ -341,7 +341,7 @@ export const columns: ColumnDef<Course>[] = [
       const lab = row.original.lab;
       return (
         <div>
-          {row.original.type && <div>{row.original.type}</div>}
+          {row.original.type && <div style={{color:"hsla(var(--grey))"}}>{row.original.type}</div>}
           {row.original.type && lab && ' - '}
           {lab && (
             <Popover>
@@ -354,6 +354,7 @@ export const columns: ColumnDef<Course>[] = [
                     justifyContent:"center",
                     marginLeft:"auto",
                     paddingRight:"0.25rem",
+                    color: lab.type === "LAB" ? "hsla(var(--green))" : "hsla(var(--yellow))"
                   }}
                   className="ghost">
                   {lab.type}
@@ -715,6 +716,7 @@ export const columns: ColumnDef<Course>[] = [
         <div
           style={{
             /* fontSize:"0.75rem" */
+            color:"hsla(var(--grey))"
           }}
         >
           {/* {row.original.specialEnrollment} */}
