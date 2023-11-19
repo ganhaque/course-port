@@ -223,6 +223,13 @@ function Toolbar() {
             <CommandList>
               <CommandEmpty> No result found. </CommandEmpty>
               <CommandGroup>
+                {/* <CommandItem */}
+                {/*   onSelect={() => { */}
+                {/*     setSelectedDepartment("ALL"); */}
+                {/*     setIsDepartmentPopoverOpen(false); */}
+                {/*   }}> */}
+                {/*   ALL!!! */}
+                {/* </CommandItem> */}
                 {/* Filter out the one without any abbreviation/no class, add a setting to change this later*/}
                 {departments
                   .filter(department => departmentToAbbreviationMap[department] !== "")

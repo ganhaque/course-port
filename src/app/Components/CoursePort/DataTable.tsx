@@ -67,6 +67,10 @@ export function DataTable() {
     /* const courses = database[selectedSemester][selectedDepartment]; */
     /* const sourses: Course[] = database[selectedSemester][selectedDepartment]; */
     const courses: Course[] | undefined = database[selectedSemester]?.[selectedDepartment];
+    /* const courses: Course[] | undefined = */
+    /*   selectedDepartment === "ALL" */
+    /*     ? Object.values(database[selectedSemester]).flat() */
+    /*     : database[selectedSemester]?.[selectedDepartment]; */
     if (courses) {
       const newFilteredCourses = courses.filter(course => {
         const courseDaysArray = course.days.split("");

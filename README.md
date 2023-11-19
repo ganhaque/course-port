@@ -78,6 +78,7 @@ git push
 - Generate something Google Calendar or Outlook can import?
     - Require knowing how long the semester is
         - Or maybe there's a predictable pattern (like second week of December or something)
+- [ ] Display courses from 2 to 5 departments.
 - More themes
     - Gruvbox
 
@@ -86,4 +87,8 @@ git push
 - Course Pre-requisite or Information that are not available or derivable from the booklet
     - Those would require **very** complex parsing from [this page](https://catalog.lsu.edu/content.php?catoid=27&navoid=2448)
 - Better course title
+- Display ***ALL*** courses from ***ALL*** department for a given semester
+    - Lag
+    - There's too many filters & sorting
+    - Compromise: only from a few departments since that is more useful
 
