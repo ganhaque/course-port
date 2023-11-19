@@ -22,41 +22,90 @@ import {
   TableRow,
 } from "../UI/Table"
 
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "../UI/DropdownMenu"
-
 import { PlusCircle, MinusCircle } from "lucide-react";
 import { useScheduleContext } from "./ScheduleProvider";
 import { Course } from "./Data";
+import { timeStringToMinutes, mapDaysToShortForm } from "./Data";
+import { columns } from "./Columns";
 
-interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[]
-  data: TData[]
-}
+/* interface DataTableProps<TData, TValue> { */
+/*   columns: ColumnDef<TData, TValue>[] */
+/*   data: TData[] */
+/* } */
+/**/
+/* export function DataTable<TData, TValue>({ */
+/*   columns, */
+/*   data, */
+/* }: DataTableProps<TData, TValue>) { */
 
-export function DataTable<TData, TValue>({
-  columns,
-  data,
-}: DataTableProps<TData, TValue>) {
+export function DataTable() {
   const {
     selectedSemester,
-    /* setSelectedSemester, */
     selectedCourses,
-    /* setSelectedCourses, */
     selectedDepartment,
     selectedDays,
-    /* setSelectedDepartment, */
-    /* database, */
+    database,
     addCourse,
     removeCourse,
     filterString,
     visibleColumns,
-    setVisibleColumns
+    isShowTBADays,
+    isShowTBATime,
+    fromTime,
+    toTime,
   } = useScheduleContext();
+
+  const [filteredCourses, setFilteredCourses] = useState<Course[]>([]);
+
+  // Use useEffect to update filtered data when selectedSemester or selectedDepartment changes
+  useEffect(() => {
+    /* console.log("Update"); */
+    /* const courses = database[selectedSemester][selectedDepartment]; */
+    /* const sourses: Course[] = database[selectedSemester][selectedDepartment]; */
+    const courses: Course[] | undefined = database[selectedSemester]?.[selectedDepartment];
+    if (courses) {
+      const newFilteredCourses = courses.filter(course => {
+        const courseDaysArray = course.days.split("");
+        /* const selectedDaysShortForm = selectedDays.map(day => mapDaysToShortForm[day]); */
+        const selectedDaysShortForm = Object.keys(selectedDays)
+        .filter(day => selectedDays[day])
+        .map(day => mapDaysToShortForm[day]);
+        const hasMatchingDays = selectedDaysShortForm.some(
+          selectedDay => (
+            (courseDaysArray.includes(selectedDay) && course.days !== "TBA")
+              || isShowTBADays && course.days === "TBA"
+          )
+        );
+        const matchesTitle = course.title.toLowerCase().includes(filterString.toLowerCase());
+        const matchesNumber = String(course.number).includes(filterString);
+        const matchesInstructor = course.instructor ? course.instructor.toLowerCase().includes(filterString.toLowerCase()) : false;
+        const fromTimeMinute = timeStringToMinutes[fromTime];
+        const toTimeMinute = timeStringToMinutes[toTime];
+        const isTimeValid = fromTimeMinute <= toTimeMinute;
+        const isWithinTime = (
+          ((course.begin !== "TBA") ? course.begin : Number.MIN_SAFE_INTEGER) >= fromTimeMinute
+            && ((course.end !== "TBA") ? course.end : Number.MAX_SAFE_INTEGER) <= toTimeMinute
+        );
+        return (
+          hasMatchingDays
+            && isTimeValid
+            && (isWithinTime || (isShowTBATime && course.begin === "TBA"))
+            && (filterString === '' || matchesTitle || matchesNumber || matchesInstructor)
+        );
+      })
+      setFilteredCourses(newFilteredCourses);
+    }
+  }, [
+      selectedSemester,
+      selectedDepartment,
+      selectedDays,
+      filterString,
+      isShowTBADays,
+      isShowTBATime,
+      fromTime,
+      toTime,
+      database
+    ]);
 
   const [sorting, setSorting] = useState<SortingState>([
     {id: "number", desc: false}
@@ -64,7 +113,7 @@ export function DataTable<TData, TValue>({
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [visibleColumnsLoaded, setVisibleColumnsLoaded] = useState(false);
   const table = useReactTable({
-    data,
+    data: filteredCourses,
     columns,
     getCoreRowModel: getCoreRowModel(),
     onSortingChange: setSorting,
@@ -83,8 +132,6 @@ export function DataTable<TData, TValue>({
         const isRowSelected = selectedCourses.some((course) => course === (row.original as Course));
         row.toggleSelected(isRowSelected);
       });
-
-      /* column.toggleVisibility(!!value) */
     }, 0);
   }, [selectedSemester, selectedDepartment, selectedDays, filterString, selectedCourses]);
 
@@ -100,157 +147,125 @@ export function DataTable<TData, TValue>({
 
   return (
     <>
-      {visibleColumnsLoaded ? ( // Render the table only when visibleColumnsLoaded is true
-        <div style={{
-          overflow:"visible",
-        }}
-        >
-          <Table>
-            <TableHeader>
-              {table.getHeaderGroups().map((headerGroup) => (
-                <TableRow key={headerGroup.id}>
-                  {headerGroup.headers.map((header) => {
-                    return (
-                      <TableHead key={header.id}>
-                        {header.isPlaceholder
-                          ? null
-                          : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                      </TableHead>
-                    )
-                  })}
-                </TableRow>
-              ))}
-            </TableHeader>
-            <TableBody>
-              {table.getRowModel().rows?.length ? (
-                table.getRowModel().rows.map((row, index) => {
-                  const currentCourse = row.original as Course;
-                  const nextRow = table.getRowModel().rows[index + 1]?.original as Course;
-                  /* const isNumberSorted = table.getColumn("number")?.getIsSorted(); */
-                  const isSectionOne = currentCourse.section === 1;
-
-                  const isNextSectionOne = nextRow?.section === 1;
-                  const isDifferentBeginEnd = nextRow &&
-                    (nextRow.begin !== currentCourse.begin || nextRow.end !== currentCourse.end);
-                  const isDifferentInstructor = nextRow && nextRow.instructor !== currentCourse.instructor;
-
-                  const isNewSection =
-                    index < table.getRowModel().rows.length - 1 &&
-                      ((table.getColumn("number")?.getIsSorted() === "asc" && isNextSectionOne) ||
-                        (table.getColumn("number")?.getIsSorted() === "desc" && isSectionOne) ||
-                        (table.getColumn("begin-end")?.getIsSorted() && isDifferentBeginEnd) ||
-                        (table.getColumn("instructor")?.getIsSorted() && isDifferentInstructor)
-                      );
+      {visibleColumnsLoaded ? (
+        <Table>
+          <TableHeader>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => {
                   return (
-                    <Fragment key={row.id}>
-                      {/* {(row.original as Course).section === 1 && ( */}
-                      {/*   <div style={{ height: "1rem" }} /> */}
-                      {/* )} */}
+                    <TableHead key={header.id}>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                    </TableHead>
+                  )
+                })}
+              </TableRow>
+            ))}
+          </TableHeader>
+          <TableBody>
+            {table.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map((row, index) => {
+                const currentCourse = row.original as Course;
+                const nextRow = table.getRowModel().rows[index + 1]?.original as Course;
+                const isSectionOne = currentCourse.section === 1;
 
-                      {/* { */}
-                      {/*   index < table.getRowModel().rows.length - 1 */}
-                      {/*     && (table.getRowModel().rows[index + 1].original as Course).section === 1 */}
-                      {/*     && ( <div style={{ height: "1rem" }} />) */}
-                      {/* } */}
-                      <TableRow
-                        className={isNewSection ? "new-section" : ""}
-                        /* className={ */
-                        /*   (index < table.getRowModel().rows.length - 1 */
-                        /*     && (table.getColumn("number")?.getIsSorted() */
-                        /*       &&((table.getRowModel().rows[index + 1].original as Course).section === 1) */
-                        /*       || ( */
-                        /*         (((table.getRowModel().rows[index + 1].original as Course).begin !== (row.original as Course).begin) */
-                        /*           || ((table.getRowModel().rows[index + 1].original as Course).end !== (row.original as Course).end) */
-                        /*         ) && table.getColumn("begin-end")?.getIsSorted() */
-                        /*       ) */
-                        /*       || ( */
-                        /*         (((table.getRowModel().rows[index + 1].original as Course).instructor !== (row.original as Course).instructor) */
-                        /*         ) && table.getColumn("instructor")?.getIsSorted() */
-                        /*       ) */
-                        /*     ) */
-                        /*   ) ? "new-section" : "" */
-                        /* } */
-                        /* key={row.id} */
-                        data-state={(row.getIsSelected() && "selected")}
-                        onAuxClick={() => {
-                          if (row.getIsSelected()) {
-                            removeCourse(row.original as Course);
-                          }
-                          else {
-                            addCourse(row.original as Course);
-                          }
-                        }}
-                      >
-                        {row.getVisibleCells().map((cell) => (
-                          <TableCell key={cell.id}>
-                            {cell.column.id === 'add' && (
-                              <button
-                                style={{
-                                  borderWidth: "0",
-                                  boxShadow: "none",
-                                }}
-                                /* className="ghost" */
-                                onClick={() => {
-                                  const course = row.original as Course;
-                                  if (row.getIsSelected()) {
-                                    removeCourse(course);
-                                    console.log("removed", course);
-                                  }
-                                  else {
-                                    addCourse(course);
-                                    console.log("added", course);
-                                  }
-                                }}
-                              >
-                                {row.getIsSelected() ? (
+                const isNextSectionOne = nextRow?.section === 1;
+                const isDifferentBeginEnd = nextRow &&
+                  (nextRow.begin !== currentCourse.begin || nextRow.end !== currentCourse.end);
+                const isDifferentInstructor = nextRow && nextRow.instructor !== currentCourse.instructor;
+
+                const isNewSection =
+                  index < table.getRowModel().rows.length - 1 &&
+                    ((table.getColumn("number")?.getIsSorted() === "asc" && isNextSectionOne) ||
+                      (table.getColumn("number")?.getIsSorted() === "desc" && isSectionOne) ||
+                      (table.getColumn("begin-end")?.getIsSorted() && isDifferentBeginEnd) ||
+                      (table.getColumn("instructor")?.getIsSorted() && isDifferentInstructor)
+                    );
+                return (
+                  <Fragment key={row.id}>
+                    <TableRow
+                      className={isNewSection ? "new-section" : ""}
+                      data-state={(row.getIsSelected() && "selected")}
+                      onAuxClick={() => {
+                        if (row.getIsSelected()) {
+                          removeCourse(row.original as Course);
+                        }
+                        else {
+                          addCourse(row.original as Course);
+                        }
+                      }}
+                    >
+                      {row.getVisibleCells().map((cell) => (
+                        <TableCell key={cell.id}>
+                          {cell.column.id === 'add' && (
+                            <button
+                              style={{
+                                borderWidth: "0",
+                                boxShadow: "none",
+                              }}
+                              /* className="ghost" */
+                              onClick={() => {
+                                const course = row.original as Course;
+                                if (row.getIsSelected()) {
+                                  removeCourse(course);
+                                  console.log("removed", course);
+                                }
+                                else {
+                                  addCourse(course);
+                                  console.log("added", course);
+                                }
+                              }}
+                            >
+                              {row.getIsSelected() ? (
+                                <div
+                                  style={{
+                                    color:"hsla(var(--red))"
+                                  }}
+                                >
+                                  <MinusCircle
+                                    style={{
+                                      width:"1rem",
+                                      height:"1rem",
+                                    }}
+                                  />
+                                </div>
+                              ) : (
                                   <div
                                     style={{
-                                      color:"hsla(var(--red))"
+                                      color:"hsla(var(--green))"
                                     }}
                                   >
-                                    <MinusCircle
+                                    <PlusCircle
                                       style={{
                                         width:"1rem",
                                         height:"1rem",
                                       }}
                                     />
                                   </div>
-                                ) : (
-                                    <div
-                                      style={{
-                                        color:"hsla(var(--green))"
-                                      }}
-                                    >
-                                      <PlusCircle
-                                        style={{
-                                          width:"1rem",
-                                          height:"1rem",
-                                        }}
-                                      />
-                                    </div>
-                                  )}
-                              </button>
-                            )}
-                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                          </TableCell>
-                        ))}
-                      </TableRow>
-                    </Fragment>
-                  )
-                })
-              ) : (
-                  <TableRow>
-                    <TableCell colSpan={columns.length} className="h-24 text-center">
-                      No results.
-                    </TableCell>
-                  </TableRow>
-                )}
-            </TableBody>
-          </Table>
-        </div>
+                                )}
+                            </button>
+                          )}
+                          {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  </Fragment>
+                )
+              })
+            ) : (
+                <TableRow>
+                  <TableCell colSpan={columns.length} className="h-24 text-center">
+                    No results.
+                  </TableCell>
+                </TableRow>
+              )}
+          </TableBody>
+        </Table>
       ) : (
           <div
             style={{
