@@ -62,7 +62,7 @@
 }
 
 .table-head:hover {
-  color: hsla(var(--yellow));
+  color: hsla(var(--primary));
 }
 
 .table-row.new-section > .table-cell {
@@ -82,4 +82,18 @@
   line-height: 1.25rem;
   margin-top: 1rem;
   color: hsla(var(--muted_foreground));
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.table-container {
+  opacity: 0;
+  animation: fadeIn 0.25s ease-in-out forwards;
 }
