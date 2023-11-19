@@ -2,6 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { Fragment } from "react";
+import {
+  IoMdHeartEmpty,
+  IoMdHeart
+} from "react-icons/io";
 
 import {
   ColumnDef,
@@ -222,31 +226,21 @@ export function DataTable() {
                               }}
                             >
                               {row.getIsSelected() ? (
-                                <div
+                                <IoMdHeart
                                   style={{
-                                    color:"hsla(var(--red))"
+                                    width:"1rem",
+                                    height:"1rem",
+                                    color:"hsla(var(--red))",
                                   }}
-                                >
-                                  <MinusCircle
+                                />
+                              ) : (
+                                  <IoMdHeartEmpty
                                     style={{
                                       width:"1rem",
                                       height:"1rem",
+                                      color:"hsla(var(--grey))"
                                     }}
                                   />
-                                </div>
-                              ) : (
-                                  <div
-                                    style={{
-                                      color:"hsla(var(--green))"
-                                    }}
-                                  >
-                                    <PlusCircle
-                                      style={{
-                                        width:"1rem",
-                                        height:"1rem",
-                                      }}
-                                    />
-                                  </div>
                                 )}
                             </button>
                           )}
