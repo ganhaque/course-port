@@ -2,6 +2,7 @@ import { ColumnDef } from "@tanstack/react-table"
 import {
   Course, timeStringToMinutes,
 } from "./Data";
+import { ChevronRight } from "lucide-react";
 
 // import { PlusCircle, MinusCircle } from "lucide-react";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react"
@@ -144,7 +145,9 @@ export const columns: ColumnDef<Course>[] = [
       return (
         <div
           style={{
-            color: `color-mix(in oklch, hsl(var(--green)) ${percentage}%, hsl(var(--red)))`
+            color: available === 0 ?
+              "hsla(var(--grey))" :
+              `color-mix(in oklch, hsl(var(--green)) ${percentage}%, hsl(var(--red)))`
           }}
         >
           {row.original.available}
@@ -320,7 +323,9 @@ export const columns: ColumnDef<Course>[] = [
             /* color: (row.original.section === 1) */
             /*   ? "hsla(var(--grey))" */
             /*   : `hsla(var(--${colors[row.original.section % colors.length]}))` */
-            color: `hsla(var(--${colors[row.original.section % colors.length]}))`
+            color: row.original.section === 1 ?
+              "hsla(var(--grey))" :
+              `hsla(var(--${colors[row.original.section % colors.length]}))`
           }}
         >
           {row.original.section}
@@ -341,8 +346,24 @@ export const columns: ColumnDef<Course>[] = [
           {lab && (
             <Popover>
               <PopoverTrigger asChild>
-                <button className="ghost">
-                  {lab.type}+
+                <button 
+                  style={{
+                    display:"flex",
+                    /* height:"100%", */
+                    alignItems:"center",
+                    justifyContent:"center",
+                    marginLeft:"auto",
+                    paddingRight:"0.25rem",
+                  }}
+                  className="ghost">
+                  {lab.type}
+                  <ChevronRight
+                    style={{
+                      textAlign:"center",
+                      height:"1.25rem",
+                      width:"1.25rem",
+                    }}
+                  />
                 </button>
               </PopoverTrigger>
               <PopoverContent
@@ -377,7 +398,7 @@ export const columns: ColumnDef<Course>[] = [
                   <div style={{ color:"hsla(var(--muted_foreground))" }} >
                     Days:
                   </div>
-                  {lab.days ? lab.days : "TBA"}
+                  {lab.days ? lab.days : <div style={{color:"hsla(var(--grey))"}}>TBA</div>}
                 </div>
                 {/* <Separator */}
                 {/*   style={{ */}
@@ -396,7 +417,7 @@ export const columns: ColumnDef<Course>[] = [
                   <div style={{ color:"hsla(var(--muted_foreground))" }} >
                     Location:
                   </div>
-                  {lab.roomNumber ? lab.roomNumber : "TBA"}
+                  {lab.roomNumber ? lab.roomNumber : <div style={{color:"hsla(var(--grey))"}}>TBA</div>}
                   {" "}
                   {lab.building ? lab.building : ""}
                 </div>
@@ -415,7 +436,7 @@ export const columns: ColumnDef<Course>[] = [
                   >
                     Instructor:
                   </div>
-                  {lab.instructor ? lab.instructor : "TBA"}
+                  {lab.instructor ? lab.instructor : <div style={{color:"hsla(var(--grey))"}}>TBA</div>}
                 </div>
               </PopoverContent>
             </Popover>
@@ -486,6 +507,28 @@ export const columns: ColumnDef<Course>[] = [
   {
     accessorKey: "creditHour",
     header: "CR",
+    cell: ({ row }) => {
+      const creditHour = row.original.creditHour;
+      const color =
+        creditHour === "1.0" ?
+          "blue" :
+          creditHour === "3.0" ?
+            "grey" :
+            creditHour === "4.0" ?
+              "yellow" :
+              "red"
+
+
+      return (
+        <div
+          style={{
+            color:`hsla(var(--${color}))`
+          }}
+        >
+          { row.original.creditHour }
+        </div>
+      );
+    }
   },
   {
     accessorKey: "begin-end",
@@ -638,8 +681,8 @@ export const columns: ColumnDef<Course>[] = [
           : row.original.days.includes("M W F")
             ? "orange"
             : row.original.days.includes("T TH")
-              ? "teal_green"
-              : "purple"
+              ? "blue"
+              : "green"
       /* : row.original.number < 4000 */
       /*   ? "orange" */
       /*   : row.original.number < 5000 */

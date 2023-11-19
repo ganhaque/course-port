@@ -54,8 +54,9 @@ git push
 - Better department display. Add/Map Abbreviation to it.
 - Tooltip!
 - Theme switcher / Dark/Light mode toggle
-- Time filter.
-- Duration filter.
+- [x] Time filter.
+- [ ] Duration filter.
+    - [ ] and coloring
 - Days blacklist filter (current one is whitelist)
 - The Telescope command search experience
     - tab and shift-tab to cycle
@@ -63,3 +64,26 @@ git push
         - searching 'EE' should have 'EE' before 'AEEE'
 - Settings window/sidebar/container?
     - Hide class with avl == 0
+- [ ] credit hour color
+- [ ] Department & Semester highlight current selected
+- Display spring & fall exclusivity
+    - Can do this by comparing course number between semester during the parsing?
+        - This can give false positive tho?
+- Give more info on what the type mean
+    - LAB -> Lab
+    - RES -> Research
+    - REC -> Recreational?
+    - IND -> Independent Study?
+    - SEM -> Seminar
+- Generate something Google Calendar or Outlook can import?
+    - Require knowing how long the semester is
+        - Or maybe there's a predictable pattern (like second week of December or something)
+- More themes
+    - Gruvbox
+
+## WONTFIX / IMPOSSIBLE
+- Directly adding course to LSU database
+- Course Pre-requisite or Information that are not available or derivable from the booklet
+    - Those would require **very** complex parsing from [this page](https://catalog.lsu.edu/content.php?catoid=27&navoid=2448)
+- Better course title
+
