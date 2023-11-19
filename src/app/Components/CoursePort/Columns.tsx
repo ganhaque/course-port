@@ -307,12 +307,12 @@ export const columns: ColumnDef<Course>[] = [
     header: "S",
     cell: ({ row }) => {
       const colors = [
-        "blue",
         "green",
         "yellow",
         /* "orange", */
         "red",
         "purple",
+        "blue",
       ]
       return (
         <div
@@ -467,7 +467,12 @@ export const columns: ColumnDef<Course>[] = [
             color: `color-mix(in hsl, hsl(var(--${color1})) , hsl(var(--${color2})) ${percentage}%)`
           }}
         >
-          {row.original.title}
+          {/* {row.original.title} */}
+          {
+            row.original.title
+            .toLowerCase()
+            .replace(/\b\w/g, (match) => match.toUpperCase())
+          }
         </div>
       );
     }
@@ -656,17 +661,25 @@ export const columns: ColumnDef<Course>[] = [
   {
     accessorKey: "specialEnrollment",
     header: "Special",
-    /* cell: ({ row }) => { */
-    /*   return ( */
-    /*     <div */
-    /*       style={{ */
-    /*         fontSize:"0.75rem" */
-    /*       }} */
-    /*     > */
-    /*       {row.original.specialEnrollment} */
-    /*     </div> */
-    /*   ); */
-    /* }, */
+    cell: ({ row }) => {
+      return (
+        <div
+          style={{
+            /* fontSize:"0.75rem" */
+          }}
+        >
+          {/* {row.original.specialEnrollment} */}
+          {row.original.specialEnrollment ? (
+            row.original.specialEnrollment
+            .toLowerCase()
+            .replace(/\b\w/g, (match) => match.toUpperCase())
+            .replace(/Ci\b/g, 'CI') // Keeps 'CI' in uppercase
+          ) : (
+              ""
+            )}
+        </div>
+      );
+    },
   },
   {
     accessorKey: "instructor",
@@ -685,5 +698,62 @@ export const columns: ColumnDef<Course>[] = [
         </button>
       )
     },
+    cell: ({ row }) => {
+      const number = row.original.number;
+      const color1 =
+        number < 2000 
+          ? "green"
+          : number < 3000
+            ? "yellow"
+            : number < 4000
+              ? "orange"
+              : number < 5000
+                ? "red"
+                : "purple"
+      const color2 =
+        number < 2000
+          ? "yellow"
+          : number < 3000
+            ? "orange"
+            : number < 4000
+              ? "red"
+              : number < 5000
+                ? "purple"
+                : "blue"
+
+      const percentage =
+        number < 2000
+          ? ((number - 1000) / 1000) * 100
+          : number < 3000
+            ? ((number - 2000) / 1000) * 100
+            : number < 4000
+              ? ((number - 3000) / 1000) * 100
+              : number < 5000
+                ? ((number - 4000) / 1000) * 100
+                : ((number - 5000) / 5000) * 100
+
+      return (
+        row.original.instructor ? (
+          <div
+            style={{
+              color: `color-mix(in hsl, hsl(var(--${color1})) , hsl(var(--${color2})) ${percentage}%)`
+            }}
+          >
+            {/* {row.original.instructor} */}
+            {
+              row.original.instructor
+              .toLowerCase()
+              .replace(/\b\w/g, (match) => match.toUpperCase())
+            }
+          </div>
+        ) : (
+            <div style={{
+              color: `hsla(var(--grey))`
+            }}>
+              ?
+            </div>
+          )
+      );
+    }
   },
 ]
