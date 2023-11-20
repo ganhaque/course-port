@@ -210,7 +210,8 @@ function Toolbar() {
 
       <Popover open={isDepartmentPopoverOpen} onOpenChange={(isOpen) => {setIsDepartmentPopoverOpen(isOpen)}}>
         <PopoverTrigger>
-          {departmentToAbbreviationMap[selectedDepartment]}
+          {/* {departmentToAbbreviationMap[selectedDepartment]} */}
+          {database[selectedSemester][selectedDepartment][0].abbreviation}
           {/* {departmentToAbbreviationMap[selectedDepartment] === "" ? "" : " - "} */}
           {/* {selectedDepartment} */}
         </PopoverTrigger>
@@ -248,8 +249,10 @@ function Toolbar() {
                         setSelectedDepartment(department);
                         setIsDepartmentPopoverOpen(false);
                       }}>
-                      {departmentToAbbreviationMap[department]}
-                      {departmentToAbbreviationMap[department] === "" ? "" : " - "}
+                      {/* {departmentToAbbreviationMap[department]} */}
+                      {/* {departmentToAbbreviationMap[department] === "" ? "" : " - "} */}
+                      {database[selectedSemester][department][0].abbreviation}
+                      { " - " }
                       {
                         department
                         .toLowerCase()
