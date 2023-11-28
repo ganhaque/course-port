@@ -7,6 +7,7 @@ import { useScheduleContext } from "./ScheduleProvider";
 /* import { columns } from "./Columns"; */
 import { DataTable } from "./DataTable"
 import { SelectedPlaceHolder } from "./SelectedPlaceholder";
+import CourseTimeTable from "./CourseTimeTable";
 import Settings from "./Settings";
 
 function MainContainer() {
@@ -19,7 +20,8 @@ function MainContainer() {
     <Settings/>,
     /* <DataTable columns={columns} data={filteredCourses} />, */
     <DataTable/>,
-    <SelectedPlaceHolder/>,
+    /* <SelectedPlaceHolder/>, */
+    <CourseTimeTable/>,
   ]
 
   return (
@@ -29,6 +31,8 @@ function MainContainer() {
         flexDirection:'column',
         flexGrow:'1',
         backgroundColor: 'hsla(var(--black))',
+        overflow:'scroll',
+        height: 'calc(100vh - 4rem)',
         /* borderBottomLeftRadius:'0.75rem', */
         /* borderBottomRightRadius:'0.75rem', */
         /* borderRadius:'0.75rem', */

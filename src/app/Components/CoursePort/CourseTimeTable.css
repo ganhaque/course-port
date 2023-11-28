@@ -1,0 +1,32 @@
+.course-cell {
+  position: absolute;
+  /* width: calc(100% - 1rem); */
+  width: 100%;
+  /* background-color: hsla(var(--primary), 0.8); */
+  background-color: hsla(var(--primary), 0.375);
+  /* color: hsla(var(--black)); */
+  color: hsla(var(--white));
+  padding: 0.25rem;
+  line-height: 1rem;
+  font-size: 0.875rem;
+  text-overflow: clip;
+  border-radius: 0.5rem;
+  /* margin: 0 1px; */
+}
+
+.course-cell:hover {
+  background-color: hsla(var(--primary), 0.5);
+}
+
+.time-cell, .empty-cell, .weekday-cell {
+  /* border-top: 1px hsla(var(--white)); */
+  color: hsla(var(--muted_foreground));
+  height: 30px
+}
+
+.time-cell {
+  /* background-color: hsla(var(--grey), 0.125); */
+  background-color: hsla(var(--grey), 0.25);
+  padding-left: 0.5rem;
+  padding-right: 0.25rem;
+}

@@ -45,7 +45,7 @@ import {
 } from './Data'
 import { useState } from "react";
 import { useScheduleContext } from "./ScheduleProvider";
-import './toolbar.css';
+import './Toolbar.css';
 import { columnIdArray } from "./Columns";
 import { Separator } from "../UI/Separator";
 import { ThemeMap } from "./Colorscheme";
