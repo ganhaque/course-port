@@ -12,7 +12,7 @@ const CourseTimeTable = () => {
     addPickedCourse,
     removePickedCourse
   } = useScheduleContext();
-  const [ isCourseListOpen, setIsCourseListOpen ] = useState();
+  /* const [ isCourseListOpen, setIsCourseListOpen ] = useState(); */
 
   /* // Sort selectedCourses based on the 'begin' property */
   /* const sortedCourses = [...selectedCourses].sort((a, b) => { */
@@ -246,7 +246,6 @@ const CourseTimeTable = () => {
           overflow: "scroll",
         }}
       >
-        {/* // TODO: sort this based on begin */}
         {sortedCourses.map((course, index) => {
           const isPicked = pickedCourses.some((pickedCourse) => pickedCourse === course);
           /* const backgroundColor = course.begin === "?" ? "hsla(var(--red), 0.75)" : */
@@ -262,8 +261,9 @@ const CourseTimeTable = () => {
             (prevCourse.begin !== course.begin || prevCourse.end !== course.end);
 
           return (
-
-            <>
+            <div
+              key={index}
+            >
               {
                 isDifferentBeginEnd ? (
                   <Separator
@@ -286,7 +286,6 @@ const CourseTimeTable = () => {
                     console.log("picked", course);
                   }
                 }}
-                key={index}
                 style={{
                   /* marginTop: isDifferentBeginEnd ? "0.5rem" : "0", */
                   /* flexGrow: "1", */
@@ -308,7 +307,7 @@ const CourseTimeTable = () => {
                 <p>{`${course.abbreviation} ${course.number} - ${course.title}`}</p>
                 {/* Add more details or customize as needed */}
               </div>
-            </>
+            </div>
           );
         })}
       </div>
