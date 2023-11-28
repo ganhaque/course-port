@@ -1,20 +1,54 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { Course } from './Data';
 import { useScheduleContext } from './ScheduleProvider';
 import "./CourseTimeTable.css"
 import { days, mapDaysToShortForm } from './Data';
+import { Separator } from '../UI/Separator';
 
 const CourseTimeTable = () => {
-  const { selectedCourses } = useScheduleContext();
+  const {
+    selectedCourses,
+    pickedCourses,
+    addPickedCourse,
+    removePickedCourse
+  } = useScheduleContext();
+  const [ isCourseListOpen, setIsCourseListOpen ] = useState();
 
-  /* // Helper function to convert minutes to a time string */
-  /* const convertToTime = (minutes: number | string): string => { */
-  /*   if (typeof minutes === 'number') { */
-  /*     const hours = Math.floor(minutes / 60); */
-  /*     const mins = minutes % 60; */
-  /*     return `${String(hours)}:${String(mins).padStart(2, '0')}`; */
-  /*   } */
-  /*   return '-'; */
-  /* }; */
+  /* // Sort selectedCourses based on the 'begin' property */
+  /* const sortedCourses = [...selectedCourses].sort((a, b) => { */
+  /*   if (a.begin === "?" && b.begin === "?") return 0; */
+  /*   if (a.begin === "?") return -1; */
+  /*   if (b.begin === "?") return 1; */
+  /*   // Replace 'begin' with the actual property name you want to sort by */
+  /*   // Assuming 'begin' is a numerical value, modify the comparison logic accordingly if it's of a different type */
+  /*   return a.begin - b.begin; */
+  /* }); */
+  /**/
+  /* useEffect(() => { */
+  /* }, [selectedCourses]); */
+
+  // State variable to store sorted courses
+  const [sortedCourses, setSortedCourses] = useState<Course[]>([]);
+
+  // Sort selectedCourses based on the 'begin' property
+  useEffect(() => {
+    const sortCourses = () => {
+      const sorted = [...selectedCourses].sort((a, b) => {
+        if (a.begin === "?" && b.begin === "?") return 0;
+        if (a.begin === "?") return 1;
+        if (b.begin === "?") return -1;
+        if (a.begin === b.begin) {
+          if (a.duration === "?" || b.duration === "?") return 0;
+          return a.duration - b.duration;
+        }
+        return a.begin - b.begin;
+      });
+      setSortedCourses(sorted);
+    };
+
+    sortCourses();
+  }, [selectedCourses]); // Trigger sorting whenever selectedCourses changes
+
 
   const convertToTime = (minutes : number) => {
     const hours = Math.floor(minutes / 60);
@@ -36,17 +70,27 @@ const CourseTimeTable = () => {
   return (
     <div style={{
       display: "flex",
-      flexDirection: "column",
+      /* height: "100%", */
+      /* resize: "vertical", */
+      overflow: "auto",
+      /* flexDirection: "column", */
     }}
     >
       <div style={{
         display: 'flex',
+        /* flexGrow:"1", */
         /* height: "200%", */
-        height: "calc(100vh - 16rem)",
-        resize: "vertical",
+        /* height: "calc(100vh - 16rem)", */
+        /* width: "calc(100vw - 12rem)", */
+        /* resize: "horizontal", */
+        resize: "horizontal",
+        /* width: "80%", */
         width: "100%",
+        /* minWidth: "80%", */
+        /* maxWidth: "200%", */
         /* flexShrink: "2", */
         overflow: "auto",
+        scrollbarWidth: "none",
         /* maxHeight: "100%", */
         /* gap: '4px' */
         /* width:'100vw', */
@@ -143,7 +187,7 @@ const CourseTimeTable = () => {
             })}
 
             {/* Render courses for each day */}
-            {selectedCourses.map((course, index) => {
+            {pickedCourses.map((course, index) => {
               if (course.days.includes(mapDaysToShortForm[day])) {
                 const top = typeof course.begin === "number" ?
                   /* (16 + course.begin * 2 + 7 * 120) : */
@@ -177,8 +221,96 @@ const CourseTimeTable = () => {
           </div>
         ))}
       </div>
-      <div>
-        Lorem ipsum dolor sit amet, officia excepteur ex fugiat reprehenderit enim labore culpa sint ad nisi Lorem pariatur mollit ex esse exercitation amet. Nisi anim cupidatat excepteur officia. Reprehenderit nostrud nostrud ipsum Lorem est aliquip amet voluptate voluptate dolor minim nulla est proident. Nostrud officia pariatur ut officia. Sit irure elit esse ea nulla sunt ex occaecat reprehenderit commodo officia dolor Lorem duis laboris cupidatat officia voluptate. Culpa proident adipisicing id nulla nisi laboris ex in Lorem sunt duis officia eiusmod. Aliqua reprehenderit commodo ex non excepteur duis sunt velit enim. Voluptate laboris sint cupidatat ullamco ut ea consectetur et est culpa et culpa duis.
+      {/* <div */}
+      {/*   style={{ */}
+      {/*     width: "1rem", */}
+      {/*     backgroundColor: "hsla(var(--green))", */}
+      {/*   }} */}
+      {/* > */}
+      {/*   a */}
+      {/* </div> */}
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "0.25rem",
+          /* flexWrap: "wrap", */
+          /* minWidth: "0rem", */
+          /* height: "54.375rem", */
+          padding: "0.25rem",
+          /* width: "100%rem", */
+          flexGrow: "1",
+          /* maxWidth: "12rem", */
+          /* flexShrink:"2", */
+          /* resize: "horizontal", */
+          overflow: "scroll",
+        }}
+      >
+        {/* // TODO: sort this based on begin */}
+        {sortedCourses.map((course, index) => {
+          const isPicked = pickedCourses.some((pickedCourse) => pickedCourse === course);
+          /* const backgroundColor = course.begin === "?" ? "hsla(var(--red), 0.75)" : */
+          /*   isPicked ? "hsla(var(--primary), 0.75)" : "hsla(var(--grey), 0.75)" */
+          /* const className = course.begin === "?" ? "tba-course-cell" : */
+          /*   isPicked ? "picked-course-cell" : "not-picked-course-cell" */
+          const className = !isPicked ? "not-picked-course-cell" :
+            course.begin === "?" ? "tba-course-cell" : "picked-course-cell"
+          const height = typeof course.duration === "number" ?
+            (course.duration + 8) : 50;
+          const prevCourse = sortedCourses[index - 1];
+          const isDifferentBeginEnd = prevCourse &&
+            (prevCourse.begin !== course.begin || prevCourse.end !== course.end);
+
+          return (
+
+            <>
+              {
+                isDifferentBeginEnd ? (
+                  <Separator
+                    style={{
+                      margin:"0.5rem 0",
+                      backgroundColor:"hsla(var(--primary))"
+                    }}
+                    orientation="horizontal"
+                  />
+                ) : (<></>)
+              }
+              <div
+                onClick={() => {
+                  if (isPicked) {
+                    removePickedCourse(course);
+                    console.log("unpicked", course);
+                  }
+                  else {
+                    addPickedCourse(course);
+                    console.log("picked", course);
+                  }
+                }}
+                key={index}
+                style={{
+                  /* marginTop: isDifferentBeginEnd ? "0.5rem" : "0", */
+                  /* flexGrow: "1", */
+                  /* position: 'absolute', */
+                  /* opacity: course.begin === "?" ? "0" : "1", */
+                  /* top: `${top}px`, */
+                  /* height: `${height}px`, */
+                  minHeight: `${height}px`,
+                  /* width: '6rem', */
+                  /* background: 'hsla(var(--primary), 0.75)', */
+                  /* background: backgroundColor, */
+                  /* borderRadius: "0.25rem", */
+                  /* color: 'hsla(var(--white))', */
+                  /* border: '1px solid #ccc', */
+                  /* padding: '0.25rem', */
+                }}
+                className= {className}
+              >
+                <p>{`${course.abbreviation} ${course.number} - ${course.title}`}</p>
+                {/* Add more details or customize as needed */}
+              </div>
+            </>
+          );
+        })}
       </div>
     </div>
   );

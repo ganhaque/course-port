@@ -49,8 +49,8 @@ export function DataTable() {
     selectedDepartment,
     selectedDays,
     database,
-    addCourse,
-    removeCourse,
+    addSelectedCourse,
+    removeSelectedCourse,
     filterString,
     visibleColumns,
     isShowTBADays,
@@ -200,12 +200,20 @@ export function DataTable() {
                     <TableRow
                       className={isNewSection ? "new-section" : ""}
                       data-state={(row.getIsSelected() && "selected")}
-                      onAuxClick={() => {
+                      /* onAuxClick={() => { */
+                      /*   if (row.getIsSelected()) { */
+                      /*     removeSelectedCourse(row.original as Course); */
+                      /*   } */
+                      /*   else { */
+                      /*     addSelectedCourse(row.original as Course); */
+                      /*   } */
+                      /* }} */
+                      onClick={() => {
                         if (row.getIsSelected()) {
-                          removeCourse(row.original as Course);
+                          removeSelectedCourse(row.original as Course);
                         }
                         else {
-                          addCourse(row.original as Course);
+                          addSelectedCourse(row.original as Course);
                         }
                       }}
                     >
@@ -221,11 +229,11 @@ export function DataTable() {
                               onClick={() => {
                                 const course = row.original as Course;
                                 if (row.getIsSelected()) {
-                                  removeCourse(course);
+                                  removeSelectedCourse(course);
                                   console.log("removed", course);
                                 }
                                 else {
-                                  addCourse(course);
+                                  addSelectedCourse(course);
                                   console.log("added", course);
                                 }
                               }}

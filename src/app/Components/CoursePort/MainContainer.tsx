@@ -6,7 +6,7 @@ import { useScheduleContext } from "./ScheduleProvider";
 /* import { Database, Course, mapDaysToShortForm, timeStringToMinutes } from "./Data"; */
 /* import { columns } from "./Columns"; */
 import { DataTable } from "./DataTable"
-import { SelectedPlaceHolder } from "./SelectedPlaceholder";
+/* import { SelectedPlaceHolder } from "./SelectedPlaceholder"; */
 import CourseTimeTable from "./CourseTimeTable";
 import Settings from "./Settings";
 

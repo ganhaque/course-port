@@ -56,7 +56,7 @@ git push
 - Theme switcher / Dark/Light mode toggle
 - [x] Time filter.
 - [ ] Duration filter.
-    - [ ] and coloring
+    - [x] and coloring
 - Days blacklist filter (current one is whitelist)
 - The Telescope command search experience
     - tab and shift-tab to cycle
@@ -64,8 +64,8 @@ git push
         - searching 'EE' should have 'EE' before 'AEEE'
 - Settings window/sidebar/container?
     - Hide class with avl == 0
-- [ ] credit hour color
-- [ ] Department & Semester highlight current selected
+- [x] credit hour color
+- [x] Department & Semester highlight current selected
 - Display spring & fall exclusivity
     - Can do this by comparing course number between semester during the parsing?
         - This can give false positive tho?
@@ -78,7 +78,7 @@ git push
 - Generate something Google Calendar or Outlook can import?
     - Require knowing how long the semester is
         - Or maybe there's a predictable pattern (like second week of December or something)
-- [ ] Display courses from 2 to 5 departments.
+- [x] your selected course is also visible when you switch department or semester
 - More themes
     - Gruvbox
 
@@ -90,5 +90,5 @@ git push
 - Display ***ALL*** courses from ***ALL*** department for a given semester
     - Lag
     - There's too many filters & sorting
-    - Compromise: only from a few departments since that is more useful
+    - Compromise: selected class are visible even when you switched to a new department/semester
 

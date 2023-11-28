@@ -30,6 +30,7 @@ export interface Course  {
     building?: string;
     instructor?: string;
   }
+  /* picked?: boolean; */
 }
 
 export interface Database {

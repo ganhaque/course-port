@@ -28,9 +28,13 @@ interface ProviderContextType {
   selectedSemester: string;
   setSelectedSemester: React.Dispatch<React.SetStateAction<string>>;
   selectedCourses: Course[];
-  setSelectedCourses: React.Dispatch<React.SetStateAction<Course[]>>;
-  addCourse: <T extends Course>(course: T) => void;
-  removeCourse: <T extends Course>(course: T) => void;
+  /* setSelectedCourses: React.Dispatch<React.SetStateAction<Course[]>>; */
+  addSelectedCourse: <T extends Course>(course: T) => void;
+  removeSelectedCourse: <T extends Course>(course: T) => void;
+  pickedCourses: Course[];
+  /* setPickedCourses: React.Dispatch<React.SetStateAction<Course[]>>; */
+  addPickedCourse: <T extends Course>(course: T) => void;
+  removePickedCourse: <T extends Course>(course: T) => void;
   selectedDepartment: string;
   setSelectedDepartment: React.Dispatch<React.SetStateAction<string>>;
   /* selectedDays: string[]; */
@@ -79,6 +83,7 @@ export const ScheduleProvider: React.FC<{children: ReactNode}> = ({ children }) 
   const [selectedDays, setSelectedDays] = useState<{ [key: string]: boolean }>(initialDays);
   /* const [isExclusiveDays, setIsExclusiveDays] = useState<boolean>(false); */
   const [selectedCourses, setSelectedCourses] = useState<Course[]>([]);
+  const [pickedCourses, setPickedCourses] = useState<Course[]>([]);
   const [isShowTBADays, setIsShowTBADays] = useState<boolean>(true);
   const [isShowTBATime, setIsShowTBATime] = useState<boolean>(true);
   /* const [database, setDatabase] = useState<Semester[]>(exampleDatabase); */
@@ -113,25 +118,66 @@ export const ScheduleProvider: React.FC<{children: ReactNode}> = ({ children }) 
     setSelectedDays(updatedDays);
   };
 
-  const addCourse = <T extends Course>(course: T) => {
+  const addSelectedCourse = <T extends Course>(course: T) => {
+    /* console.log("add selectedCourses", course); */
     setSelectedCourses((prevSelectedCourses) => {
+      /* NOTE: stuffs inside here get called twice for some reason */
+      /* even though addSelectedCourse is only called once */
+      /* console.log("TWICE"); */
+
       // Check if the course is already in the selectedCourses array
-      if (prevSelectedCourses.some((selectedCourse) => selectedCourse.number === course.number && selectedCourse.section === course.section)) {
+      if (prevSelectedCourses.some((selectedCourse) => selectedCourse === course)) {
+        console.log("selectedCourse already exist. Should not happen");
         return prevSelectedCourses; // Course is already selected, no need to add it again
       }
 
       // Add the course to the selectedCourses array
       return [...prevSelectedCourses, course];
     });
+
+    // Check for collisions with existing courses
+    const collides = selectedCourses.some(
+      (selectedCourse) => (
+        (course.begin >= selectedCourse.begin && course.begin <= selectedCourse.end) ||
+          (course.end >= selectedCourse.begin && course.end <= selectedCourse.end)
+      )
+    );
+    if (!collides) {
+      /* console.log("NOT Collided", course); */
+      addPickedCourse(course);
+    }
   };
 
-  const removeCourse = <T extends Course>(course: T) => {
+  const removeSelectedCourse = <T extends Course>(course: T) => {
     setSelectedCourses((prevSelectedCourses) => {
-      // Filter out the course with the specified number and section
       const updatedSelectedCourses = prevSelectedCourses.filter(
-        (selectedCourse) => selectedCourse.number !== course.number || selectedCourse.section !== course.section
+        (selectedCourse) => selectedCourse !== course
       );
       return updatedSelectedCourses;
+    });
+    removePickedCourse(course);
+  };
+
+  const addPickedCourse = <T extends Course>(course: T) => {
+    setPickedCourses((prevPickedCourses) => {
+      /* console.log("ONE"); */
+      /* // Check if the course is already in the selectedCourses array */
+      if (prevPickedCourses.some((pickedCourses) => pickedCourses === course)) {
+        console.log("pickedCourse already exist. Should not happen");
+        return prevPickedCourses; // Course is already selected, no need to add it again
+      }
+
+      // Add the course to the selectedCourses array
+      return [...prevPickedCourses, course];
+    });
+  };
+
+  const removePickedCourse = <T extends Course>(course: T) => {
+    setPickedCourses((prevPickedCourses) => {
+      const updatedPickedCourses = prevPickedCourses.filter(
+        (pickedCourses) => pickedCourses !== course
+      );
+      return updatedPickedCourses;
     });
   };
 
@@ -141,9 +187,13 @@ export const ScheduleProvider: React.FC<{children: ReactNode}> = ({ children }) 
         selectedSemester,
         setSelectedSemester,
         selectedCourses,
-        setSelectedCourses,
-        addCourse,
-        removeCourse,
+        /* setSelectedCourses, */
+        addSelectedCourse,
+        removeSelectedCourse,
+        pickedCourses,
+        /* setPickedCourses, */
+        addPickedCourse,
+        removePickedCourse,
         selectedDepartment,
         setSelectedDepartment,
         selectedDays,

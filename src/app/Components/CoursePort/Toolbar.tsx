@@ -50,6 +50,7 @@ import { columnIdArray } from "./Columns";
 import { Separator } from "../UI/Separator";
 import { ThemeMap } from "./Colorscheme";
 
+/* TODO: Toolbar change based on the page it's on */
 function Toolbar() {
   /* const reversedTimeIntervals = [...timeIntervals].reverse(); */
   /* const [fromTime, setFromTime] = useState(timeIntervals[0]); // Initialize the selected time state */
