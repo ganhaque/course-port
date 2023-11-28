@@ -226,17 +226,17 @@ export function DataTable() {
                                 boxShadow: "none",
                               }}
                               /* className="ghost" */
-                              onClick={() => {
-                                const course = row.original as Course;
-                                if (row.getIsSelected()) {
-                                  removeSelectedCourse(course);
-                                  console.log("removed", course);
-                                }
-                                else {
-                                  addSelectedCourse(course);
-                                  console.log("added", course);
-                                }
-                              }}
+                              /* onClick={() => { */
+                              /*   const course = row.original as Course; */
+                              /*   if (row.getIsSelected()) { */
+                              /*     removeSelectedCourse(course); */
+                              /*     console.log("removed", course); */
+                              /*   } */
+                              /*   else { */
+                              /*     addSelectedCourse(course); */
+                              /*     console.log("added", course); */
+                              /*   } */
+                              /* }} */
                             >
                               {row.getIsSelected() ? (
                                 <IoMdHeart
