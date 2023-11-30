@@ -232,23 +232,13 @@ export const ScheduleProvider: React.FC<{children: ReactNode}> = ({ children }) 
               course2.lab.begin,
               course2.lab.end
             );
-            return (
-              regularDaysOverlap ||
-                labLabDaysOverlap ||
-                labDaysOverlap1 ||
-                labDaysOverlap2 ||
-                regularTimeOverlap ||
-                labLabTimeOverlap ||
-                labTimeOverlap1 ||
-                labTimeOverlap2
-            );
+            if (labLabDaysOverlap && labLabTimeOverlap || labDaysOverlap2 && labTimeOverlap2) {
+              return true;
+            }
           }
-          return (
-            regularDaysOverlap ||
-              labDaysOverlap1 ||
-              regularTimeOverlap ||
-              labTimeOverlap1
-          );
+          if (labDaysOverlap1 && labTimeOverlap1) {
+            return true;
+          }
         }
 
         if (course2.lab) {
@@ -259,15 +249,12 @@ export const ScheduleProvider: React.FC<{children: ReactNode}> = ({ children }) 
             course2.lab.begin,
             course2.lab.end
           );
-          return (
-            regularDaysOverlap ||
-              labDaysOverlap2 ||
-              regularTimeOverlap ||
-              labTimeOverlap2
-          );
+          if (labDaysOverlap2 && labTimeOverlap2) {
+            return true;
+          }
         }
 
-        return regularDaysOverlap || regularTimeOverlap;
+        return regularDaysOverlap && regularTimeOverlap;
       };
 
       const conflictedIndex = prevPickedCourses.findIndex((pickedCourse) => {
@@ -275,6 +262,7 @@ export const ScheduleProvider: React.FC<{children: ReactNode}> = ({ children }) 
       });
 
       if (conflictedIndex !== -1) {
+        console.log("conflict");
         // Replace the conflicted course with the new one
         const updatedCourses = [...prevPickedCourses];
         updatedCourses.splice(conflictedIndex, 1, course);
