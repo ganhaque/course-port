@@ -1,4 +1,4 @@
-function Settings() {
+function HelpPage() {
   return (
     <div
       style={{
@@ -38,4 +38,4 @@ function Settings() {
   )
 };
 
-export default Settings;
+export default HelpPage;

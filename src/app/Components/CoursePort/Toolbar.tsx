@@ -1,11 +1,11 @@
 'use client';
 
+import { GrDatabase } from "react-icons/gr";
 import {
   CheckIcon,
   CalendarDays,
   /* XIcon, */
-  Clock,
-  Palette,
+  Clock, Palette,
   Settings,
   CalendarCheck,
   ChevronRight,
@@ -49,6 +49,7 @@ import './Toolbar.css';
 import { columnIdArray } from "./Columns";
 import { Separator } from "../UI/Separator";
 import { ThemeMap } from "./Colorscheme";
+import { TooltipProvider } from "@radix-ui/react-tooltip";
 
 /* TODO: Toolbar change based on the page it's on */
 function Toolbar() {
@@ -85,7 +86,7 @@ function Toolbar() {
     toTime,
     setToTime,
     /* selectedTheme, */
-    setSelectedTheme
+    setSelectedTheme,
   } = useScheduleContext();
 
   /* const timeIntervals = Object.keys(timeStringToMinutes); */
@@ -108,8 +109,12 @@ function Toolbar() {
               alignItems:"center",
               justifyContent:"center",
             }}
+            className="tooltip-container"
           >
             <MixerHorizontalIcon style={{height:"1.25rem", width:"1.25rem"}}/>
+            <div className="tooltip-content-right-side">
+              Columns
+            </div>
           </button>
         </PopoverTrigger>
         <PopoverContent align='start'>
@@ -423,8 +428,25 @@ function Toolbar() {
               alignItems:"center"
             }}
           >
-            <CalendarDays style={{height:"1.25rem", width:"1.25rem", marginRight:"0.5rem"}}/>
-            Days
+            <div
+              style={{
+                display:"flex",
+                alignItems:"center"
+              }}
+              /* className="tooltip-container" */
+            >
+              <CalendarDays
+                style={{
+                  height:"1.25rem",
+                  width:"1.25rem",
+                  marginRight:"0.5rem"
+                }}
+              />
+              {/* <div className="tooltip-content-right-side"> */}
+              {/*   Days */}
+              {/* </div> */}
+              Days
+            </div>
           </div>
         </PopoverTrigger>
         <PopoverContent
@@ -512,7 +534,9 @@ function Toolbar() {
       </Popover>
 
       <Popover>
-        <PopoverTrigger>
+        <PopoverTrigger
+          className="tooltip-container"
+        >
           <div
             style={{
               display:"flex",
@@ -526,6 +550,9 @@ function Toolbar() {
                 /* marginRight:"0.5rem" */
               }}
             />
+            <div className="tooltip-content-right-side">
+              Theme
+            </div>
             {/* Theme */}
           </div>
         </PopoverTrigger>
@@ -565,7 +592,6 @@ function Toolbar() {
         </PopoverContent>
       </Popover>
 
-
       <button
         style={{
           display:"flex",
@@ -573,67 +599,67 @@ function Toolbar() {
           alignItems:"center",
           justifyContent:"center",
           marginLeft:"auto",
-          paddingLeft: "0.25rem",
         }}
         /* className="ghost" */
+        className="tooltip-container"
         onClick={() => {
           console.log("Cycle through pages~");
           /* NOTE: the 3 is the length of the pages array in MainContainer, */
           /* remember to update it when adding new page to the array */
-          setActivePageIndex((activePageIndex - 1 + 3) % 3);
+          setActivePageIndex((activePageIndex + 1) % 2);
         }}
       >
-        <ChevronLeft
-          style={{
-            textAlign:"center",
-            height:"1.25rem",
-            width:"1.25rem",
-            /* marginRight:"0.5rem" */
-          }}
-        />
-        {/* <Settings */}
-        {/*   style={{ */}
-        {/*     textAlign:"center", */}
-        {/*     height:"1.25rem", */}
-        {/*     width:"1.25rem", */}
-        {/*   }} */}
-        {/* /> */}
-        {/* Settings */}
-      </button>
-
-
-      <button
-        style={{
-          display:"flex",
-          /* height:"100%", */
-          alignItems:"center",
-          justifyContent:"center",
-          /* marginLeft:"auto", */
-          paddingRight:"0.25rem",
-        }}
-        /* className="ghost" */
-        onClick={() => {
-          console.log("Cycle through pages~");
-          /* NOTE: the 3 is the length of the pages array in MainContainer, */
-          /* remember to update it when adding new page to the array */
-          setActivePageIndex((activePageIndex + 1) % 3);
-        }}
-      >
-        {/* <CalendarCheck */}
-        {/*   style={{ */}
-        {/*     textAlign:"center", */}
-        {/*     height:"1.25rem", */}
-        {/*     width:"1.25rem", */}
-        {/*   }} */}
-        {/* /> */}
-        <ChevronRight
-          style={{
-            textAlign:"center",
-            height:"1.25rem",
-            width:"1.25rem",
-          }}
-        />
-        {/* Settings */}
+        {activePageIndex !== 0 ? (
+          <div
+            style={{
+              display:"flex",
+              alignItems:"center",
+              justifyContent:"center",
+            }}
+          >
+            <div className="tooltip-content-left-side">
+              Booklet
+              <ChevronRight
+                style={{
+                  height:"1.25rem",
+                  width:"1.25rem",
+                  /* marginRight:"0.5rem" */
+                }}
+              />
+            </div>
+            <GrDatabase
+              style={{
+                height:"1.25rem",
+                width:"1.25rem",
+              }}
+            />
+          </div>
+        ) : (
+            <div
+              style={{
+                display:"flex",
+                alignItems:"center",
+                justifyContent:"center",
+              }}
+            >
+              <div className="tooltip-content-left-side">
+                Time Table
+                <ChevronRight
+                  style={{
+                    height:"1.25rem",
+                    width:"1.25rem",
+                    /* marginRight:"0.5rem" */
+                  }}
+                />
+              </div>
+              <CalendarCheck
+                style={{
+                  height:"1.25rem",
+                  width:"1.25rem",
+                }}
+              />
+            </div>
+          )}
       </button>
 
       {/* <button */}

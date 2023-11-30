@@ -90,7 +90,7 @@ export const ScheduleProvider: React.FC<{children: ReactNode}> = ({ children }) 
   const [filterString, setFilterString] = useState<string>("");
 
   const [visibleColumns, setVisibleColumns] = useState<string[]>(initialVisibleColumnId);
-  const [activePageIndex, setActivePageIndex] = useState<number>(1);
+  const [activePageIndex, setActivePageIndex] = useState<number>(0);
 
   const [fromTime, setFromTime] = useState(timeIntervals[0]);
   const [toTime, setToTime] = useState(reversedTimeIntervals[0]);

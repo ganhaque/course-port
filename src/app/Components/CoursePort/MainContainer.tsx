@@ -8,7 +8,7 @@ import { useScheduleContext } from "./ScheduleProvider";
 import { DataTable } from "./DataTable"
 /* import { SelectedPlaceHolder } from "./SelectedPlaceholder"; */
 import CourseTimeTable from "./CourseTimeTable";
-import Settings from "./Settings";
+import HelpPage from "./HelpPage";
 
 function MainContainer() {
   const {
@@ -17,33 +17,33 @@ function MainContainer() {
 
 
   const pages = [
-    <Settings/>,
     /* <DataTable columns={columns} data={filteredCourses} />, */
     <DataTable/>,
-    /* <SelectedPlaceHolder/>, */
     <CourseTimeTable/>,
+    /* <SelectedPlaceHolder/>, */
+    <HelpPage/>,
   ]
 
   return (
-    <div
-      style={{
-        display:'flex',
-        flexDirection:'column',
-        flexGrow:'1',
-        backgroundColor: 'hsla(var(--black))',
-        overflow:'scroll',
-        height: 'calc(100vh - 4rem)',
-        /* borderBottomLeftRadius:'0.75rem', */
-        /* borderBottomRightRadius:'0.75rem', */
-        /* borderRadius:'0.75rem', */
-        /* margin:"0 0.5rem" */
-        /* padding:"0 0.5rem" */
-      }}
-    >
-      {/* <DataTable columns={columns} data={filteredData} /> */}
-      {pages[activePageIndex]}
+      <div
+        style={{
+          display:'flex',
+          flexDirection:'column',
+          flexGrow:'1',
+          backgroundColor: 'hsla(var(--black))',
+          overflow:'scroll',
+          height: 'calc(100vh - 4rem)',
+          /* borderBottomLeftRadius:'0.75rem', */
+          /* borderBottomRightRadius:'0.75rem', */
+          /* borderRadius:'0.75rem', */
+          /* margin:"0 0.5rem" */
+          /* padding:"0 0.5rem" */
+        }}
+      >
+        {/* <DataTable columns={columns} data={filteredData} /> */}
+        {pages[activePageIndex]}
 
-    </div>
+      </div>
   )
 }
 

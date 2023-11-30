@@ -15,3 +15,23 @@
 /* .toolbar-container > button { */
 /* flex-grow: 1; */
 /* } */
+
+.tooltip-content-left-side {
+  margin-right: 0.5rem;
+  display: none;
+}
+.tooltip-content-right-side {
+  margin-left: 0.5rem;
+  display: none;
+}
+
+.tooltip-content-left-side,
+.tooltip-content-right-side {
+  display: none;
+}
+
+.tooltip-container:hover .tooltip-content-left-side,
+.tooltip-container:hover .tooltip-content-right-side {
+  display: flex;
+  opacity: 1; /* Show with full opacity */
+}
