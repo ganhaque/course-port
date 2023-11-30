@@ -3,7 +3,7 @@
   /* width: calc(100% - 1rem); */
   width: 100%;
   /* background-color: hsla(var(--primary), 0.8); */
-  background-color: color-mix(in oklch, hsla(var(--primary), 0.75), hsla(var(--black)));
+  background-color: color-mix(in oklch, hsla(var(--green), 0.75), hsla(var(--black)));
   /* background-color: hsla(var(--grey), 0.8); */
   /* background-color: hsla(var(--primary), 0.375); */
   /* color: hsla(var(--black)); */
@@ -22,7 +22,7 @@
 .course-cell:hover {
   /* background-color: hsla(var(--primary), 0.5); */
   /* background-color: hsla(var(--primary), 1); */
-  background-color: color-mix(in oklch, hsla(var(--primary)), hsla(var(--black)));
+  background-color: color-mix(in oklch, hsla(var(--green)), hsla(var(--black)));
 }
 
 .lab-cell {
@@ -56,18 +56,21 @@
 }
 
 .tba-course-cell {
-  background-color: hsla(var(--red), 0.75);
+  background-color: hsla(var(--purple), 0.75);
 }
 .picked-course-cell {
   /* background-color: hsla(var(--primary), 0.75); */
-  background-color: color-mix(in oklch, hsla(var(--primary), 0.75), hsla(var(--black)));
+  background-color: color-mix(in oklch, hsla(var(--green), 0.75), hsla(var(--black)));
 }
 .not-picked-course-cell {
   background-color: hsla(var(--grey), 0.75);
 }
+.conflicted-course-cell {
+  background-color: hsla(var(--red), 0.75);
+}
 
 .tba-course-cell:hover {
-background-color: hsla(var(--red), 1);
+background-color: hsla(var(--purple), 1);
 }
 .picked-course-cell:hover {
   /* background-color: hsla(var(--primary), 1); */
@@ -75,6 +78,9 @@ background-color: hsla(var(--red), 1);
 }
 .not-picked-course-cell:hover {
   background-color: hsla(var(--grey), 1);
+}
+.conflicted-course-cell:hover {
+  background-color: hsla(var(--red), 1);
 }
 
 

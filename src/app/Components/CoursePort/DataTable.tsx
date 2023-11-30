@@ -53,6 +53,8 @@ export function DataTable() {
     removeSelectedCourse,
     addPickedCourse,
     removePickedCourse,
+    addConflictedCourse,
+    removeConflictedCourse,
     filterString,
     visibleColumns,
     isShowTBADays,
@@ -214,10 +216,12 @@ export function DataTable() {
                         if (row.getIsSelected()) {
                           removeSelectedCourse(row.original as Course);
                           removePickedCourse(row.original as Course);
+                          removeConflictedCourse(row.original as Course);
                         }
                         else {
                           addSelectedCourse(row.original as Course);
                           addPickedCourse(row.original as Course);
+                          addConflictedCourse(row.original as Course);
                         }
                       }}
                     >

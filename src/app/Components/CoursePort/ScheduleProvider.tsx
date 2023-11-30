@@ -34,8 +34,11 @@ interface ProviderContextType {
   pickedCourses: Course[];
   /* setPickedCourses: React.Dispatch<React.SetStateAction<Course[]>>; */
   addPickedCourse: <T extends Course>(course: T) => void;
-  addPickedCourseNoCollision: <T extends Course>(course: T) => void;
+  /* addPickedCourseNoCollision: <T extends Course>(course: T) => void; */
   removePickedCourse: <T extends Course>(course: T) => void;
+  conflictedCourses: Course[];
+  addConflictedCourse: <T extends Course>(course: T) => void;
+  removeConflictedCourse: <T extends Course>(course: T) => void;
   selectedDepartment: string;
   setSelectedDepartment: React.Dispatch<React.SetStateAction<string>>;
   /* selectedDays: string[]; */
@@ -83,8 +86,11 @@ export const ScheduleProvider: React.FC<{children: ReactNode}> = ({ children }) 
   /* const [selectedDays, setSelectedDays] = useState<string[]>(days) */
   const [selectedDays, setSelectedDays] = useState<{ [key: string]: boolean }>(initialDays);
   /* const [isExclusiveDays, setIsExclusiveDays] = useState<boolean>(false); */
+
   const [selectedCourses, setSelectedCourses] = useState<Course[]>([]);
   const [pickedCourses, setPickedCourses] = useState<Course[]>([]);
+  const [conflictedCourses, setConflictedCourses] = useState<Course[]>([]);
+
   const [isShowTBADays, setIsShowTBADays] = useState<boolean>(true);
   const [isShowTBATime, setIsShowTBATime] = useState<boolean>(true);
   /* const [database, setDatabase] = useState<Semester[]>(exampleDatabase); */
@@ -135,34 +141,6 @@ export const ScheduleProvider: React.FC<{children: ReactNode}> = ({ children }) 
       // Add the course to the selectedCourses array
       return [...prevSelectedCourses, course];
     });
-
-    /* // Check for collisions with existing courses */
-    /* const collides = selectedCourses.some((selectedCourse) => { */
-    /*   // Check if there's any overlap in days */
-    /*   const daysOverlap = course.days */
-    /*   .replace(/\s/g, '') // replace space */
-    /*   .replace('TH', 'H') // replace TH with H to prevent confusing with T */
-    /*   .split('').some(day => */
-    /*     selectedCourse.days */
-    /*     .replace('TH', 'H') // replace TH with H to prevent confusing with T */
-    /*     .includes(day) */
-    /*   ); */
-    /**/
-    /*   if (!daysOverlap) { */
-    /*     return false; // If there's no day overlap, no need to check time */
-    /*   } */
-    /**/
-    /*   // Check for time collision if there's a day overlap */
-    /*   const timeOverlap = */
-    /*     (course.begin >= selectedCourse.begin && course.begin <= selectedCourse.end) || */
-    /*       (course.end >= selectedCourse.begin && course.end <= selectedCourse.end) */
-    /**/
-    /*   return timeOverlap; */
-    /* }); */
-    /**/
-    /* if (!collides) { */
-    /*   addPickedCourse(course); */
-    /* } */
   };
 
   const removeSelectedCourse = <T extends Course>(course: T) => {
@@ -172,24 +150,17 @@ export const ScheduleProvider: React.FC<{children: ReactNode}> = ({ children }) 
       );
       return updatedSelectedCourses;
     });
-    removePickedCourse(course);
   };
 
-  const addPickedCourseNoCollision = <T extends Course>(course: T) => {
-    setPickedCourses((prevPickedCourses) => {
-      // Check if the course is already in the selectedCourses array
-      if (prevPickedCourses.some((pickedCourse) => pickedCourse === course)) {
+  const addConflictedCourse = <T extends Course>(course: T) => {
+    console.log("add conflictedCourse", course);
+    setConflictedCourses((prevConflictedCourses) => {
+      // Check if the course is already in the conflictedCourse array
+      if (prevConflictedCourses.some((conflictedCourse) => conflictedCourse === course)) {
         console.log("pickedCourse already exists. Should not happen");
-        return prevPickedCourses; // Course is already selected, no need to add it again
+        return prevConflictedCourses; // Course is already selected, no need to add it again
       }
 
-      // Add the course to the selectedCourses array
-      return [...prevPickedCourses, course];
-    });
-  };
-
-  const addPickedCourse = <T extends Course>(course: T) => {
-    setPickedCourses((prevPickedCourses) => {
       const hasDaysOverlap = (days1: string, days2: string) => {
         if (days1 === "?" || days2 === "?") {
           return false; // If any day is "?", it doesn't overlap
@@ -298,17 +269,37 @@ export const ScheduleProvider: React.FC<{children: ReactNode}> = ({ children }) 
         return regularDaysOverlap || regularTimeOverlap;
       };
 
-      const conflictedIndex = prevPickedCourses.findIndex((pickedCourse) => {
+      const conflictedIndex = pickedCourses.findIndex((pickedCourse) => {
         return hasOverlap(course, pickedCourse);
       });
 
       if (conflictedIndex !== -1) {
-        // Replace the conflicted course with the new one
-        const updatedCourses = [...prevPickedCourses];
-        updatedCourses.splice(conflictedIndex, 1, course);
-        return updatedCourses;
+        console.log("CONFLICT!!!!");
+        // Get the conflicted course from pickedCourses based on conflictedIndex
+        const conflictedCourse = pickedCourses[conflictedIndex];
+
+        // Add both the conflictedCourse and the new course to conflictedCourses
+        return [...prevConflictedCourses, conflictedCourse, course];
       }
 
+      // Keep it the same
+      console.log("No conflict");
+      return prevConflictedCourses;
+    });
+  };
+
+  const removeConflictedCourse = <T extends Course>(course: T) => {
+    console.log("remove conflict");
+    setConflictedCourses((prevConflictedCourses) => {
+      const updatedConflictedCourses = prevConflictedCourses.filter(
+        (conflictedCourse) => conflictedCourse !== course
+      );
+      return updatedConflictedCourses;
+    });
+  };
+
+  const addPickedCourse = <T extends Course>(course: T) => {
+    setPickedCourses((prevPickedCourses) => {
       // Check if the course is already in the selectedCourses array
       if (prevPickedCourses.some((pickedCourse) => pickedCourse === course)) {
         console.log("pickedCourse already exists. Should not happen");
@@ -341,8 +332,11 @@ export const ScheduleProvider: React.FC<{children: ReactNode}> = ({ children }) 
         pickedCourses,
         /* setPickedCourses, */
         addPickedCourse,
-        addPickedCourseNoCollision,
+        /* addPickedCourseNoCollision, */
         removePickedCourse,
+        conflictedCourses,
+        addConflictedCourse,
+        removeConflictedCourse,
         selectedDepartment,
         setSelectedDepartment,
         selectedDays,
