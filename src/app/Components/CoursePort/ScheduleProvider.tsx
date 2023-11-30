@@ -24,6 +24,12 @@ import {
 import { initialVisibleColumnId } from './Columns';
 import { changeTheme, ThemeMap } from './Colorscheme';
 
+interface Conflict {
+  conflictingDays: string;
+  conflictingBegin: number;
+  conflictingEnd: number;
+}
+
 interface ProviderContextType {
   selectedSemester: string;
   setSelectedSemester: React.Dispatch<React.SetStateAction<string>>;
@@ -36,9 +42,12 @@ interface ProviderContextType {
   addPickedCourse: <T extends Course>(course: T) => void;
   /* addPickedCourseNoCollision: <T extends Course>(course: T) => void; */
   removePickedCourse: <T extends Course>(course: T) => void;
-  conflictedCourses: Course[];
-  addConflictedCourse: <T extends Course>(course: T) => void;
-  removeConflictedCourse: <T extends Course>(course: T) => void;
+
+  /* addConflict: React.Dispatch<React.SetStateAction<Conflict[]>>; */
+  addConflict: <T extends Course>(course: T) => void;
+  /* conflictedCourses: Course[]; */
+  /* addConflictedCourse: <T extends Course>(course: T) => void; */
+  /* removeConflictedCourse: <T extends Course>(course: T) => void; */
   selectedDepartment: string;
   setSelectedDepartment: React.Dispatch<React.SetStateAction<string>>;
   /* selectedDays: string[]; */
@@ -89,7 +98,8 @@ export const ScheduleProvider: React.FC<{children: ReactNode}> = ({ children }) 
 
   const [selectedCourses, setSelectedCourses] = useState<Course[]>([]);
   const [pickedCourses, setPickedCourses] = useState<Course[]>([]);
-  const [conflictedCourses, setConflictedCourses] = useState<Course[]>([]);
+  /* const [conflictedCourses, setConflictedCourses] = useState<Course[]>([]); */
+  const [conflicts, setConflicts] = useState<Conflict[]>([]);
 
   const [isShowTBADays, setIsShowTBADays] = useState<boolean>(true);
   const [isShowTBATime, setIsShowTBATime] = useState<boolean>(true);
@@ -126,11 +136,11 @@ export const ScheduleProvider: React.FC<{children: ReactNode}> = ({ children }) 
   };
 
   const addSelectedCourse = <T extends Course>(course: T) => {
-    /* console.log("add selectedCourses", course); */
+    console.log("add selectedCourses", course);
     setSelectedCourses((prevSelectedCourses) => {
       /* NOTE: stuffs inside here get called twice for some reason */
       /* even though addSelectedCourse is only called once */
-      /* console.log("TWICE"); */
+      console.log("TWICE");
 
       // Check if the course is already in the selectedCourses array
       if (prevSelectedCourses.some((selectedCourse) => selectedCourse === course)) {
@@ -152,14 +162,9 @@ export const ScheduleProvider: React.FC<{children: ReactNode}> = ({ children }) 
     });
   };
 
-  const addConflictedCourse = <T extends Course>(course: T) => {
-    console.log("add conflictedCourse", course);
-    setConflictedCourses((prevConflictedCourses) => {
-      // Check if the course is already in the conflictedCourse array
-      if (prevConflictedCourses.some((conflictedCourse) => conflictedCourse === course)) {
-        console.log("pickedCourse already exists. Should not happen");
-        return prevConflictedCourses; // Course is already selected, no need to add it again
-      }
+  const addConflict = <T extends Course>(course: T) => {
+    setConflicts((prevConflicts) => {
+      const newConflicts: Conflict[] = [];
 
       const hasDaysOverlap = (days1: string, days2: string) => {
         if (days1 === "?" || days2 === "?") {
@@ -198,103 +203,47 @@ export const ScheduleProvider: React.FC<{children: ReactNode}> = ({ children }) 
         return false;
       };
 
-      const hasOverlap = (course1: Course, course2: Course) => {
-        const regularDaysOverlap = hasDaysOverlap(course1.days, course2.days);
-        const regularTimeOverlap = hasTimeOverlap(
-          course1.begin,
-          course1.end,
-          course2.begin,
-          course2.end
-        );
+      const findConflicts = (course1: Course, course2: Course) => {
+        if (course1.begin === "?" || course1.end === "?" || course2.begin === "?" || course2.end === "?") {
+          console.log("ERROR. Should not happen.")
+          return;
+        }
+        const checkConflict = (c1: Course, c2: Course) => {
+          const daysOverlap = hasDaysOverlap(c1.days, c2.days);
+          const timeOverlap = hasTimeOverlap(c1.begin, c1.end, c2.begin, c2.end);
 
-        if (course1.lab) {
-          const labDaysOverlap1 = hasDaysOverlap(course1.lab.days, course2.days);
-          const labTimeOverlap1 = hasTimeOverlap(
-            course1.lab.begin,
-            course1.lab.end,
-            course2.begin,
-            course2.end
-          );
+          return daysOverlap && timeOverlap;
+        };
 
-          if (course2.lab) {
-            const labLabDaysOverlap = hasDaysOverlap(course1.lab.days, course2.lab.days);
-            const labLabTimeOverlap = hasTimeOverlap(
-              course1.lab.begin,
-              course1.lab.end,
-              course2.lab.begin,
-              course2.lab.end
-            );
-            const labDaysOverlap2 = hasDaysOverlap(course1.days, course2.lab.days);
-            const labTimeOverlap2 = hasTimeOverlap(
-              course1.begin,
-              course1.end,
-              course2.lab.begin,
-              course2.lab.end
-            );
-            return (
-              regularDaysOverlap ||
-                labLabDaysOverlap ||
-                labDaysOverlap1 ||
-                labDaysOverlap2 ||
-                regularTimeOverlap ||
-                labLabTimeOverlap ||
-                labTimeOverlap1 ||
-                labTimeOverlap2
-            );
-          }
-          return (
-            regularDaysOverlap ||
-              labDaysOverlap1 ||
-              regularTimeOverlap ||
-              labTimeOverlap1
-          );
+        const conflictDetected = checkConflict(course1, course2);
+        let labConflictDetected = false;
+
+        if (course1.lab && course2.lab) {
+          labConflictDetected = checkConflict(course1.lab, course2.lab);
         }
 
-        if (course2.lab) {
-          const labDaysOverlap2 = hasDaysOverlap(course1.days, course2.lab.days);
-          const labTimeOverlap2 = hasTimeOverlap(
-            course1.begin,
-            course1.end,
-            course2.lab.begin,
-            course2.lab.end
-          );
-          return (
-            regularDaysOverlap ||
-              labDaysOverlap2 ||
-              regularTimeOverlap ||
-              labTimeOverlap2
-          );
-        }
+        if (conflictDetected || labConflictDetected) {
+          const smallerBegin = Math.min(course1.begin, course2.begin);
+          const biggerEnd = Math.max(course1.end, course2.end);
 
-        return regularDaysOverlap || regularTimeOverlap;
+          newConflicts.push({
+            conflictingDays: course1.days,
+            conflictingBegin: smallerBegin,
+            conflictingEnd: biggerEnd,
+          });
+        }
       };
 
-      const conflictedIndex = pickedCourses.findIndex((pickedCourse) => {
-        return hasOverlap(course, pickedCourse);
-      });
 
-      if (conflictedIndex !== -1) {
-        console.log("CONFLICT!!!!");
-        // Get the conflicted course from pickedCourses based on conflictedIndex
-        const conflictedCourse = pickedCourses[conflictedIndex];
-
-        // Add both the conflictedCourse and the new course to conflictedCourses
-        return [...prevConflictedCourses, conflictedCourse, course];
+      for (let i = 0; i < pickedCourses.length; i++) {
+        findConflicts(course, pickedCourses[i]);
       }
 
-      // Keep it the same
-      console.log("No conflict");
-      return prevConflictedCourses;
-    });
-  };
-
-  const removeConflictedCourse = <T extends Course>(course: T) => {
-    console.log("remove conflict");
-    setConflictedCourses((prevConflictedCourses) => {
-      const updatedConflictedCourses = prevConflictedCourses.filter(
-        (conflictedCourse) => conflictedCourse !== course
-      );
-      return updatedConflictedCourses;
+      if (newConflicts.length > 0) {
+        console.log("newConflicts", newConflicts);
+      }
+      return [...prevConflicts, ...newConflicts];
+      /* return newConflicts; */
     });
   };
 
@@ -334,9 +283,10 @@ export const ScheduleProvider: React.FC<{children: ReactNode}> = ({ children }) 
         addPickedCourse,
         /* addPickedCourseNoCollision, */
         removePickedCourse,
-        conflictedCourses,
-        addConflictedCourse,
-        removeConflictedCourse,
+        /* conflictedCourses, */
+        /* addConflictedCourse, */
+        /* removeConflictedCourse, */
+        addConflict,
         selectedDepartment,
         setSelectedDepartment,
         selectedDays,
