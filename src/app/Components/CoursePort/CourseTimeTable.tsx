@@ -346,8 +346,8 @@ const CourseTimeTable = () => {
 
           const height = typeof course.duration === "number" ?
             (course.duration + 8) : 50;
-          const labHeight = !course.lab ? "" : typeof course.duration === "number" ?
-            (course.duration + 8) : 50;
+          const labHeight = !course.lab ? "" : typeof course.lab.duration === "number" ?
+            (course.lab.duration + 8) : 50;
 
 
           const prevCourse = sortedCourses[index - 1];
