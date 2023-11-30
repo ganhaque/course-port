@@ -51,6 +51,8 @@ export function DataTable() {
     database,
     addSelectedCourse,
     removeSelectedCourse,
+    addPickedCourse,
+    removePickedCourse,
     filterString,
     visibleColumns,
     isShowTBADays,
@@ -211,9 +213,11 @@ export function DataTable() {
                       onClick={() => {
                         if (row.getIsSelected()) {
                           removeSelectedCourse(row.original as Course);
+                          removePickedCourse(row.original as Course);
                         }
                         else {
                           addSelectedCourse(row.original as Course);
+                          addPickedCourse(row.original as Course);
                         }
                       }}
                     >

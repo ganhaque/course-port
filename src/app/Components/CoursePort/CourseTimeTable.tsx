@@ -17,6 +17,7 @@ const CourseTimeTable = () => {
     selectedCourses,
     pickedCourses,
     addPickedCourse,
+    addPickedCourseNoCollision,
     removePickedCourse,
     removeSelectedCourse,
   } = useScheduleContext();
@@ -489,7 +490,7 @@ const CourseTimeTable = () => {
                     console.log("unpicked", course);
                   }
                   else {
-                    addPickedCourse(course);
+                    addPickedCourseNoCollision(course);
                     console.log("picked", course);
                   }
                 }}
@@ -518,7 +519,8 @@ const CourseTimeTable = () => {
                   }}
                 >
                   <div
-                    onClick={() => {
+                    onClick={(event) => {
+                      event.stopPropagation();
                       removePickedCourse(course);
                       removeSelectedCourse(course);
                     }}
@@ -568,7 +570,7 @@ const CourseTimeTable = () => {
                       console.log("unpicked", course);
                     }
                     else {
-                      addPickedCourse(course);
+                      addPickedCourseNoCollision(course);
                       console.log("picked", course);
                     }
                   }}

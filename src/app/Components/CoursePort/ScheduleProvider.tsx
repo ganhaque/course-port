@@ -34,6 +34,7 @@ interface ProviderContextType {
   pickedCourses: Course[];
   /* setPickedCourses: React.Dispatch<React.SetStateAction<Course[]>>; */
   addPickedCourse: <T extends Course>(course: T) => void;
+  addPickedCourseNoCollision: <T extends Course>(course: T) => void;
   removePickedCourse: <T extends Course>(course: T) => void;
   selectedDepartment: string;
   setSelectedDepartment: React.Dispatch<React.SetStateAction<string>>;
@@ -135,35 +136,33 @@ export const ScheduleProvider: React.FC<{children: ReactNode}> = ({ children }) 
       return [...prevSelectedCourses, course];
     });
 
-    // Check for collisions with existing courses
-    const collides = selectedCourses.some((selectedCourse) => {
-      // Check if there's any overlap in days
-      const daysOverlap = course.days
-      .replace(/\s/g, '') // replace space
-      .replace('TH', 'H') // replace TH with H to prevent confusing with T
-      .split('').some(day =>
-        selectedCourse.days
-        /* .replace(/\s/g, '') // replace space */
-        .replace('TH', 'H') // replace TH with H to prevent confusing with T
-        .includes(day)
-      );
-
-      if (!daysOverlap) {
-        return false; // If there's no day overlap, no need to check time
-      }
-
-      // Check for time collision if there's a day overlap
-      const timeOverlap =
-        (course.begin >= selectedCourse.begin && course.begin <= selectedCourse.end) ||
-          (course.end >= selectedCourse.begin && course.end <= selectedCourse.end)
-
-      return timeOverlap;
-    });
-
-    if (!collides) {
-      /* console.log("NOT Collided", course); */
-      addPickedCourse(course);
-    }
+    /* // Check for collisions with existing courses */
+    /* const collides = selectedCourses.some((selectedCourse) => { */
+    /*   // Check if there's any overlap in days */
+    /*   const daysOverlap = course.days */
+    /*   .replace(/\s/g, '') // replace space */
+    /*   .replace('TH', 'H') // replace TH with H to prevent confusing with T */
+    /*   .split('').some(day => */
+    /*     selectedCourse.days */
+    /*     .replace('TH', 'H') // replace TH with H to prevent confusing with T */
+    /*     .includes(day) */
+    /*   ); */
+    /**/
+    /*   if (!daysOverlap) { */
+    /*     return false; // If there's no day overlap, no need to check time */
+    /*   } */
+    /**/
+    /*   // Check for time collision if there's a day overlap */
+    /*   const timeOverlap = */
+    /*     (course.begin >= selectedCourse.begin && course.begin <= selectedCourse.end) || */
+    /*       (course.end >= selectedCourse.begin && course.end <= selectedCourse.end) */
+    /**/
+    /*   return timeOverlap; */
+    /* }); */
+    /**/
+    /* if (!collides) { */
+    /*   addPickedCourse(course); */
+    /* } */
   };
 
   const removeSelectedCourse = <T extends Course>(course: T) => {
@@ -176,42 +175,143 @@ export const ScheduleProvider: React.FC<{children: ReactNode}> = ({ children }) 
     removePickedCourse(course);
   };
 
-  const addPickedCourse = <T extends Course>(course: T) => {
-
-    // Check for collisions with existing courses
-    const collides = pickedCourses.some((pickedCourses) => {
-      // Check if there's any overlap in days
-      const daysOverlap = course.days
-      .replace(/\s/g, '') // replace space
-      .replace('TH', 'H') // replace TH with H to prevent confusing with T
-      .split('').some(day =>
-        pickedCourses.days
-        /* .replace(/\s/g, '') // replace space */
-        .replace('TH', 'H') // replace TH with H to prevent confusing with T
-        .includes(day)
-      );
-
-      if (!daysOverlap) {
-        return false; // If there's no day overlap, no need to check time
+  const addPickedCourseNoCollision = <T extends Course>(course: T) => {
+    setPickedCourses((prevPickedCourses) => {
+      // Check if the course is already in the selectedCourses array
+      if (prevPickedCourses.some((pickedCourse) => pickedCourse === course)) {
+        console.log("pickedCourse already exists. Should not happen");
+        return prevPickedCourses; // Course is already selected, no need to add it again
       }
 
-      // Check for time collision if there's a day overlap
-      const timeOverlap =
-        (course.begin >= pickedCourses.begin && course.begin <= pickedCourses.end) ||
-          (course.end >= pickedCourses.begin && course.end <= pickedCourses.end)
-
-      return timeOverlap;
+      // Add the course to the selectedCourses array
+      return [...prevPickedCourses, course];
     });
+  };
 
-    // TODO: if collide, remove the conflicted one for the new one or ignore new one
-    if (collides) {
-    }
-
+  const addPickedCourse = <T extends Course>(course: T) => {
     setPickedCourses((prevPickedCourses) => {
-      /* console.log("ONE"); */
-      /* // Check if the course is already in the selectedCourses array */
-      if (prevPickedCourses.some((pickedCourses) => pickedCourses === course)) {
-        console.log("pickedCourse already exist. Should not happen");
+      const hasDaysOverlap = (days1: string, days2: string) => {
+        if (days1 === "?" || days2 === "?") {
+          return false; // If any day is "?", it doesn't overlap
+        }
+
+        return days1
+          .replace(/\s/g, '')
+          .replace('TH', 'H')
+          .split('')
+          .some((day) =>
+            days2.replace(/\s/g, '').replace('TH', 'H').includes(day)
+          );
+      };
+
+      const hasTimeOverlap = (
+        beginTime1: number | string,
+        endTime1: number | string,
+        beginTime2: number | string,
+        endTime2: number | string
+      ) => {
+        if (beginTime1 === "?" || endTime1 === "?" || beginTime2 === "?" || endTime2 === "?") {
+          return false; // If any value is "?", it doesn't overlap
+        }
+
+        const isNumeric = (value: number | string): value is number => typeof value === 'number';
+
+        if (isNumeric(beginTime1) && isNumeric(endTime1) && isNumeric(beginTime2) && isNumeric(endTime2)) {
+          return (
+            (beginTime1 >= beginTime2 && beginTime1 <= endTime2) ||
+              (endTime1 >= beginTime2 && endTime1 <= endTime2)
+          );
+        }
+
+        // If any value is not a number and not "?", it doesn't overlap, although this should not ever happen
+        return false;
+      };
+
+      const hasOverlap = (course1: Course, course2: Course) => {
+        const regularDaysOverlap = hasDaysOverlap(course1.days, course2.days);
+        const regularTimeOverlap = hasTimeOverlap(
+          course1.begin,
+          course1.end,
+          course2.begin,
+          course2.end
+        );
+
+        if (course1.lab) {
+          const labDaysOverlap1 = hasDaysOverlap(course1.lab.days, course2.days);
+          const labTimeOverlap1 = hasTimeOverlap(
+            course1.lab.begin,
+            course1.lab.end,
+            course2.begin,
+            course2.end
+          );
+
+          if (course2.lab) {
+            const labLabDaysOverlap = hasDaysOverlap(course1.lab.days, course2.lab.days);
+            const labLabTimeOverlap = hasTimeOverlap(
+              course1.lab.begin,
+              course1.lab.end,
+              course2.lab.begin,
+              course2.lab.end
+            );
+            const labDaysOverlap2 = hasDaysOverlap(course1.days, course2.lab.days);
+            const labTimeOverlap2 = hasTimeOverlap(
+              course1.begin,
+              course1.end,
+              course2.lab.begin,
+              course2.lab.end
+            );
+            return (
+              regularDaysOverlap ||
+                labLabDaysOverlap ||
+                labDaysOverlap1 ||
+                labDaysOverlap2 ||
+                regularTimeOverlap ||
+                labLabTimeOverlap ||
+                labTimeOverlap1 ||
+                labTimeOverlap2
+            );
+          }
+          return (
+            regularDaysOverlap ||
+              labDaysOverlap1 ||
+              regularTimeOverlap ||
+              labTimeOverlap1
+          );
+        }
+
+        if (course2.lab) {
+          const labDaysOverlap2 = hasDaysOverlap(course1.days, course2.lab.days);
+          const labTimeOverlap2 = hasTimeOverlap(
+            course1.begin,
+            course1.end,
+            course2.lab.begin,
+            course2.lab.end
+          );
+          return (
+            regularDaysOverlap ||
+              labDaysOverlap2 ||
+              regularTimeOverlap ||
+              labTimeOverlap2
+          );
+        }
+
+        return regularDaysOverlap || regularTimeOverlap;
+      };
+
+      const conflictedIndex = prevPickedCourses.findIndex((pickedCourse) => {
+        return hasOverlap(course, pickedCourse);
+      });
+
+      if (conflictedIndex !== -1) {
+        // Replace the conflicted course with the new one
+        const updatedCourses = [...prevPickedCourses];
+        updatedCourses.splice(conflictedIndex, 1, course);
+        return updatedCourses;
+      }
+
+      // Check if the course is already in the selectedCourses array
+      if (prevPickedCourses.some((pickedCourse) => pickedCourse === course)) {
+        console.log("pickedCourse already exists. Should not happen");
         return prevPickedCourses; // Course is already selected, no need to add it again
       }
 
@@ -241,6 +341,7 @@ export const ScheduleProvider: React.FC<{children: ReactNode}> = ({ children }) 
         pickedCourses,
         /* setPickedCourses, */
         addPickedCourse,
+        addPickedCourseNoCollision,
         removePickedCourse,
         selectedDepartment,
         setSelectedDepartment,
