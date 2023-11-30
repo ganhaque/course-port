@@ -241,7 +241,36 @@ const CourseTimeTable = () => {
                         >
                           <PiEyeSlashBold style={{height: "1.5rem", width: "1.5rem"}}/>
                         </div>
-                        <div>{`${course.abbreviation} ${course.number} - ${course.title} (${course.section})`}</div>
+                        <div>
+                          {`${course.abbreviation} ${course.number} - `}
+                          {
+                            course.title
+                            .toLowerCase()
+                            .replace(/\b\w/g, (match) => match.toUpperCase())
+                            .replace(/Ii\b/g, 'II') // Keeps 'II' in uppercase
+                            .replace(/Iii\b/g, 'III')
+                            .replace(/Iv\b/g, 'IV')
+                            .replace(/Vi\b/g, 'VI')
+                            .replace(/Vii\b/g, 'VII')
+                            .replace(/Viii\b/g, 'VIII')
+                          }
+                          {` (${course.section})`}
+                          <div
+                            style={{
+                              color: "hsla(var(--white), 0.75)",
+                              fontSize: "14px",
+                            }}
+                          >
+                            <div>
+                              {course.building ? (
+                                <div>
+                                  {`${course.roomNumber} `}
+                                  {`${course.building.toLowerCase().replace(/\b\w/g, (match) => match.toUpperCase())}`}
+                                </div>
+                              ) : (<div>TBA</div>)}
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
 
@@ -274,6 +303,19 @@ const CourseTimeTable = () => {
                               <PiEyeSlashBold style={{height: "1.5rem", width: "1.5rem"}}/>
                             </div>
                             <div>{`${course.abbreviation} ${course.number} (${course.section}) ${course.lab.type} `}</div>
+                            <div
+                              style={{
+                                color: "hsla(var(--white), 0.75)",
+                                fontSize: "14px",
+                              }}
+                            >
+                              {course.lab.building ? (
+                                <div>
+                                  {`${course.lab.roomNumber} `}
+                                  {`${course.lab.building.toLowerCase().replace(/\b\w/g, (match) => match.toUpperCase())}`}
+                                </div>
+                              ) : (<div>TBA</div>)}
+                            </div>
                             {/* <div>{`${course.section}`}</div> */}
                           </div>
                         </div>
@@ -303,7 +345,7 @@ const CourseTimeTable = () => {
           /* flexWrap: "wrap", */
           /* minWidth: "0rem", */
           /* height: "54.375rem", */
-          padding: "0.25rem",
+          padding: "0.5rem",
           /* width: "100%rem", */
           flexGrow: "1",
           /* maxWidth: "12rem", */
@@ -459,6 +501,7 @@ const CourseTimeTable = () => {
                   /* top: `${top}px`, */
                   /* height: `${height}px`, */
                   minHeight: `${height}px`,
+                  borderBottomRightRadius: course.lab ? "0" : "0.25rem"
                   /* width: '6rem', */
                   /* background: 'hsla(var(--primary), 0.75)', */
                   /* background: backgroundColor, */
@@ -484,14 +527,33 @@ const CourseTimeTable = () => {
                     <X style={{height: "1.5rem", width: "1.5rem"}}/>
                   </div>
                   <div>
-                    <div>{`${course.abbreviation} ${course.number} - ${course.title} (${course.section})`}</div>
-                    <div
-                      style={{
-                        color: "hsla(var(--white), 0.75)",
-                        fontSize: "14px",
-                      }}
-                    >
-                      {`${course.roomNumber} ${course.building}`}
+                    <div>
+                      {`${course.abbreviation} ${course.number} - `}
+                      {
+                        course.title
+                        .toLowerCase()
+                        .replace(/\b\w/g, (match) => match.toUpperCase())
+                        .replace(/Ii\b/g, 'II') // Keeps 'II' in uppercase
+                        .replace(/Iii\b/g, 'III')
+                        .replace(/Iv\b/g, 'IV')
+                        .replace(/Vi\b/g, 'VI')
+                        .replace(/Vii\b/g, 'VII')
+                        .replace(/Viii\b/g, 'VIII')
+                      }
+                      {` (${course.section})`}
+                      <div
+                        style={{
+                          color: "hsla(var(--white), 0.75)",
+                          fontSize: "14px",
+                        }}
+                      >
+                        {course.building ? (
+                          <div>
+                            {`${course.roomNumber} `}
+                            {`${course.building.toLowerCase().replace(/\b\w/g, (match) => match.toUpperCase())}`}
+                          </div>
+                        ) : (<div>TBA</div>)}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -513,7 +575,9 @@ const CourseTimeTable = () => {
                   style={{
                     minHeight: `${labHeight}px`,
                     /* width: "80%", */
-                    marginLeft: "2rem"
+                    marginLeft: "2rem",
+                    borderTopLeftRadius: "0",
+                    borderTopRightRadius: "0",
                   }}
                   className= {className}
                 >
@@ -533,9 +597,14 @@ const CourseTimeTable = () => {
                         fontSize: "14px",
                       }}
                     >
-                      {course.lab.roomNumber ? (
-                        `${course.lab.roomNumber} ${course.lab.building}`
-                      ) : ("TBA")}
+                      <div>
+                        {course.lab.building ? (
+                          <div>
+                            {`${course.lab.roomNumber} `}
+                            {`${course.lab.building.toLowerCase().replace(/\b\w/g, (match) => match.toUpperCase())}`}
+                          </div>
+                        ) : (<div>TBA</div>)}
+                      </div>
                     </div>
                   </div>
                 </div>

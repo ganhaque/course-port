@@ -18,7 +18,7 @@ export const ThemeMap : { [key: string]: Theme } = {
       "base05": "226, 64%, 88%",
       /* "muted_foreground": "228, 24%, 72%", */
       "muted_foreground": "232, 97%, 85%",
-      "red": "346, 80%, 66%",
+      "red": "346, 77%, 63%",
       "orange": "18, 100%, 73%",
       "green": "134, 75%, 72%",
       "primary": "var(--teal_green)",
