@@ -349,6 +349,7 @@ export const columns: ColumnDef<Course>[] = [
             <Popover>
               <PopoverTrigger asChild>
                 <button 
+                  onClick={(event) => {event.stopPropagation()}}
                   style={{
                     display:"flex",
                     /* height:"100%", */
