@@ -26,11 +26,11 @@
 }
 
 .lab-cell {
-  background-color: color-mix(in oklch, hsla(var(--secondary), 0.75), hsla(var(--black)));
+  background-color: color-mix(in oklch, hsla(var(--blue), 0.75), hsla(var(--black)));
 }
 
 .lab-cell:hover {
-  background-color: color-mix(in oklch, hsla(var(--secondary)), hsla(var(--black)));
+  background-color: color-mix(in oklch, hsla(var(--blue)), hsla(var(--black)));
 }
 
 .time-cell,
@@ -74,7 +74,7 @@ background-color: hsla(var(--purple), 1);
 }
 .picked-course-cell:hover {
   /* background-color: hsla(var(--primary), 1); */
-  background-color: color-mix(in oklch, hsla(var(--primary)), hsla(var(--black)));
+  background-color: color-mix(in oklch, hsla(var(--green)), hsla(var(--black)));
 }
 .not-picked-course-cell:hover {
   background-color: hsla(var(--grey), 1);

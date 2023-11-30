@@ -376,7 +376,8 @@ const CourseTimeTable = () => {
           <div
             style={{
               display: "flex",
-              flexDirection: "column"
+              flexDirection: "column",
+              gap: "0.5rem",
             }}
           >
             <div>
