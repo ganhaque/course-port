@@ -16,13 +16,14 @@ const CourseTimeTable = () => {
   const {
     selectedCourses,
     pickedCourses,
-    conflictedCourses,
+    /* addConflict, */
+    /* conflictedCourses, */
     addPickedCourse,
-    /* addPickedCourseNoCollision, */
+    addPickedCourseNoCollision,
     removePickedCourse,
     removeSelectedCourse,
-    addConflictedCourse,
-    removeConflictedCourse,
+    /* addConflictedCourse, */
+    /* removeConflictedCourse, */
   } = useScheduleContext();
   /* const [ isCourseListOpen, setIsCourseListOpen ] = useState(); */
 
@@ -217,8 +218,8 @@ const CourseTimeTable = () => {
                   /* (16 + course.begin * 2 + 7 * 120) : */
                   (course.lab.duration + 8) : 0
 
-                const isConflicted = conflictedCourses.some((conflictedCourse) => conflictedCourse === course);
-                const className = isConflicted ? "conflicted-course-cell course-cell" : "course-cell";
+                /* const isConflicted = conflictedCourses.some((conflictedCourse) => conflictedCourse === course); */
+                /* const className = isConflicted ? "conflicted-course-cell course-cell" : "course-cell"; */
 
                 return (
                   <div
@@ -236,7 +237,8 @@ const CourseTimeTable = () => {
                         /* border: '1px solid #ccc', */
                         /* padding: '4px', */
                       }}
-                      className={className}
+                      /* className={className} */
+                      className={"course-cell"}
                     >
                       <div
                         style={{
@@ -297,7 +299,7 @@ const CourseTimeTable = () => {
                             /* border: '1px solid #ccc', */
                             /* padding: '4px', */
                           }}
-                          className={"lab-cell " + className}
+                          className={"lab-cell course-cell"}
                         >
                           <div
                             style={{
@@ -387,13 +389,13 @@ const CourseTimeTable = () => {
         )}
         {sortedCourses.map((course, index) => {
           const isPicked = pickedCourses.some((pickedCourse) => pickedCourse === course);
-          const isConflicted = conflictedCourses.some((conflictedCourse) => conflictedCourse === course);
+          /* const isConflicted = conflictedCourses.some((conflictedCourse) => conflictedCourse === course); */
           /* const backgroundColor = course.begin === "?" ? "hsla(var(--red), 0.75)" : */
           /*   isPicked ? "hsla(var(--primary), 0.75)" : "hsla(var(--grey), 0.75)" */
-          /* const className = course.begin === "?" ? "tba-course-cell" : */
-          /*   isPicked ? "picked-course-cell" : "not-picked-course-cell" */
-          const className = isConflicted ? "conflicted-course-cell" : !isPicked ? "not-picked-course-cell" :
-            course.begin === "?" ? "tba-course-cell" : "picked-course-cell"
+          const className = course.begin === "?" ? "tba-course-cell" :
+            isPicked ? "picked-course-cell" : "not-picked-course-cell"
+          /* const className = isConflicted ? "conflicted-course-cell" : !isPicked ? "not-picked-course-cell" : */
+          /*   course.begin === "?" ? "tba-course-cell" : "picked-course-cell" */
 
           const height = typeof course.duration === "number" ?
             (course.duration + 8) : 50;
@@ -495,15 +497,15 @@ const CourseTimeTable = () => {
                 onClick={() => {
                   if (isPicked) {
                     removePickedCourse(course);
-                    removeConflictedCourse(course);
+                    /* removeConflictedCourse(course); */
                     console.log("unpicked", course);
                   }
                   else {
                     /* addPickedCourseNoCollision(course); */
-                    addPickedCourse(course);
-                    addConflictedCourse(course);
+                    addPickedCourseNoCollision(course);
+                    /* addConflictedCourse(course); */
                     console.log("picked", course);
-                  }
+                    }
                 }}
                 style={{
                   /* marginTop: isDifferentBeginEnd ? "0.5rem" : "0", */
@@ -534,7 +536,7 @@ const CourseTimeTable = () => {
                       event.stopPropagation();
                       removePickedCourse(course);
                       removeSelectedCourse(course);
-                      removeConflictedCourse(course);
+                      /* removeConflictedCourse(course); */
                     }}
                     className='close-top-right-hover'
                   >
@@ -579,12 +581,11 @@ const CourseTimeTable = () => {
                   onClick={() => {
                     if (isPicked) {
                       removePickedCourse(course);
-                      removeConflictedCourse(course);
                       console.log("unpicked", course);
                     }
                     else {
-                      addPickedCourse(course);
-                      addConflictedCourse(course);
+                      /* addPickedCourse(course); */
+                      addPickedCourseNoCollision(course);
                       console.log("picked", course);
                     }
                   }}
