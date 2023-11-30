@@ -9,13 +9,16 @@ import {
   getTimeWithoutAMPM,
   getHourMinuteString
 } from "./Helper";
+import { X } from "lucide-react"
+import { PiEyeSlashBold } from "react-icons/pi";
 
 const CourseTimeTable = () => {
   const {
     selectedCourses,
     pickedCourses,
     addPickedCourse,
-    removePickedCourse
+    removePickedCourse,
+    removeSelectedCourse,
   } = useScheduleContext();
   /* const [ isCourseListOpen, setIsCourseListOpen ] = useState(); */
 
@@ -38,39 +41,16 @@ const CourseTimeTable = () => {
   // Sort selectedCourses based on the 'begin' property
   useEffect(() => {
     const sortCourses = () => {
-      // Group courses by days
-      const groupedCourses: { [key: string]: Course[] } = {};
-      const coursesWithUnknownDays: Course[] = [];
-
-      selectedCourses.forEach(course => {
-        if (course.days === "?") {
-          coursesWithUnknownDays.push(course);
+      const sorted = [...selectedCourses].sort((a, b) => {
+        if (a.begin === "?" && b.begin === "?") return 0;
+        if (a.begin === "?") return 1;
+        if (b.begin === "?") return -1;
+        if (a.begin === b.begin) {
+          if (a.duration === "?" || b.duration === "?") return 0;
+          return a.duration - b.duration;
         }
-        else {
-          const daysKey = course.days;
-          if (!groupedCourses[daysKey]) {
-            groupedCourses[daysKey] = [];
-          }
-          groupedCourses[daysKey].push(course);
-        }
+        return a.begin - b.begin;
       });
-
-      // Sort courses within each 'days' group based on 'begin' time
-      const sorted: Course[] = [];
-      Object.keys(groupedCourses).forEach(daysKey => {
-        const sortedByBegin = groupedCourses[daysKey].sort((a, b) => {
-          if (a.begin === "?" && b.begin === "?") return 0;
-          if (a.begin === "?") return 1;
-          if (b.begin === "?") return -1;
-          if (a.begin === b.begin) {
-            if (a.duration === "?" || b.duration === "?") return 0;
-            return a.duration - b.duration;
-          }
-          return a.begin - b.begin;
-        });
-        sorted.push(...sortedByBegin);
-      });
-
       setSortedCourses(sorted);
     };
 
@@ -240,7 +220,19 @@ const CourseTimeTable = () => {
                     }}
                     className="course-cell"
                   >
-                    <p>{`${course.abbreviation} ${course.number} - ${course.title}`}</p>
+                    <div
+                      style={{
+                        position: "relative",
+                      }}
+                    >
+                      <div
+                        onClick={() => { removePickedCourse(course); }}
+                        className='close-top-right-hover'
+                      >
+                        <PiEyeSlashBold style={{height: "1.5rem", width: "1.5rem"}}/>
+                      </div>
+                      <p>{`${course.abbreviation} ${course.number} - ${course.title}`}</p>
+                    </div>
                     {/* Add more details or customize as needed */}
                   </div>
                 );
@@ -319,46 +311,6 @@ const CourseTimeTable = () => {
             <div
               key={index}
             >
-              {isDifferentDays ? (
-                <div
-                  style={{
-                    display:"flex",
-                  }}
-                >
-                  <Separator
-                    style={{
-                      marginTop:"0.5rem",
-                      marginBottom:"0.5rem",
-                      marginLeft: "0.5rem",
-                      marginRight: "0.25rem",
-                      backgroundColor:"hsla(var(--secondary))",
-                      /* width: "auto", */
-                      flex: 1,
-                    }}
-                    orientation="horizontal"
-                  />
-                  <div
-                  >
-                    {/* {course.begin} - {course.end} */}
-                    {/* {(course.days === "?") */}
-                    {/*   ? "?" */}
-                    {/*   : (course.days)} */}
-                    {course.days}
-                  </div>
-                  <Separator
-                    style={{
-                      marginTop:"0.5rem",
-                      marginBottom:"0.5rem",
-                      marginLeft: "0.25rem",
-                      marginRight: "0.5rem",
-                      backgroundColor:"hsla(var(--secondary))",
-                      /* width: "auto", */
-                      flex: 1,
-                    }}
-                    orientation="horizontal"
-                  />
-                </div>
-              ) : (<></>)}
               {isDifferentBeginEnd ? (
                 <div
                   style={{
@@ -398,6 +350,46 @@ const CourseTimeTable = () => {
                   />
                 </div>
               ) : (<></>)}
+              {isDifferentBeginEnd || isDifferentDays ? (
+                <div
+                  style={{
+                    display:"flex",
+                  }}
+                >
+                  <Separator
+                    style={{
+                      marginTop:"0.5rem",
+                      marginBottom:"0.5rem",
+                      marginLeft: "0.5rem",
+                      marginRight: "0.25rem",
+                      backgroundColor:"hsla(var(--secondary))",
+                      /* width: "auto", */
+                      flex: 1,
+                    }}
+                    orientation="horizontal"
+                  />
+                  <div
+                  >
+                    {/* {course.begin} - {course.end} */}
+                    {/* {(course.days === "?") */}
+                    {/*   ? "?" */}
+                    {/*   : (course.days)} */}
+                    {course.days}
+                  </div>
+                  <Separator
+                    style={{
+                      marginTop:"0.5rem",
+                      marginBottom:"0.5rem",
+                      marginLeft: "0.25rem",
+                      marginRight: "0.5rem",
+                      backgroundColor:"hsla(var(--secondary))",
+                      /* width: "auto", */
+                      flex: 1,
+                    }}
+                    orientation="horizontal"
+                  />
+                </div>
+              ) : (<></>)}
               <div
                 onClick={() => {
                   if (isPicked) {
@@ -427,7 +419,22 @@ const CourseTimeTable = () => {
                 }}
                 className= {className}
               >
-                <p>{`${course.abbreviation} ${course.number} - ${course.title}`}</p>
+                <div
+                  style={{
+                    position: "relative",
+                  }}
+                >
+                  <div
+                    onClick={() => {
+                      removePickedCourse(course);
+                      removeSelectedCourse(course);
+                    }}
+                    className='close-top-right-hover'
+                  >
+                    <X style={{height: "1.5rem", width: "1.5rem"}}/>
+                  </div>
+                  <p>{`${course.abbreviation} ${course.number} - ${course.title}`}</p>
+                </div>
                 {/* Add more details or customize as needed */}
               </div>
             </div>
