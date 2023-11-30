@@ -38,16 +38,39 @@ const CourseTimeTable = () => {
   // Sort selectedCourses based on the 'begin' property
   useEffect(() => {
     const sortCourses = () => {
-      const sorted = [...selectedCourses].sort((a, b) => {
-        if (a.begin === "?" && b.begin === "?") return 0;
-        if (a.begin === "?") return 1;
-        if (b.begin === "?") return -1;
-        if (a.begin === b.begin) {
-          if (a.duration === "?" || b.duration === "?") return 0;
-          return a.duration - b.duration;
+      // Group courses by days
+      const groupedCourses: { [key: string]: Course[] } = {};
+      const coursesWithUnknownDays: Course[] = [];
+
+      selectedCourses.forEach(course => {
+        if (course.days === "?") {
+          coursesWithUnknownDays.push(course);
         }
-        return a.begin - b.begin;
+        else {
+          const daysKey = course.days;
+          if (!groupedCourses[daysKey]) {
+            groupedCourses[daysKey] = [];
+          }
+          groupedCourses[daysKey].push(course);
+        }
       });
+
+      // Sort courses within each 'days' group based on 'begin' time
+      const sorted: Course[] = [];
+      Object.keys(groupedCourses).forEach(daysKey => {
+        const sortedByBegin = groupedCourses[daysKey].sort((a, b) => {
+          if (a.begin === "?" && b.begin === "?") return 0;
+          if (a.begin === "?") return 1;
+          if (b.begin === "?") return -1;
+          if (a.begin === b.begin) {
+            if (a.duration === "?" || b.duration === "?") return 0;
+            return a.duration - b.duration;
+          }
+          return a.begin - b.begin;
+        });
+        sorted.push(...sortedByBegin);
+      });
+
       setSortedCourses(sorted);
     };
 
