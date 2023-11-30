@@ -22,7 +22,7 @@ export const ThemeMap : { [key: string]: Theme } = {
       "orange": "18, 100%, 73%",
       "green": "134, 75%, 72%",
       "primary": "var(--teal_green)",
-      "secondary": "var(--pink)",
+      "secondary": "var(--red)",
     }
   },
   "gold-purple" : {

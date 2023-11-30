@@ -25,6 +25,14 @@
   background-color: color-mix(in oklch, hsla(var(--primary)), hsla(var(--black)));
 }
 
+.lab-cell {
+  background-color: color-mix(in oklch, hsla(var(--secondary), 0.75), hsla(var(--black)));
+}
+
+.lab-cell:hover {
+  background-color: color-mix(in oklch, hsla(var(--secondary)), hsla(var(--black)));
+}
+
 .time-cell,
 .empty-cell,
 .weekday-cell {

@@ -197,43 +197,86 @@ const CourseTimeTable = () => {
 
             {/* Render courses for each day */}
             {pickedCourses.map((course, index) => {
-              if (course.days.includes(mapDaysToShortForm[day])) {
+              if (course.days
+                .replace('TH', 'H') // replace TH with H to prevent confusing with T
+                .includes(mapDaysToShortForm[day])) {
                 const top = typeof course.begin === "number" ?
                   /* (16 + course.begin * 2 + 7 * 120) : */
                   (course.begin - 6 * 60 - 30) : 0
                 const height = typeof course.duration === "number" ?
                   /* (16 + course.begin * 2 + 7 * 120) : */
                   (course.duration + 8) : 0
+                const labTop = !course.lab ? "" : typeof course.lab.begin === "number" ?
+                  /* (16 + course.begin * 2 + 7 * 120) : */
+                  (course.lab.begin - 6 * 60 - 30) : 0
+                const labHeight = !course.lab ? "" : typeof course.lab.duration === "number" ?
+                  /* (16 + course.begin * 2 + 7 * 120) : */
+                  (course.lab.duration + 8) : 0
                 return (
                   <div
                     key={index}
-                    style={{
-                      /* position: 'absolute', */
-                      opacity: course.begin === "?" ? "0" : "1",
-                      top: `${top}px`,
-                      height: `${height}px`,
-                      /* width: '100%', */
-                      /* background: 'hsla(var(--blue), 0.75)', */
-                      /* color: 'hsla(var(--white))', */
-                      /* border: '1px solid #ccc', */
-                      /* padding: '4px', */
-                    }}
-                    className="course-cell"
                   >
                     <div
                       style={{
-                        position: "relative",
+                        /* position: 'absolute', */
+                        opacity: course.begin === "?" ? "0" : "1",
+                        top: `${top}px`,
+                        height: `${height}px`,
+                        /* width: '100%', */
+                        /* background: 'hsla(var(--blue), 0.75)', */
+                        /* color: 'hsla(var(--white))', */
+                        /* border: '1px solid #ccc', */
+                        /* padding: '4px', */
                       }}
+                      className="course-cell"
                     >
                       <div
-                        onClick={() => { removePickedCourse(course); }}
-                        className='close-top-right-hover'
+                        style={{
+                          position: "relative",
+                        }}
                       >
-                        <PiEyeSlashBold style={{height: "1.5rem", width: "1.5rem"}}/>
+                        <div
+                          onClick={() => { removePickedCourse(course); }}
+                          className='close-top-right-hover'
+                        >
+                          <PiEyeSlashBold style={{height: "1.5rem", width: "1.5rem"}}/>
+                        </div>
+                        <p>{`${course.abbreviation} ${course.number} - ${course.title}`}</p>
                       </div>
-                      <p>{`${course.abbreviation} ${course.number} - ${course.title}`}</p>
                     </div>
-                    {/* Add more details or customize as needed */}
+
+                    {course.lab && course.lab.days
+                      .replace('TH', 'H') // replace TH with H to prevent confusing with T
+                      .includes(mapDaysToShortForm[day]) && (
+                        <div
+                          style={{
+                            /* position: 'absolute', */
+                            opacity: course.lab.begin === "?" ? "0" : "1",
+                            top: `${labTop}px`,
+                            height: `${labHeight}px`,
+                            /* width: '100%', */
+                            /* background: 'hsla(var(--blue), 0.75)', */
+                            /* color: 'hsla(var(--white))', */
+                            /* border: '1px solid #ccc', */
+                            /* padding: '4px', */
+                          }}
+                          className="course-cell lab-cell"
+                        >
+                          <div
+                            style={{
+                              position: "relative",
+                            }}
+                          >
+                            <div
+                              onClick={() => { removePickedCourse(course); }}
+                              className='close-top-right-hover'
+                            >
+                              <PiEyeSlashBold style={{height: "1.5rem", width: "1.5rem"}}/>
+                            </div>
+                            <p>{`${course.abbreviation} ${course.number} - ${course.title}`}</p>
+                          </div>
+                        </div>
+                      )}
                   </div>
                 );
               }
@@ -433,7 +476,17 @@ const CourseTimeTable = () => {
                   >
                     <X style={{height: "1.5rem", width: "1.5rem"}}/>
                   </div>
-                  <p>{`${course.abbreviation} ${course.number} - ${course.title}`}</p>
+                  <div>
+                    {`${course.abbreviation} ${course.number} - ${course.title}`}
+                    <div
+                      style={{
+                        color: "hsla(var(--white), 0.75)",
+                        fontSize: "14px",
+                      }}
+                    >
+                      {`${course.roomNumber} ${course.building}`}
+                    </div>
+                  </div>
                 </div>
                 {/* Add more details or customize as needed */}
               </div>
