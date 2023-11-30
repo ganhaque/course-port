@@ -241,7 +241,7 @@ const CourseTimeTable = () => {
                         >
                           <PiEyeSlashBold style={{height: "1.5rem", width: "1.5rem"}}/>
                         </div>
-                        <p>{`${course.abbreviation} ${course.number} - ${course.title}`}</p>
+                        <div>{`${course.abbreviation} ${course.number} - ${course.title} (${course.section})`}</div>
                       </div>
                     </div>
 
@@ -273,7 +273,8 @@ const CourseTimeTable = () => {
                             >
                               <PiEyeSlashBold style={{height: "1.5rem", width: "1.5rem"}}/>
                             </div>
-                            <p>{`${course.abbreviation} ${course.number} - ${course.title}`}</p>
+                            <div>{`${course.abbreviation} ${course.number} (${course.section}) ${course.lab.type} `}</div>
+                            {/* <div>{`${course.section}`}</div> */}
                           </div>
                         </div>
                       )}
@@ -483,7 +484,7 @@ const CourseTimeTable = () => {
                     <X style={{height: "1.5rem", width: "1.5rem"}}/>
                   </div>
                   <div>
-                    {`${course.abbreviation} ${course.number} - ${course.title}`}
+                    <div>{`${course.abbreviation} ${course.number} - ${course.title} (${course.section})`}</div>
                     <div
                       style={{
                         color: "hsla(var(--white), 0.75)",
@@ -518,12 +519,13 @@ const CourseTimeTable = () => {
                 >
                   <div>
                     <div>
-                      {`${course.lab.type} - ${course.lab.days}`}
-                    </div>
-                    <div>
+                      {`${course.lab.type} | ${course.lab.days} | `}
+                      {/* </div> */}
+                      {/* <div> */}
                       {(course.lab.begin === "?" || course.lab.end === "?")
                         ? "?"
                         : (getTimeWithoutAMPM(course.lab.begin) + "-" + getAMPMTime(course.lab.end))}
+                      {/* {")"} */}
                     </div>
                     <div
                       style={{
@@ -531,7 +533,9 @@ const CourseTimeTable = () => {
                         fontSize: "14px",
                       }}
                     >
-                      {`${course.roomNumber} ${course.building}`}
+                      {course.lab.roomNumber ? (
+                        `${course.lab.roomNumber} ${course.lab.building}`
+                      ) : ("TBA")}
                     </div>
                   </div>
                 </div>
