@@ -342,8 +342,13 @@ const CourseTimeTable = () => {
           /*   isPicked ? "picked-course-cell" : "not-picked-course-cell" */
           const className = !isPicked ? "not-picked-course-cell" :
             course.begin === "?" ? "tba-course-cell" : "picked-course-cell"
+
           const height = typeof course.duration === "number" ?
             (course.duration + 8) : 50;
+          const labHeight = !course.lab ? "" : typeof course.duration === "number" ?
+            (course.duration + 8) : 50;
+
+
           const prevCourse = sortedCourses[index - 1];
           const isDifferentBeginEnd = !prevCourse || prevCourse &&
             (prevCourse.begin !== course.begin || prevCourse.end !== course.end);
@@ -403,7 +408,7 @@ const CourseTimeTable = () => {
                     style={{
                       marginTop:"0.5rem",
                       marginBottom:"0.5rem",
-                      marginLeft: "0.5rem",
+                      marginLeft: "1.5rem",
                       marginRight: "0.25rem",
                       backgroundColor:"hsla(var(--secondary))",
                       /* width: "auto", */
@@ -424,7 +429,7 @@ const CourseTimeTable = () => {
                       marginTop:"0.5rem",
                       marginBottom:"0.5rem",
                       marginLeft: "0.25rem",
-                      marginRight: "0.5rem",
+                      marginRight: "1.5rem",
                       backgroundColor:"hsla(var(--secondary))",
                       /* width: "auto", */
                       flex: 1,
@@ -433,6 +438,7 @@ const CourseTimeTable = () => {
                   />
                 </div>
               ) : (<></>)}
+
               <div
                 onClick={() => {
                   if (isPicked) {
@@ -490,6 +496,47 @@ const CourseTimeTable = () => {
                 </div>
                 {/* Add more details or customize as needed */}
               </div>
+
+              {course.lab && (
+                <div
+                  onClick={() => {
+                    if (isPicked) {
+                      removePickedCourse(course);
+                      console.log("unpicked", course);
+                    }
+                    else {
+                      addPickedCourse(course);
+                      console.log("picked", course);
+                    }
+                  }}
+                  style={{
+                    minHeight: `${labHeight}px`,
+                    /* width: "80%", */
+                    marginLeft: "2rem"
+                  }}
+                  className= {className}
+                >
+                  <div>
+                    <div>
+                      {`${course.lab.type} - ${course.lab.days}`}
+                    </div>
+                    <div>
+                      {(course.lab.begin === "?" || course.lab.end === "?")
+                        ? "?"
+                        : (getTimeWithoutAMPM(course.lab.begin) + "-" + getAMPMTime(course.lab.end))}
+                    </div>
+                    <div
+                      style={{
+                        color: "hsla(var(--white), 0.75)",
+                        fontSize: "14px",
+                      }}
+                    >
+                      {`${course.roomNumber} ${course.building}`}
+                    </div>
+                  </div>
+                </div>
+              )}
+
             </div>
           );
         })}
