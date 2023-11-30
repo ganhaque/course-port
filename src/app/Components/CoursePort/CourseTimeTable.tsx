@@ -4,6 +4,11 @@ import { useScheduleContext } from './ScheduleProvider';
 import "./CourseTimeTable.css"
 import { days, mapDaysToShortForm } from './Data';
 import { Separator } from '../UI/Separator';
+import {
+  getAMPMTime,
+  getTimeWithoutAMPM,
+  getHourMinuteString
+} from "./Helper";
 
 const CourseTimeTable = () => {
   const {
@@ -76,6 +81,7 @@ const CourseTimeTable = () => {
       /* flexDirection: "column", */
     }}
     >
+
       <div style={{
         display: 'flex',
         /* flexGrow:"1", */
@@ -191,7 +197,7 @@ const CourseTimeTable = () => {
               if (course.days.includes(mapDaysToShortForm[day])) {
                 const top = typeof course.begin === "number" ?
                   /* (16 + course.begin * 2 + 7 * 120) : */
-                  (course.begin - 7 * 60) : 0
+                  (course.begin - 6 * 60 - 30) : 0
                 const height = typeof course.duration === "number" ?
                   /* (16 + course.begin * 2 + 7 * 120) : */
                   (course.duration + 8) : 0
@@ -229,6 +235,7 @@ const CourseTimeTable = () => {
       {/* > */}
       {/*   a */}
       {/* </div> */}
+
       <div
         style={{
           display: "flex",
@@ -244,8 +251,31 @@ const CourseTimeTable = () => {
           /* flexShrink:"2", */
           /* resize: "horizontal", */
           overflow: "scroll",
+          /* alignItems: "center", */
         }}
       >
+        <h2
+          style={{
+            marginBottom: "0.25rem"
+          }}
+        >
+          Course Picker
+        </h2>
+        {sortedCourses.length === 0 && (
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column"
+            }}
+          >
+            <div>
+              No course seems to be selected.
+            </div>
+            <div>
+              Help: you can select courses from the booklet by clicking on them to view them here
+            </div>
+          </div>
+        )}
         {sortedCourses.map((course, index) => {
           const isPicked = pickedCourses.some((pickedCourse) => pickedCourse === course);
           /* const backgroundColor = course.begin === "?" ? "hsla(var(--red), 0.75)" : */
@@ -257,24 +287,94 @@ const CourseTimeTable = () => {
           const height = typeof course.duration === "number" ?
             (course.duration + 8) : 50;
           const prevCourse = sortedCourses[index - 1];
-          const isDifferentBeginEnd = prevCourse &&
+          const isDifferentBeginEnd = !prevCourse || prevCourse &&
             (prevCourse.begin !== course.begin || prevCourse.end !== course.end);
+          const isDifferentDays = !prevCourse || prevCourse &&
+            (prevCourse.days !== course.days)
 
           return (
             <div
               key={index}
             >
-              {
-                isDifferentBeginEnd ? (
+              {isDifferentDays ? (
+                <div
+                  style={{
+                    display:"flex",
+                  }}
+                >
                   <Separator
                     style={{
-                      margin:"0.5rem 0",
-                      backgroundColor:"hsla(var(--primary))"
+                      marginTop:"0.5rem",
+                      marginBottom:"0.5rem",
+                      marginLeft: "0.5rem",
+                      marginRight: "0.25rem",
+                      backgroundColor:"hsla(var(--secondary))",
+                      /* width: "auto", */
+                      flex: 1,
                     }}
                     orientation="horizontal"
                   />
-                ) : (<></>)
-              }
+                  <div
+                  >
+                    {/* {course.begin} - {course.end} */}
+                    {/* {(course.days === "?") */}
+                    {/*   ? "?" */}
+                    {/*   : (course.days)} */}
+                    {course.days}
+                  </div>
+                  <Separator
+                    style={{
+                      marginTop:"0.5rem",
+                      marginBottom:"0.5rem",
+                      marginLeft: "0.25rem",
+                      marginRight: "0.5rem",
+                      backgroundColor:"hsla(var(--secondary))",
+                      /* width: "auto", */
+                      flex: 1,
+                    }}
+                    orientation="horizontal"
+                  />
+                </div>
+              ) : (<></>)}
+              {isDifferentBeginEnd ? (
+                <div
+                  style={{
+                    display:"flex",
+                  }}
+                >
+                  <Separator
+                    style={{
+                      marginTop:"0.5rem",
+                      marginBottom:"0.5rem",
+                      marginLeft: "0.5rem",
+                      marginRight: "0.25rem",
+                      backgroundColor:"hsla(var(--primary))",
+                      /* width: "auto", */
+                      flex: 1,
+                    }}
+                    orientation="horizontal"
+                  />
+                  <div
+                  >
+                    {/* {course.begin} - {course.end} */}
+                    {(course.begin === "?" || course.end === "?")
+                      ? "?"
+                      : (getTimeWithoutAMPM(course.begin) + "-" + getAMPMTime(course.end))}
+                  </div>
+                  <Separator
+                    style={{
+                      marginTop:"0.5rem",
+                      marginBottom:"0.5rem",
+                      marginLeft: "0.25rem",
+                      marginRight: "0.5rem",
+                      backgroundColor:"hsla(var(--primary))",
+                      /* width: "auto", */
+                      flex: 1,
+                    }}
+                    orientation="horizontal"
+                  />
+                </div>
+              ) : (<></>)}
               <div
                 onClick={() => {
                   if (isPicked) {
@@ -311,6 +411,7 @@ const CourseTimeTable = () => {
           );
         })}
       </div>
+
     </div>
   );
 };

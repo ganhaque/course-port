@@ -8,64 +8,11 @@ import { ChevronRight } from "lucide-react";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react"
 import { Popover, PopoverContent, PopoverTrigger } from "../UI/Popover";
 import { Separator } from "../UI/Separator";
-
-function getAMPMTime(minutes: number): string {
-  /* if (isNaN(minutes)) { */
-  /*   return "TBA"; */
-  /* } */
-  if (minutes < 0 || minutes > 1439) {
-    return 'Invalid input';
-  }
-
-  const hours: number = Math.floor(minutes / 60);
-  const mins: number = minutes % 60;
-
-  const ampm: string = hours >= 12 ? 'PM' : 'AM';
-  const displayHours: number = hours % 12 || 12;
-
-  const formattedTime: string = `${displayHours}:${mins.toString().padStart(2, '0')} ${ampm}`;
-
-  return formattedTime;
-}
-
-function getTimeWithoutAMPM(minutes: number): string {
-  /* if (isNaN(minutes)) { */
-  /*   return "TBA"; */
-  /* } */
-  if (minutes < 0 || minutes > 1439) {
-    return 'Invalid input';
-  }
-
-  const hours: number = Math.floor(minutes / 60);
-  const mins: number = minutes % 60;
-
-  /* const ampm: string = hours >= 12 ? 'PM' : 'AM'; */
-  const displayHours: number = hours % 12 || 12;
-
-  const formattedTime: string = `${displayHours}:${mins.toString().padStart(2, '0')}`;
-
-  return formattedTime;
-}
-
-function getHourMinuteString(minutes: number): string {
-  if (isNaN(minutes)) {
-    return "TBA";
-  }
-  if (minutes < 0) {
-    return 'Invalid input';
-  }
-
-  const hours: number = Math.floor(minutes / 60);
-  const mins: number = minutes % 60;
-
-  if (hours === 0) {
-    return `${mins}m`;
-  } else if (mins === 0) {
-    return `${hours}h`;
-  } else {
-    return `${hours}h${mins}m`;
-  }
-}
+import {
+  getAMPMTime,
+  getTimeWithoutAMPM,
+  getHourMinuteString
+} from "./Helper";
 
 interface ColumnId {
   id: string;
