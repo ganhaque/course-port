@@ -126,6 +126,7 @@ border:0 solid hsl(var(--grey));
 html {
 /* background-color: hsla(var(--darker_black), 1); */
 background-color: hsla(var(--darkest_black));
+/* background-color: hsla(var(--darker_black)); */
 color: hsla(var(--base05), 1);
 
 line-height:1.25rem;
@@ -196,7 +197,8 @@ textarea {
   transition:
     border-color 0.5s,
     opacity 0.25s;
-  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+  /* box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2); */
+  /* box-shadow: 0 1px 1px hsla(var(--base05)); */
   /* outline: none; */
 }
 

@@ -13,7 +13,7 @@ export default function Home() {
         display:'flex',
         flexDirection:'column',
         /* padding: "0.5rem", */
-        gap:'0.5rem',
+        gap:'0.25rem',
         height:'calc(100vh)',
         /* padding:'0.2rem' */
         /* alignItems:'center', */

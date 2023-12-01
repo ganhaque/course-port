@@ -132,7 +132,7 @@ const CourseTimeTable = () => {
                   /* backgroundColor: time % 60 ? "hsla(var(--black2))" : "hsla(var(--grey))", */
                   /* backgroundColor: "hsla(var(--grey), 0.25)", */
                   /* borderBottom: time % 60 ? "1px solid white" : "1px dashed white", */
-                  borderTop: time % 60 ? "1px dashed hsla(var(--white), 0.25)" : "1px solid hsla(var(--white), 0.5)",
+                  borderTop: time % 60 ? "1px dashed hsla(var(--base05), 0.25)" : "1px solid hsla(var(--base05), 0.5)",
                   /* borderTopStyle: time % 60 ? "dashed" : "solid", */
                 }}
                 className="time-cell"
@@ -163,7 +163,7 @@ const CourseTimeTable = () => {
                 width: "100%",
                 textAlign: 'center',
                 backgroundColor: "hsla(var(--grey), 0.25)",
-                borderLeft: "1px solid hsla(var(--white), 0.5)",
+                borderLeft: "1px solid hsla(var(--base05), 0.5)",
               }}
               className='weekday-cell'
             >
@@ -190,9 +190,9 @@ const CourseTimeTable = () => {
                     /* backgroundColor: time % 60 ? "hsla(var(--black2))" : "hsla(var(--grey))", */
                     /* borderBottom: time % 60 ? "1px solid white" : "1px dashed white", */
                     /* borderTop: time % 60 ? "1px dashed white" : "1px solid white", */
-                    borderTop: time % 60 ? "1px dashed hsla(var(--white), 0.25)" : "1px solid hsla(var(--white), 0.5)",
+                    borderTop: time % 60 ? "1px dashed hsla(var(--base05), 0.25)" : "1px solid hsla(var(--base05), 0.5)",
                     /* borderTopStyle: time % 60 ? "dashed" : "solid", */
-                    borderLeft: "1px solid hsla(var(--white), 0.5)",
+                    borderLeft: "1px solid hsla(var(--base05), 0.5)",
                   }}
                   className="empty-cell"
                 >
@@ -238,7 +238,7 @@ const CourseTimeTable = () => {
                         /* padding: '4px', */
                       }}
                       /* className={className} */
-                      className={"course-cell"}
+                      className={"picked-course-cell time-course-cell"}
                     >
                       <div
                         style={{
@@ -267,7 +267,7 @@ const CourseTimeTable = () => {
                           {` (${course.section})`}
                           <div
                             style={{
-                              color: "hsla(var(--white), 0.75)",
+                              color: "hsla(var(--base05), 0.75)",
                               fontSize: "14px",
                             }}
                           >
@@ -299,7 +299,7 @@ const CourseTimeTable = () => {
                             /* border: '1px solid #ccc', */
                             /* padding: '4px', */
                           }}
-                          className={"lab-cell course-cell"}
+                          className={"lab-cell time-course-cell"}
                         >
                           <div
                             style={{
@@ -315,7 +315,7 @@ const CourseTimeTable = () => {
                             <div>{`${course.abbreviation} ${course.number} (${course.section}) ${course.lab.type} `}</div>
                             <div
                               style={{
-                                color: "hsla(var(--white), 0.75)",
+                                color: "hsla(var(--base05), 0.75)",
                                 fontSize: "14px",
                               }}
                             >
@@ -560,7 +560,7 @@ const CourseTimeTable = () => {
                       {` (${course.section})`}
                       <div
                         style={{
-                          color: "hsla(var(--white), 0.75)",
+                          color: "hsla(var(--base05), 0.75)",
                           fontSize: "14px",
                         }}
                       >
@@ -611,7 +611,7 @@ const CourseTimeTable = () => {
                     </div>
                     <div
                       style={{
-                        color: "hsla(var(--white), 0.75)",
+                        color: "hsla(var(--base05), 0.75)",
                         fontSize: "14px",
                       }}
                     >
