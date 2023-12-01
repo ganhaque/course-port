@@ -23,7 +23,6 @@ import {
 } from './Data'
 import { initialVisibleColumnId } from './Columns';
 import { changeTheme, ThemeMap } from './Colorscheme';
-import { useLocalStorage } from '../Hooks/LocalStorageHook';
 
 interface ProviderContextType {
   selectedSemester: string;
@@ -76,8 +75,7 @@ export const ScheduleProvider: React.FC<{children: ReactNode}> = ({ children }) 
   const database: Database = bookletData;
   const timeIntervals = Object.keys(timeStringToMinutes);
   const reversedTimeIntervals = Object.keys(timeStringToMinutes).reverse();
-  /* const [selectedTheme, setSelectedTheme] = useState(Object.keys(ThemeMap)[0]); // Set initial theme */
-  const [selectedTheme, setSelectedTheme] = useLocalStorage('theme', Object.keys(ThemeMap)[0]);
+  const [selectedTheme, setSelectedTheme] = useState(Object.keys(ThemeMap)[0]); // Set initial theme
 
   const [selectedSemester, setSelectedSemester] = useState<string>(semesters[0])
   /* const [selectedDepartment, setSelectedDepartment] = useState<string>(departments[0]) */
