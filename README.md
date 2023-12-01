@@ -54,8 +54,25 @@ TBA
     - [ ] Toggle visibility for classes with 0 available
 - [ ] Display Course's Spring & Fall exclusivity (not 100% accurate)
     - During parsing, check if course was available during last Fall/Spring
-- [ ] Google Calendar and/or Outlook export button
-    - Automation require knowing when each semester start and end
+- Export
+    - [ ] JSON, which can be imported into CoursePort later
+    - [ ] Google Calendar and/or Outlook export
+        - Automation require knowing when each semester start and end
+    - [ ] Time table screenshot. Maybe, but user can just use snipping tool or some other screenshot tools.
+- [ ] Show time conflict between courses
+    - Quite complicated since you have to check the 2 courses'
+    days and begin-end and their labs' days and begin-end if there is one.
+    - And not show conflict for courses with "?" as their days or begin-end.
 - More themes!
-    - [ ] Gruvbox
+    - [X] Catppuccin
+    - [X] Gruvbox
+    - [X] Custom LSU Purple & Gold theme
 
+## Meh
+- [ ] Deselect all. Reload already reset selected courses.
+
+## Cannot
+
+- Keep states after reload. Github deploy doesn't seem to like localStorage.
+    - [ ] ~~Reload no longer reset selected/picked courses~~
+    - [ ] ~~Reload no longer reset the theme~~
