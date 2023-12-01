@@ -51,6 +51,45 @@ export const ThemeMap : { [key: string]: Theme } = {
   /*     "secondary": "var(--catppuccin_lavender)", */
   /*   } */
   /* }, */
+  "lsu" : {
+    label: "LSU Purple & Gold",
+    colors: {
+      /* "darkest_black": "0, 0%, 0%", */
+      /* "darkest_black": "240, 34%, 3%", */
+      "darkest_black": "266, 70%, 8%",
+      "darker_black": "266, 62%, 12%",
+      /* "darker_black": "240, 23%, 9%", */
+      /* "black": "240, 21%, 12%", */
+      /* "black2": "240, 21%, 15%", */
+      "black": "266, 61%, 15%",
+
+      "black2": "261, 27%, 22%",
+      /* "grey": "220, 2%, 26%", */
+      /* "grey": "230, 13%, 55%", */
+      /* "grey": "237, 16%, 23%", */
+      "grey": "259, 10%, 38%",
+      "base05": "260, 4%, 84%",
+      "muted_foreground": "270, 1%, 69%",
+      /* "red": "345, 76%, 47%", */
+      "red": "346, 82%, 62%",
+      "orange": "22, 74%, 57%",
+      /* "orange": "23, 92%, 75%", */
+
+      "yellow": "48, 98%, 56%",
+
+      "green": "89, 66%, 58%",
+      "teal_green": "157, 75%, 57%",
+      "blue" : "217, 84%, 57%",
+      /* "purple": "232, 97%, 85%", */
+
+      /* "purple": "266, 62%, 30%", */
+      "purple": "266, 62%, 52%",
+
+      /* "muted_foreground": "228, 24%, 72%", */
+      "primary": "var(--yellow)",
+      "secondary": "var(--purple)",
+    }
+  },
   "catppuccin-mocha" : {
     label: "Catppuccin (Mocha)",
     colors: {
