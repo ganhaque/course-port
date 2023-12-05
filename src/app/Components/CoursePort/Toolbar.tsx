@@ -311,7 +311,7 @@ function Toolbar() {
               width:"1rem",
               opacity: isShowTBATime ? "1" : "0"
             }}/>
-            TBA
+            Show ?
           </button>
           <button
             style={{
@@ -494,7 +494,7 @@ function Toolbar() {
               width:"1rem",
               opacity: isShowTBADays ? "1" : "0"
             }}/>
-            TBA
+            ?
           </button>
           <Separator
             style={{
