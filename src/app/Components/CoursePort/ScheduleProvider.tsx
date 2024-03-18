@@ -14,13 +14,15 @@ import {
   /* exampleDatabase, */
   bookletData,
   timeIntervals,
-  departments,
+  /* departments, */
   initialDays,
   timeStringToMinutes,
-  semesters,
+  /* semesters, */
   days,
   Database,
 } from './Data'
+import { departments } from '../../../../data/departments';
+import { semesters } from '../../../../data/semesters';
 import { initialVisibleColumnId } from './Columns';
 import { changeTheme, ThemeMap } from './Colorscheme';
 

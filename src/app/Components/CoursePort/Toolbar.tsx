@@ -34,13 +34,15 @@ import {
   CommandItem,
   CommandList
 } from "../UI/Command";
+import { departments } from "../../../../data/departments";
+import { semesters } from "../../../../data/semesters";
 import {
   /* timeIntervals, */
-  departments,
-  semesters,
+  /* departments, */
+  /* semesters, */
   days,
   /* mapDaysToShortForm, */
-  departmentToAbbreviationMap,
+  /* departmentToAbbreviationMap, */
   timeStringToMinutes,
 } from './Data'
 import { useState } from "react";
