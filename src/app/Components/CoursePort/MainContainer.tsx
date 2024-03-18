@@ -31,7 +31,7 @@ function MainContainer() {
           flexDirection:'column',
           flexGrow:'1',
           backgroundColor: 'hsla(var(--black))',
-          overflow:'scroll',
+          /* overflow:'scroll', */
           height: 'calc(100vh - 4rem)',
           /* borderBottomLeftRadius:'0.75rem', */
           /* borderBottomRightRadius:'0.75rem', */
