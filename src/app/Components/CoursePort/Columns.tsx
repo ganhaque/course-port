@@ -50,7 +50,7 @@ export const initialVisibleColumnId: string[] = [
   "section",
   "creditHour",
   "begin-end",
-  /* "duration", */
+  "duration",
   "days",
   /* "roomNumber", */
   /* "building", */
